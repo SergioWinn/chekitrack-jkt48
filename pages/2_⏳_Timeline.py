@@ -35,17 +35,6 @@ def count_pending_slots(rows):
     return pending
 
 
-def split_timeline_columns(events):
-    left_column = []
-    right_column = []
-    for index, row in enumerate(events):
-        if index % 2 == 0:
-            left_column.append(row)
-        else:
-            right_column.append(row)
-    return left_column, right_column
-
-
 def group_timeline_by_month(events):
     grouped = {}
     for row in events:
@@ -175,14 +164,10 @@ else:
 filtered = raw if filter_type == "All" else [row for row in raw if row.get("event_type") == filter_type]
 timeline_sections = []
 for month_label, month_rows in group_timeline_by_month(filtered).items():
-    left_column, right_column = split_timeline_columns(month_rows)
     timeline_sections.append(
         '<section class="ckt-month-section">'
         f'<div class="ckt-month">{safe_text(month_label)}</div>'
-        '<div class="ckt-timeline-columns">'
-        f'<div class="ckt-timeline-col">{render_timeline(left_column)}</div>'
-        f'<div class="ckt-timeline-col">{render_timeline(right_column)}</div>'
-        "</div>"
+        f'{render_timeline(month_rows)}'
         "</section>"
     )
 timeline_markup = "".join(timeline_sections) if timeline_sections else '<div class="ckt-empty">No events match this filter.</div>'

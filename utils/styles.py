@@ -1092,6 +1092,7 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-timeline {
     display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
 }
 
@@ -1550,7 +1551,6 @@ ARCHIVE_THEME_CSS = """
 
 @media (max-width: 860px) {
     .ckt-member-browser-grid,
-    .ckt-timeline-columns,
     .ckt-member-pair,
     .ckt-album-grid,
     .ckt-pulse-grid,
@@ -1559,7 +1559,7 @@ ARCHIVE_THEME_CSS = """
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .ckt-timeline-columns {
+    .ckt-timeline {
         gap: 12px;
     }
 
@@ -1595,17 +1595,14 @@ ARCHIVE_THEME_CSS = """
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 
-    .ckt-timeline-columns {
-        grid-template-columns: 1fr !important;
-    }
-
     .ckt-member-browser-grid,
     .ckt-album-grid {
         gap: 9px;
     }
 
-    .ckt-timeline-columns {
+    .ckt-timeline {
         gap: 10px;
+        grid-template-columns: 1fr !important;
     }
 
     .ckt-member-card {
@@ -1752,12 +1749,12 @@ ARCHIVE_THEME_CSS = """
         gap: 8px;
     }
 
-    .ckt-timeline-columns,
     .ckt-member-pair {
         grid-template-columns: 1fr !important;
     }
 
-    .ckt-timeline-columns {
+    .ckt-timeline {
+        grid-template-columns: 1fr !important;
         gap: 8px;
     }
 
@@ -1837,8 +1834,11 @@ ARCHIVE_THEME_CSS = """
         grid-template-columns: 1fr;
     }
 
-    .ckt-timeline-columns,
     .ckt-member-pair {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ckt-timeline {
         grid-template-columns: 1fr !important;
     }
 
