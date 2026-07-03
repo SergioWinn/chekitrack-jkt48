@@ -1217,6 +1217,7 @@ ARCHIVE_THEME_CSS = """
     display: flex;
     align-items: center;
     gap: 8px;
+    min-height: 44px;
     padding: 8px 10px;
     border-radius: 14px;
     background: rgba(248, 242, 231, 0.06);
@@ -1680,6 +1681,7 @@ ARCHIVE_THEME_CSS = """
 
     .ckt-member-pill {
         gap: 6px;
+        min-height: 40px;
         padding: 7px;
         border-radius: 12px;
     }
@@ -1814,6 +1816,10 @@ ARCHIVE_THEME_CSS = """
         width: 25px;
         height: 25px;
         font-size: 0.58rem;
+    }
+
+    .ckt-member-pill {
+        min-height: 36px;
     }
 
     .ckt-chip {
