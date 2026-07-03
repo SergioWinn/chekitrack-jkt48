@@ -48,22 +48,23 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 
 /* ── Navbar shell ── */
 .ct-navbar-shell {
-    margin: 10px 0 0;
+    max-width: 1180px;
+    margin: 6px auto 0;
 }
 
 .ct-navbar {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
-    padding: 16px 20px;
+    gap: 8px;
+    padding: 12px 18px 10px;
     border: 1px solid rgba(248, 242, 231, 0.09);
-    border-radius: 24px;
+    border-radius: 22px;
     background:
-        radial-gradient(circle at top right, rgba(168, 139, 250, 0.16), transparent 28%),
+        radial-gradient(circle at top right, rgba(168, 139, 250, 0.14), transparent 28%),
         radial-gradient(circle at left center, rgba(96, 165, 250, 0.08), transparent 22%),
         linear-gradient(180deg, rgba(17, 17, 24, 0.98), rgba(15, 16, 24, 0.96));
-    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
 }
 
 .ct-navbar-mainline {
@@ -71,7 +72,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 10px;
+    gap: 6px;
 }
 
 .ct-brand-block {
@@ -84,7 +85,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 }
 
 .ct-logo {
-    font-size: 1.12rem;
+    font-size: 1.05rem;
     font-weight: 800;
     color: #fff;
     display: inline-flex;
@@ -97,9 +98,9 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 
 .ct-brand-sub {
     color: #a7abc1;
-    font-size: 0.78rem;
+    font-size: 0.74rem;
     margin-top: 0;
-    max-width: 34rem;
+    max-width: 28rem;
 }
 
 .ct-logo-dot {
@@ -140,95 +141,114 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     align-items: center;
     gap: 6px;
     text-decoration: none;
-    padding: 0.48rem 0.78rem;
+    padding: 0.46rem 0.78rem;
     border-radius: 999px;
-    background: rgba(255, 66, 77, 0.1);
+    background: rgba(255, 66, 77, 0.08);
     color: #fff;
-    font-size: 0.76rem;
+    font-size: 0.74rem;
     font-weight: 800;
-    border: 1px solid rgba(255, 66, 77, 0.18);
+    border: 1px solid rgba(255, 66, 77, 0.16);
 }
 
 .ct-tako-btn:hover {
-    background: rgba(255, 66, 77, 0.18);
-}
-
-.ct-nav-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 0.76rem;
-    font-weight: 800;
-    letter-spacing: 0.01em;
-    background: rgba(232, 121, 160, 0.12);
-    color: var(--ct-pink);
-    padding: 0.46rem 0.78rem;
-    border-radius: 99px;
-    border: 1px solid rgba(232, 121, 160, 0.18);
-    white-space: nowrap;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    background: rgba(255, 66, 77, 0.16);
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
     position: sticky;
     top: 10px;
     z-index: 1000;
-    max-width: 940px;
-    margin: 8px auto 10px !important;
-    padding: 7px !important;
+    max-width: 1180px;
+    width: 100%;
+    margin: 6px auto 4px !important;
+    padding: 10px 18px !important;
     border: 1px solid rgba(248, 242, 231, 0.08);
-    border-radius: 20px;
-    background:
-        linear-gradient(180deg, rgba(20, 21, 31, 0.94), rgba(15, 16, 24, 0.92));
+    border-radius: 24px;
+    background: linear-gradient(180deg, rgba(20, 21, 31, 0.94), rgba(15, 16, 24, 0.92));
     backdrop-filter: blur(14px);
-    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
+    overflow: visible;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):before,
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #12192a;
+    border: 1px solid rgba(248, 242, 231, 0.06);
+    transform: translateY(-50%);
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):before {
+    left: -13px;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):after {
+    right: -13px;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 8px !important;
+    gap: 0 !important;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
+    position: relative;
     min-width: 0;
-    flex: 0 1 188px;
-    max-width: 220px;
+    flex: 1 1 0;
+    max-width: none;
+    padding: 0 8px;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child):after {
+    content: "";
+    position: absolute;
+    top: 14px;
+    right: 0;
+    bottom: 14px;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(248, 242, 231, 0.12), transparent);
 }
 
 /* ── Nav buttons (Streamlit buttons styled as nav links) ── */
 .ct-navbtn button {
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)) !important;
-    border: 1px solid rgba(248, 242, 231, 0.06) !important;
-    border-radius: 16px !important;
-    color: #a6abc2 !important;
-    font-size: 0.92rem !important;
+    background: transparent !important;
+    border: 1px solid transparent !important;
+    border-radius: 14px !important;
+    color: #969bb5 !important;
+    font-size: 0.9rem !important;
     font-weight: 750 !important;
-    padding: 0 12px !important;
-    height: 44px !important;
+    padding: 0 14px !important;
+    height: 50px !important;
     cursor: pointer !important;
     transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+    box-shadow: none !important;
     white-space: nowrap !important;
     width: 100% !important;
+    letter-spacing: -0.01em !important;
 }
 .ct-navbtn button:hover {
     color: #ffffff !important;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)) !important;
-    border-color: rgba(99, 230, 216, 0.12) !important;
+    background: rgba(255, 255, 255, 0.03) !important;
+    border-color: rgba(248, 242, 231, 0.06) !important;
     transform: translateY(-1px);
-    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
 }
 .ct-navbtn-active button {
     color: #ffffff !important;
-    border-color: rgba(99, 230, 216, 0.22) !important;
+    border-color: rgba(99, 230, 216, 0.18) !important;
     background:
-        radial-gradient(circle at top left, rgba(243, 91, 147, 0.14), transparent 40%),
-        linear-gradient(180deg, rgba(99, 230, 216, 0.16), rgba(99, 230, 216, 0.08)) !important;
+        radial-gradient(circle at top left, rgba(243, 91, 147, 0.12), transparent 42%),
+        linear-gradient(180deg, rgba(99, 230, 216, 0.12), rgba(99, 230, 216, 0.05)) !important;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.05),
-        0 14px 24px rgba(8, 14, 20, 0.22) !important;
+        0 10px 18px rgba(8, 14, 20, 0.18) !important;
 }
 
 .ct-navbar-aux {
@@ -236,20 +256,20 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 9px;
-    max-width: 680px;
-    margin: 0 0 10px;
-    padding: 10px 16px 12px;
-    border: 1px solid rgba(248, 242, 231, 0.06);
-    border-radius: 16px;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.012));
+    gap: 8px;
+    max-width: 1180px;
+    margin: 0 auto 4px;
+    padding: 2px 8px 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
 }
 
 .ct-navbar-aux .ct-credit-cluster {
     position: relative;
     gap: 12px;
     justify-content: center;
-    padding-bottom: 2px;
+    padding-bottom: 6px;
 }
 
 .ct-navbar-aux .ct-credit-cluster:after {
@@ -257,10 +277,34 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
     position: absolute;
     left: 50%;
     bottom: -4px;
-    width: 56px;
+    width: 72px;
     height: 1px;
     transform: translateX(-50%);
     background: linear-gradient(90deg, transparent, rgba(248, 242, 231, 0.18), transparent);
+}
+
+.ct-nav-status {
+    display: grid;
+    justify-items: center;
+    gap: 2px;
+}
+
+.ct-nav-status-label {
+    color: #7ee5dc;
+    font: 700 0.62rem/1.2 'IBM Plex Mono', monospace;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.ct-nav-status-value {
+    color: #e7e8f3;
+    font-size: 0.84rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.ct-nav-status-value.is-waiting {
+    color: #f197b7;
 }
 
 /* ── Content area ── */
@@ -303,21 +347,43 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
         max-width: none;
         align-items: flex-start;
         gap: 8px;
+        margin: 0 0 8px;
+        padding: 0 2px;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
         max-width: none;
         margin: 8px 0 14px !important;
+        padding: 5px !important;
         border-radius: 18px;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):before,
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):after,
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child):after {
+        display: none;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
         justify-content: flex-start;
+        gap: 8px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
         flex: 1 1 0;
         max-width: none;
+        padding: 0;
+    }
+
+    .ct-navbtn button {
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)) !important;
+        border: 1px solid rgba(248, 242, 231, 0.06) !important;
+        border-radius: 16px !important;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+    }
+
+    .ct-nav-status {
+        justify-items: start;
     }
 }
 
@@ -339,11 +405,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 
     .ct-brand-sub {
         font-size: 0.73rem;
-    }
-
-    .ct-nav-badge {
-        font-size: 0.7rem;
-        padding: 0.38rem 0.66rem;
+        max-width: none;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
@@ -368,12 +430,20 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 
     .ct-navbar-aux {
         gap: 7px;
-        padding: 8px 10px 10px;
+        padding: 0 2px 6px;
     }
 
     .ct-navbar-aux .ct-credit-cluster:after {
         left: 0;
         transform: none;
+    }
+
+    .ct-nav-status-label {
+        font-size: 0.58rem;
+    }
+
+    .ct-nav-status-value {
+        font-size: 0.78rem;
     }
 
     .ct-credit-label {
@@ -389,10 +459,6 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 @media (max-width: 420px) {
     .ct-navbar-mainline {
         align-items: stretch;
-    }
-
-    .ct-nav-badge {
-        justify-content: center;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
@@ -1636,15 +1702,25 @@ def apply_styles():
 
 def render_navbar(active: str, pending: int = 0):
     pages = [
-        ("overview", "📊 Overview",      "pages/1_📊_Overview.py"),
-        ("timeline", "⏳ Timeline",       "pages/2_⏳_Timeline.py"),
-        ("member",   "👤 Member Corner",  "pages/3_👤_Member_Corner.py"),
-        ("admin",    "🔐 Admin",          "pages/4_🔐_Admin_Panel.py"),
+        ("overview", "Overview",       "pages/1_📊_Overview.py"),
+        ("timeline", "Timeline",       "pages/2_⏳_Timeline.py"),
+        ("member",   "Member Corner",  "pages/3_👤_Member_Corner.py"),
+        ("admin",    "Admin",          "pages/4_🔐_Admin_Panel.py"),
     ]
 
-    badge_html = (
-        f'<span class="ct-nav-badge">{pending} pending</span>'
-        if pending > 0 else ""
+    if pending > 0:
+        pending_noun = "draw" if pending == 1 else "draws"
+        status_value = f'{pending} {pending_noun} still waiting'
+        status_class = "ct-nav-status-value is-waiting"
+    else:
+        status_value = "All draws assigned"
+        status_class = "ct-nav-status-value"
+
+    status_html = (
+        '<div class="ct-nav-status">'
+        '<div class="ct-nav-status-label">Archive status</div>'
+        f'<div class="{status_class}">{status_value}</div>'
+        '</div>'
     )
 
     st.markdown(f"""
@@ -1681,7 +1757,7 @@ def render_navbar(active: str, pending: int = 0):
             <span class="ct-credit-label">Developed by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
             <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank">Support via Tako</a>
         </div>
-        {badge_html}
+        {status_html}
     </div>
     """, unsafe_allow_html=True)
 
