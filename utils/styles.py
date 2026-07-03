@@ -389,35 +389,35 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 @media (max-width: 640px) {
     .ct-navbar {
-        gap: 10px;
-        padding: 12px 14px;
+        gap: 8px;
+        padding: 10px 12px 9px;
         border-radius: 18px;
     }
 
     .ct-navbar-mainline {
-        gap: 10px;
+        gap: 8px;
     }
 
     .ct-logo {
-        font-size: 0.96rem;
+        font-size: 0.92rem;
         white-space: normal;
     }
 
     .ct-brand-sub {
-        font-size: 0.73rem;
+        font-size: 0.69rem;
         max-width: none;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
         top: 8px;
-        padding: 5px !important;
+        padding: 4px !important;
         border-radius: 16px;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
         display: flex !important;
         flex-direction: column;
-        gap: 6px !important;
+        gap: 5px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
@@ -436,17 +436,17 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-navbtn button {
-        min-height: 48px !important;
+        min-height: 42px !important;
         height: auto !important;
-        padding: 10px 12px !important;
-        font-size: 0.86rem !important;
+        padding: 8px 10px !important;
+        font-size: 0.82rem !important;
         white-space: normal !important;
-        line-height: 1.2 !important;
+        line-height: 1.15 !important;
     }
 
     .ct-navbar-aux {
-        gap: 7px;
-        padding: 0 2px 6px;
+        gap: 5px;
+        padding: 0 2px 4px;
     }
 
     .ct-navbar-aux .ct-credit-cluster:after {
@@ -455,20 +455,20 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-nav-status-label {
-        font-size: 0.58rem;
+        font-size: 0.55rem;
     }
 
     .ct-nav-status-value {
-        font-size: 0.78rem;
+        font-size: 0.72rem;
     }
 
     .ct-credit-label {
-        font-size: 0.72rem;
+        font-size: 0.68rem;
     }
 
     .ct-tako-btn {
-        font-size: 0.72rem;
-        padding: 0.42rem 0.68rem;
+        font-size: 0.68rem;
+        padding: 0.36rem 0.6rem;
     }
 }
 
@@ -478,11 +478,11 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
-        padding: 4px !important;
+        padding: 3px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
-        gap: 5px !important;
+        gap: 4px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
@@ -490,9 +490,9 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-navbtn button {
-        min-height: 44px !important;
-        padding: 9px 10px !important;
-        font-size: 0.82rem !important;
+        min-height: 40px !important;
+        padding: 7px 9px !important;
+        font-size: 0.78rem !important;
     }
 }
 
