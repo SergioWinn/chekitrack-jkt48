@@ -1594,6 +1594,12 @@ ARCHIVE_THEME_CSS = """
     .ckt-member-card {
         border-radius: 18px;
         padding: 9px;
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.14);
+    }
+
+    .ckt-member-card-ava {
+        border-radius: 14px;
+        margin-bottom: 8px;
     }
 
     .ckt-member-card-name {
@@ -1612,6 +1618,10 @@ ARCHIVE_THEME_CSS = """
         padding: 9px;
     }
 
+    .ckt-date-rail {
+        padding-bottom: 10px;
+    }
+
     .ckt-date-rail strong {
         font-size: 1.65rem;
     }
@@ -1623,6 +1633,11 @@ ARCHIVE_THEME_CSS = """
     .ckt-banner {
         min-height: 96px;
         border-radius: 16px;
+    }
+
+    .ckt-banner img,
+    .ckt-album-thumb img {
+        padding: 10px;
     }
 
     .ckt-ticket-top {
@@ -1651,6 +1666,12 @@ ARCHIVE_THEME_CSS = """
         gap: 6px;
         padding: 7px;
         border-radius: 12px;
+    }
+
+    .ckt-member-pill .ckt-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 0.64rem;
     }
 
     .ckt-member-pill span:last-child {
@@ -1711,6 +1732,11 @@ ARCHIVE_THEME_CSS = """
         padding: 8px;
     }
 
+    .ckt-member-card-ava {
+        border-radius: 12px;
+        margin-bottom: 7px;
+    }
+
     .ckt-member-card-name {
         font-size: 0.78rem;
     }
@@ -1724,8 +1750,21 @@ ARCHIVE_THEME_CSS = """
         padding: 8px;
     }
 
+    .ckt-banner {
+        min-height: 88px;
+    }
+
+    .ckt-banner img,
+    .ckt-album-thumb img {
+        padding: 8px;
+    }
+
     .ckt-date-rail strong {
         font-size: 1.5rem;
+    }
+
+    .ckt-date-rail span {
+        font-size: 0.58rem;
     }
 
     .ckt-ticket-name {
@@ -1738,6 +1777,12 @@ ARCHIVE_THEME_CSS = """
 
     .ckt-member-pill span:last-child {
         font-size: 0.68rem;
+    }
+
+    .ckt-member-pill .ckt-avatar {
+        width: 25px;
+        height: 25px;
+        font-size: 0.58rem;
     }
 
     .ckt-chip {
