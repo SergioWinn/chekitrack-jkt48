@@ -68,15 +68,18 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 
 .ct-navbar-mainline {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    justify-content: space-between;
-    gap: 14px;
+    justify-content: center;
+    gap: 10px;
 }
 
 .ct-brand-block {
     display: flex;
     flex-direction: column;
     gap: 4px;
+    align-items: center;
+    text-align: center;
     min-width: 0;
 }
 
@@ -96,6 +99,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     color: #a7abc1;
     font-size: 0.78rem;
     margin-top: 0;
+    max-width: 34rem;
 }
 
 .ct-logo-dot {
@@ -169,7 +173,8 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
     position: sticky;
     top: 10px;
     z-index: 1000;
-    margin: 8px 0 10px !important;
+    max-width: 940px;
+    margin: 8px auto 10px !important;
     padding: 7px !important;
     border: 1px solid rgba(248, 242, 231, 0.08);
     border-radius: 20px;
@@ -182,12 +187,14 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
     display: flex;
     flex-wrap: wrap;
+    justify-content: center;
     gap: 8px !important;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
     min-width: 0;
-    flex: 1 1 0;
+    flex: 0 1 188px;
+    max-width: 220px;
 }
 
 /* ── Nav buttons (Streamlit buttons styled as nav links) ── */
@@ -227,8 +234,9 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 .ct-navbar-aux {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 12px;
+    max-width: 720px;
     margin: 0 0 10px;
     padding: 10px 14px;
     border: 1px solid rgba(248, 242, 231, 0.06);
@@ -238,6 +246,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 
 .ct-navbar-aux .ct-credit-cluster {
     gap: 12px;
+    justify-content: center;
 }
 
 /* ── Content area ── */
@@ -257,7 +266,18 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 @media (max-width: 900px) {
     .ct-navbar-mainline {
         flex-wrap: wrap;
+        flex-direction: row;
         align-items: flex-start;
+        justify-content: space-between;
+    }
+
+    .ct-brand-block {
+        align-items: flex-start;
+        text-align: left;
+    }
+
+    .ct-brand-sub {
+        max-width: none;
     }
 
     .ct-credit-cluster {
@@ -265,12 +285,24 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
     }
 
     .ct-navbar-aux {
+        justify-content: flex-start;
+        max-width: none;
         align-items: flex-start;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
+        max-width: none;
         margin: 8px 0 14px !important;
         border-radius: 18px;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
+        justify-content: flex-start;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
+        flex: 1 1 0;
+        max-width: none;
     }
 }
 
