@@ -233,20 +233,34 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 
 .ct-navbar-aux {
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 12px;
-    max-width: 720px;
+    gap: 9px;
+    max-width: 680px;
     margin: 0 0 10px;
-    padding: 10px 14px;
+    padding: 10px 16px 12px;
     border: 1px solid rgba(248, 242, 231, 0.06);
     border-radius: 16px;
-    background: rgba(255, 255, 255, 0.02);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.022), rgba(255, 255, 255, 0.012));
 }
 
 .ct-navbar-aux .ct-credit-cluster {
+    position: relative;
     gap: 12px;
     justify-content: center;
+    padding-bottom: 2px;
+}
+
+.ct-navbar-aux .ct-credit-cluster:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    width: 56px;
+    height: 1px;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, transparent, rgba(248, 242, 231, 0.18), transparent);
 }
 
 /* ── Content area ── */
@@ -288,6 +302,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
         justify-content: flex-start;
         max-width: none;
         align-items: flex-start;
+        gap: 8px;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
@@ -352,8 +367,13 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
     }
 
     .ct-navbar-aux {
-        gap: 8px;
-        padding: 8px 10px;
+        gap: 7px;
+        padding: 8px 10px 10px;
+    }
+
+    .ct-navbar-aux .ct-credit-cluster:after {
+        left: 0;
+        transform: none;
     }
 
     .ct-credit-label {
@@ -1638,7 +1658,6 @@ def render_navbar(active: str, pending: int = 0):
                     </div>
                     <div class="ct-brand-sub">Every roulette draw, remembered.</div>
                 </div>
-                {badge_html}
             </div>
         </div>
     </div>
@@ -1656,12 +1675,13 @@ def render_navbar(active: str, pending: int = 0):
                     st.switch_page(path)
                 st.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown("""
+    st.markdown(f"""
     <div class="ct-navbar-aux">
         <div class="ct-credit-cluster">
             <span class="ct-credit-label">Developed by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
             <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank">Support via Tako</a>
         </div>
+        {badge_html}
     </div>
     """, unsafe_allow_html=True)
 
