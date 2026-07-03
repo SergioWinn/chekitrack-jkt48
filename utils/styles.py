@@ -414,9 +414,13 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
         border-radius: 16px;
     }
 
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
+        gap: 6px !important;
+    }
+
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
-        flex: 1 1 calc(50% - 4px);
-        width: calc(50% - 4px) !important;
+        flex: 1 1 calc(50% - 3px);
+        width: calc(50% - 3px) !important;
     }
 
     .ct-navbtn button {
@@ -461,6 +465,27 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
         align-items: stretch;
     }
 
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
+        padding: 4px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
+        gap: 5px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
+        flex: 1 1 calc(50% - 2.5px);
+        width: calc(50% - 2.5px) !important;
+    }
+
+    .ct-navbtn button {
+        min-height: 44px !important;
+        padding: 9px 10px !important;
+        font-size: 0.82rem !important;
+    }
+}
+
+@media (max-width: 360px) {
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
         flex-basis: 100%;
         width: 100% !important;
@@ -1563,46 +1588,74 @@ ARCHIVE_THEME_CSS = """
     .ckt-member-browser-grid,
     .ckt-timeline-columns,
     .ckt-album-grid {
-        gap: 10px;
+        gap: 9px;
     }
 
     .ckt-member-card {
         border-radius: 18px;
-        padding: 10px;
+        padding: 9px;
     }
 
     .ckt-member-card-name {
-        font-size: 0.88rem;
+        font-size: 0.82rem;
+        line-height: 1.12;
     }
 
     .ckt-member-card-sub {
-        font-size: 0.72rem;
+        font-size: 0.68rem;
+        line-height: 1.3;
     }
 
     .ckt-ticket-card {
-        gap: 12px;
-        border-radius: 24px;
-        padding: 10px;
+        gap: 10px;
+        border-radius: 22px;
+        padding: 9px;
+    }
+
+    .ckt-date-rail strong {
+        font-size: 1.65rem;
+    }
+
+    .ckt-date-rail span {
+        font-size: 0.62rem;
     }
 
     .ckt-banner {
-        min-height: 104px;
+        min-height: 96px;
         border-radius: 16px;
     }
 
+    .ckt-ticket-top {
+        gap: 8px;
+    }
+
     .ckt-ticket-name {
-        font-size: 1rem;
+        font-size: 0.9rem;
+        line-height: 1.08;
         white-space: normal;
         overflow: visible;
         text-overflow: clip;
     }
 
+    .ckt-small {
+        font-size: 0.7rem;
+        line-height: 1.3;
+    }
+
+    .ckt-member-line,
+    .ckt-member-pair {
+        margin-top: 8px;
+    }
+
     .ckt-member-pill {
-        padding: 8px;
+        gap: 6px;
+        padding: 7px;
+        border-radius: 12px;
     }
 
     .ckt-member-pill span:last-child {
-        font-size: 0.78rem;
+        font-size: 0.72rem;
+        line-height: 1.2;
     }
 
     .ckt-member-modal {
@@ -1653,7 +1706,47 @@ ARCHIVE_THEME_CSS = """
     }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 480px) {
+    .ckt-member-card {
+        padding: 8px;
+    }
+
+    .ckt-member-card-name {
+        font-size: 0.78rem;
+    }
+
+    .ckt-member-card-sub {
+        font-size: 0.64rem;
+    }
+
+    .ckt-ticket-card {
+        gap: 9px;
+        padding: 8px;
+    }
+
+    .ckt-date-rail strong {
+        font-size: 1.5rem;
+    }
+
+    .ckt-ticket-name {
+        font-size: 0.84rem;
+    }
+
+    .ckt-small {
+        font-size: 0.66rem;
+    }
+
+    .ckt-member-pill span:last-child {
+        font-size: 0.68rem;
+    }
+
+    .ckt-chip {
+        padding: 0.28rem 0.46rem;
+        font-size: 0.58rem;
+    }
+}
+
+@media (max-width: 360px) {
     .ckt-member-browser-grid,
     .ckt-timeline-columns,
     .ckt-member-pair,
