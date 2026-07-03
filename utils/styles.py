@@ -258,7 +258,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     justify-content: center;
     gap: 8px;
     max-width: 1180px;
-    margin: 0 auto 4px;
+    margin: 0 auto 0;
     padding: 2px 8px 0;
     border: 0;
     border-radius: 0;
@@ -697,7 +697,7 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ct-content.ct-archive {
-    padding: 34px 6px 48px;
+    padding: 18px 6px 48px;
     font-family: 'Manrope', sans-serif;
 }
 
@@ -761,7 +761,7 @@ ARCHIVE_THEME_CSS = """
 .ckt-desk-title {
     font: 800 1.55rem/0.95 'Bricolage Grotesque', sans-serif;
     letter-spacing: -0.05em;
-    margin: 0 0 8px;
+        margin: 0 0 4px;
 }
 
 .ckt-ticket {
