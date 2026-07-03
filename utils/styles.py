@@ -415,14 +415,14 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
-        display: grid !important;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        display: flex !important;
+        flex-direction: column;
         gap: 6px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
-        flex: initial;
-        width: auto !important;
+        flex: 1 1 100%;
+        width: 100% !important;
         min-width: 0;
     }
 
@@ -486,7 +486,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
-        width: auto !important;
+        width: 100% !important;
     }
 
     .ct-navbtn button {
@@ -1586,7 +1586,6 @@ ARCHIVE_THEME_CSS = """
     }
 
     .ckt-member-browser-grid,
-    .ckt-timeline-columns,
     .ckt-member-pair,
     .ckt-album-grid,
     .ckt-pulse-grid,
@@ -1595,10 +1594,17 @@ ARCHIVE_THEME_CSS = """
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 
+    .ckt-timeline-columns {
+        grid-template-columns: 1fr !important;
+    }
+
     .ckt-member-browser-grid,
-    .ckt-timeline-columns,
     .ckt-album-grid {
         gap: 9px;
+    }
+
+    .ckt-timeline-columns {
+        gap: 10px;
     }
 
     .ckt-member-card {
@@ -1739,10 +1745,17 @@ ARCHIVE_THEME_CSS = """
 
 @media (max-width: 480px) {
     .ckt-member-browser-grid,
-    .ckt-timeline-columns,
-    .ckt-member-pair,
     .ckt-album-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px;
+    }
+
+    .ckt-timeline-columns,
+    .ckt-member-pair {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ckt-timeline-columns {
         gap: 8px;
     }
 
@@ -1811,13 +1824,16 @@ ARCHIVE_THEME_CSS = """
 
 @media (max-width: 340px) {
     .ckt-member-browser-grid,
-    .ckt-timeline-columns,
-    .ckt-member-pair,
     .ckt-album-grid,
     .ckt-pulse-grid,
     .ckt-rank-list,
     .ckt-stat-grid {
         grid-template-columns: 1fr;
+    }
+
+    .ckt-timeline-columns,
+    .ckt-member-pair {
+        grid-template-columns: 1fr !important;
     }
 
     .ckt-member-stage {
