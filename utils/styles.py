@@ -53,16 +53,23 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 
 .ct-navbar {
     display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 18px;
-    padding: 14px 18px 12px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    padding: 14px 18px;
     border: 1px solid rgba(248, 242, 231, 0.08);
     border-radius: 22px;
     background:
         radial-gradient(circle at top right, rgba(168, 139, 250, 0.12), transparent 28%),
         linear-gradient(180deg, rgba(17, 17, 24, 0.98), rgba(17, 17, 24, 0.95));
     box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+}
+
+.ct-navbar-mainline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
 }
 
 .ct-brand-block {
@@ -97,10 +104,9 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 }
 
 .ct-credit-cluster {
-    margin-left: auto;
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: flex-start;
     gap: 10px;
     flex-wrap: wrap;
 }
@@ -108,7 +114,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 .ct-credit-label {
     color: #9ca0b8;
     font-size: 0.75rem;
-    white-space: nowrap;
+    line-height: 1.4;
 }
 
 .ct-credit-link {
@@ -140,6 +146,8 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 }
 
 .ct-nav-badge {
+    display: inline-flex;
+    align-items: center;
     font-size: 0.76rem;
     background: rgba(232, 121, 160, 0.12);
     color: var(--ct-pink);
@@ -153,7 +161,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
     position: sticky;
     top: 10px;
     z-index: 1000;
-    margin: 8px 0 12px !important;
+    margin: 8px 0 10px !important;
     padding: 6px !important;
     border: 1px solid rgba(248, 242, 231, 0.08);
     border-radius: 18px;
@@ -163,11 +171,18 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
+    display: flex;
+    flex-wrap: wrap;
     gap: 8px !important;
 }
 
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
+    min-width: 0;
+    flex: 1 1 0;
+}
+
 /* ── Nav buttons (Streamlit buttons styled as nav links) ── */
-.ct-navbtn > button {
+.ct-navbtn button {
     background: rgba(255, 255, 255, 0.02) !important;
     border: 1px solid transparent !important;
     border-radius: 16px !important;
@@ -182,17 +197,30 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
     white-space: nowrap !important;
     width: 100% !important;
 }
-.ct-navbtn > button:hover {
+.ct-navbtn button:hover {
     color: #ffffff !important;
     background: rgba(255, 255, 255, 0.05) !important;
     border-color: rgba(248, 242, 231, 0.1) !important;
     transform: translateY(-1px);
 }
-.ct-navbtn-active > button {
+.ct-navbtn-active button {
     color: #ffffff !important;
     border-color: rgba(99, 230, 216, 0.18) !important;
     background: linear-gradient(180deg, rgba(99, 230, 216, 0.12), rgba(99, 230, 216, 0.06)) !important;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+}
+
+.ct-navbar-aux {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 12px;
+    margin: 0 0 8px;
+    padding: 2px 4px 0;
+}
+
+.ct-navbar-aux .ct-credit-cluster {
+    gap: 12px;
 }
 
 /* ── Content area ── */
@@ -210,20 +238,97 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
 }
 @media (max-width: 640px) { .ct-kpi-grid { grid-template-columns: 1fr; } }
 @media (max-width: 900px) {
-    .ct-navbar {
-        flex-direction: column;
+    .ct-navbar-mainline {
+        flex-wrap: wrap;
         align-items: flex-start;
-        border-radius: 24px;
     }
 
     .ct-credit-cluster {
-        margin-left: 0;
         justify-content: flex-start;
+    }
+
+    .ct-navbar-aux {
+        align-items: flex-start;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
         margin: 8px 0 14px !important;
         border-radius: 18px;
+    }
+}
+
+@media (max-width: 640px) {
+    .ct-navbar {
+        gap: 10px;
+        padding: 12px 14px;
+        border-radius: 18px;
+    }
+
+    .ct-navbar-mainline {
+        gap: 10px;
+    }
+
+    .ct-logo {
+        font-size: 0.96rem;
+        white-space: normal;
+    }
+
+    .ct-brand-sub {
+        font-size: 0.73rem;
+    }
+
+    .ct-nav-badge {
+        font-size: 0.7rem;
+        padding: 0.38rem 0.66rem;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
+        top: 8px;
+        padding: 5px !important;
+        border-radius: 16px;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
+        flex: 1 1 calc(50% - 4px);
+        width: calc(50% - 4px) !important;
+    }
+
+    .ct-navbtn button {
+        min-height: 48px !important;
+        height: auto !important;
+        padding: 10px 12px !important;
+        font-size: 0.86rem !important;
+        white-space: normal !important;
+        line-height: 1.2 !important;
+    }
+
+    .ct-navbar-aux {
+        gap: 8px;
+        padding: 0 2px;
+    }
+
+    .ct-credit-label {
+        font-size: 0.72rem;
+    }
+
+    .ct-tako-btn {
+        font-size: 0.72rem;
+        padding: 0.42rem 0.68rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .ct-navbar-mainline {
+        align-items: stretch;
+    }
+
+    .ct-nav-badge {
+        justify-content: center;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
+        flex-basis: 100%;
+        width: 100% !important;
     }
 }
 .ct-kpi {
@@ -1476,16 +1581,14 @@ def render_navbar(active: str, pending: int = 0):
     st.markdown(f"""
     <div class="ct-navbar-shell">
         <div class="ct-navbar">
-            <div class="ct-brand-block">
-                <div class="ct-logo">
-                    <span class="ct-logo-dot"></span>
-                    <span>Chekicha Timeline</span>
+            <div class="ct-navbar-mainline">
+                <div class="ct-brand-block">
+                    <div class="ct-logo">
+                        <span class="ct-logo-dot"></span>
+                        <span>Chekicha Timeline</span>
+                    </div>
+                    <div class="ct-brand-sub">Every roulette draw, remembered.</div>
                 </div>
-                <div class="ct-brand-sub">Every roulette draw, remembered.</div>
-            </div>
-            <div class="ct-credit-cluster">
-                <span class="ct-credit-label">Developed by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
-                <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank">Support via Tako</a>
                 {badge_html}
             </div>
         </div>
@@ -1500,9 +1603,18 @@ def render_navbar(active: str, pending: int = 0):
             cls = "ct-navbtn ct-navbtn-active" if is_active else "ct-navbtn"
             with cols[i]:
                 st.markdown(f'<div class="{cls}">', unsafe_allow_html=True)
-                if st.button(label, key=f"nav_{key}"):
+                if st.button(label, key=f"nav_{key}", use_container_width=True):
                     st.switch_page(path)
                 st.markdown('</div>', unsafe_allow_html=True)
+
+    st.markdown("""
+    <div class="ct-navbar-aux">
+        <div class="ct-credit-cluster">
+            <span class="ct-credit-label">Developed by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
+            <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank">Support via Tako</a>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 def make_tag(event_type: str) -> str:
