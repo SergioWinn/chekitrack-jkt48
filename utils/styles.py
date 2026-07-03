@@ -415,12 +415,24 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 6px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
-        flex: 1 1 calc(50% - 3px);
-        width: calc(50% - 3px) !important;
+        flex: initial;
+        width: auto !important;
+        min-width: 0;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) [data-testid="column"] {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .element-container {
+        margin: 0 !important;
     }
 
     .ct-navbtn button {
@@ -474,8 +486,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
-        flex: 1 1 calc(50% - 2.5px);
-        width: calc(50% - 2.5px) !important;
+        width: auto !important;
     }
 
     .ct-navbtn button {
@@ -485,10 +496,9 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 }
 
-@media (max-width: 360px) {
-    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
-        flex-basis: 100%;
-        width: 100% !important;
+@media (max-width: 340px) {
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
+        grid-template-columns: 1fr;
     }
 }
 .ct-kpi {
@@ -1582,7 +1592,7 @@ ARCHIVE_THEME_CSS = """
     .ckt-pulse-grid,
     .ckt-rank-list,
     .ckt-stat-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     }
 
     .ckt-member-browser-grid,
@@ -1728,6 +1738,14 @@ ARCHIVE_THEME_CSS = """
 }
 
 @media (max-width: 480px) {
+    .ckt-member-browser-grid,
+    .ckt-timeline-columns,
+    .ckt-member-pair,
+    .ckt-album-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+        gap: 8px;
+    }
+
     .ckt-member-card {
         padding: 8px;
     }
@@ -1791,7 +1809,7 @@ ARCHIVE_THEME_CSS = """
     }
 }
 
-@media (max-width: 360px) {
+@media (max-width: 340px) {
     .ckt-member-browser-grid,
     .ckt-timeline-columns,
     .ckt-member-pair,
