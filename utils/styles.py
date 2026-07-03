@@ -48,7 +48,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 
 /* ── Navbar shell ── */
 .ct-navbar-shell {
-    margin: 8px 0 0;
+    margin: 10px 0 0;
 }
 
 .ct-navbar {
@@ -56,13 +56,14 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
-    padding: 14px 18px;
-    border: 1px solid rgba(248, 242, 231, 0.08);
-    border-radius: 22px;
+    padding: 16px 20px;
+    border: 1px solid rgba(248, 242, 231, 0.09);
+    border-radius: 24px;
     background:
-        radial-gradient(circle at top right, rgba(168, 139, 250, 0.12), transparent 28%),
-        linear-gradient(180deg, rgba(17, 17, 24, 0.98), rgba(17, 17, 24, 0.95));
-    box-shadow: 0 14px 34px rgba(0, 0, 0, 0.18);
+        radial-gradient(circle at top right, rgba(168, 139, 250, 0.16), transparent 28%),
+        radial-gradient(circle at left center, rgba(96, 165, 250, 0.08), transparent 22%),
+        linear-gradient(180deg, rgba(17, 17, 24, 0.98), rgba(15, 16, 24, 0.96));
+    box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22);
 }
 
 .ct-navbar-mainline {
@@ -73,11 +74,14 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 }
 
 .ct-brand-block {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
     min-width: 0;
 }
 
 .ct-logo {
-    font-size: 1.08rem;
+    font-size: 1.12rem;
     font-weight: 800;
     color: #fff;
     display: inline-flex;
@@ -89,9 +93,9 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 }
 
 .ct-brand-sub {
-    color: #9ca0b8;
+    color: #a7abc1;
     font-size: 0.78rem;
-    margin-top: 4px;
+    margin-top: 0;
 }
 
 .ct-logo-dot {
@@ -148,13 +152,17 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 .ct-nav-badge {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     font-size: 0.76rem;
+    font-weight: 800;
+    letter-spacing: 0.01em;
     background: rgba(232, 121, 160, 0.12);
     color: var(--ct-pink);
     padding: 0.46rem 0.78rem;
     border-radius: 99px;
     border: 1px solid rgba(232, 121, 160, 0.18);
     white-space: nowrap;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
@@ -162,12 +170,13 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
     top: 10px;
     z-index: 1000;
     margin: 8px 0 10px !important;
-    padding: 6px !important;
+    padding: 7px !important;
     border: 1px solid rgba(248, 242, 231, 0.08);
-    border-radius: 18px;
-    background: rgba(17, 17, 24, 0.88);
+    border-radius: 20px;
+    background:
+        linear-gradient(180deg, rgba(20, 21, 31, 0.94), rgba(15, 16, 24, 0.92));
     backdrop-filter: blur(14px);
-    box-shadow: 0 12px 26px rgba(0, 0, 0, 0.14);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.18);
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
@@ -183,31 +192,36 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 
 /* ── Nav buttons (Streamlit buttons styled as nav links) ── */
 .ct-navbtn button {
-    background: rgba(255, 255, 255, 0.02) !important;
-    border: 1px solid transparent !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.035), rgba(255, 255, 255, 0.015)) !important;
+    border: 1px solid rgba(248, 242, 231, 0.06) !important;
     border-radius: 16px !important;
     color: #a6abc2 !important;
     font-size: 0.92rem !important;
-    font-weight: 700 !important;
+    font-weight: 750 !important;
     padding: 0 12px !important;
-    height: 42px !important;
+    height: 44px !important;
     cursor: pointer !important;
-    transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.15s !important;
-    box-shadow: none !important;
+    transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
     white-space: nowrap !important;
     width: 100% !important;
 }
 .ct-navbtn button:hover {
     color: #ffffff !important;
-    background: rgba(255, 255, 255, 0.05) !important;
-    border-color: rgba(248, 242, 231, 0.1) !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.03)) !important;
+    border-color: rgba(99, 230, 216, 0.12) !important;
     transform: translateY(-1px);
+    box-shadow: 0 10px 18px rgba(0, 0, 0, 0.12) !important;
 }
 .ct-navbtn-active button {
     color: #ffffff !important;
-    border-color: rgba(99, 230, 216, 0.18) !important;
-    background: linear-gradient(180deg, rgba(99, 230, 216, 0.12), rgba(99, 230, 216, 0.06)) !important;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04) !important;
+    border-color: rgba(99, 230, 216, 0.22) !important;
+    background:
+        radial-gradient(circle at top left, rgba(243, 91, 147, 0.14), transparent 40%),
+        linear-gradient(180deg, rgba(99, 230, 216, 0.16), rgba(99, 230, 216, 0.08)) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.05),
+        0 14px 24px rgba(8, 14, 20, 0.22) !important;
 }
 
 .ct-navbar-aux {
@@ -215,8 +229,11 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
     align-items: center;
     justify-content: flex-start;
     gap: 12px;
-    margin: 0 0 8px;
-    padding: 2px 4px 0;
+    margin: 0 0 10px;
+    padding: 10px 14px;
+    border: 1px solid rgba(248, 242, 231, 0.06);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.02);
 }
 
 .ct-navbar-aux .ct-credit-cluster {
@@ -304,7 +321,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
 
     .ct-navbar-aux {
         gap: 8px;
-        padding: 0 2px;
+        padding: 8px 10px;
     }
 
     .ct-credit-label {
