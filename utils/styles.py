@@ -1590,9 +1590,12 @@ ARCHIVE_THEME_CSS = """
     .ckt-member-pair,
     .ckt-album-grid,
     .ckt-pulse-grid,
-    .ckt-rank-list,
     .ckt-stat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .ckt-rank-list {
+        grid-template-columns: 1fr !important;
     }
 
     .ckt-member-browser-grid,
