@@ -1105,13 +1105,14 @@ ARCHIVE_THEME_CSS = """
 .ckt-member-modal-card {
     position: relative;
     width: min(980px, calc(100vw - 40px));
-    max-height: calc(100vh - 48px);
+    max-height: min(calc(100vh - 48px), calc(100dvh - 48px));
     overflow: auto;
     border-radius: 30px;
     padding: 18px;
     background: #0b0d16;
     border: 1px solid rgba(248, 242, 231, 0.1);
     box-shadow: 0 28px 80px rgba(0, 0, 0, 0.42);
+    overscroll-behavior: contain;
 }
 
 .ckt-member-modal-close {
@@ -1235,14 +1236,8 @@ ARCHIVE_THEME_CSS = """
 @media (max-width: 860px) {
     .ckt-hero,
     .ckt-grid-2,
-    .ckt-pulse-grid,
-    .ckt-rank-list,
-    .ckt-member-browser-grid,
-    .ckt-member-stage,
     .ckt-preset-summary,
-    .ckt-ticket-card,
-    .ckt-timeline-columns,
-    .ckt-member-pair {
+    .ckt-ticket-card {
         grid-template-columns: 1fr;
     }
 
@@ -1268,9 +1263,174 @@ ARCHIVE_THEME_CSS = """
     .ckt-roulette-desk {
         transform: none;
     }
+}
 
+@media (max-width: 1100px) {
+    .ckt-member-browser-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+    }
+}
+
+@media (max-width: 860px) {
+    .ckt-member-browser-grid,
+    .ckt-timeline-columns,
+    .ckt-member-pair,
+    .ckt-album-grid,
+    .ckt-pulse-grid,
+    .ckt-rank-list,
+    .ckt-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ckt-timeline-columns {
+        gap: 12px;
+    }
+
+    .ckt-member-stage {
+        display: grid;
+        grid-template-columns: minmax(0, 220px) minmax(0, 1fr);
+        align-items: start;
+    }
+
+    .ckt-photocard-frame {
+        width: 100%;
+        min-width: 0;
+        max-width: none;
+        flex: 0 0 auto;
+    }
+
+    .ckt-photocard-avatar {
+        width: 100%;
+    }
+}
+
+@media (max-width: 640px) {
+    .ct-content.ct-archive {
+        padding: 24px 0 40px;
+    }
+
+    .ckt-member-browser-grid,
+    .ckt-timeline-columns,
+    .ckt-member-pair,
+    .ckt-album-grid,
+    .ckt-pulse-grid,
+    .ckt-rank-list,
+    .ckt-stat-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ckt-member-browser-grid,
+    .ckt-timeline-columns,
+    .ckt-album-grid {
+        gap: 10px;
+    }
+
+    .ckt-member-card {
+        border-radius: 18px;
+        padding: 10px;
+    }
+
+    .ckt-member-card-name {
+        font-size: 0.88rem;
+    }
+
+    .ckt-member-card-sub {
+        font-size: 0.72rem;
+    }
+
+    .ckt-ticket-card {
+        gap: 12px;
+        border-radius: 24px;
+        padding: 10px;
+    }
+
+    .ckt-banner {
+        min-height: 104px;
+        border-radius: 16px;
+    }
+
+    .ckt-ticket-name {
+        font-size: 1rem;
+        white-space: normal;
+        overflow: visible;
+        text-overflow: clip;
+    }
+
+    .ckt-member-pill {
+        padding: 8px;
+    }
+
+    .ckt-member-pill span:last-child {
+        font-size: 0.78rem;
+    }
+
+    .ckt-member-modal {
+        align-items: flex-end;
+        padding: 0;
+    }
+
+    .ckt-member-modal-card {
+        width: 100vw;
+        max-height: min(90vh, 90dvh);
+        border-radius: 24px 24px 0 0;
+        padding: 12px 12px 18px;
+        border-left: 0;
+        border-right: 0;
+        border-bottom: 0;
+    }
+
+    .ckt-member-modal-close {
+        top: 2px;
+        width: 38px;
+        height: 38px;
+        margin-bottom: 8px;
+    }
+
+    .ckt-member-stage {
+        grid-template-columns: minmax(0, 112px) minmax(0, 1fr);
+        gap: 12px;
+        padding: 14px;
+        border-radius: 24px;
+    }
+
+    .ckt-member-stage .ckt-member-title {
+        font-size: clamp(1.55rem, 7vw, 2.1rem);
+    }
+
+    .ckt-member-stage .ckt-body {
+        font-size: 0.88rem;
+    }
+
+    .ckt-meta-row {
+        gap: 6px;
+        margin: 8px 0 12px;
+    }
+
+    .ckt-chip {
+        padding: 0.32rem 0.56rem;
+        font-size: 0.62rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .ckt-member-browser-grid,
+    .ckt-timeline-columns,
+    .ckt-member-pair,
+    .ckt-album-grid,
+    .ckt-pulse-grid,
+    .ckt-rank-list,
     .ckt-stat-grid {
         grid-template-columns: 1fr;
+    }
+
+    .ckt-member-stage {
+        grid-template-columns: 1fr;
+    }
+
+    .ckt-photocard-frame {
+        max-width: 220px;
+        margin: 0 auto;
     }
 }
 </style>
