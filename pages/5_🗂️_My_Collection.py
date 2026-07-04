@@ -254,12 +254,10 @@ else:
     else:
         render_collection_shelf(visible_collection_entries)
 
-with st.expander("Collection desk", expanded=not collection_entries):
-    st.caption("Use this compact desk only when you want to add, update, or remove entries.")
+tool_cols = st.columns([1, 1, 2.4], gap="small")
 
-    add_tab, manage_tab = st.tabs(["Add from archive", "Edit / remove"])
-
-    with add_tab:
+with tool_cols[0]:
+    with st.popover("Add entry", use_container_width=True):
         if not collectible_slots:
             st.markdown('<div class="ckt-empty">No resolved event slots are ready for collection yet.</div>', unsafe_allow_html=True)
         else:
@@ -293,20 +291,18 @@ with st.expander("Collection desk", expanded=not collection_entries):
                     key="collection_slot_picker",
                 )
 
-            add_form_col, add_preview_col = st.columns([0.9, 1.1], gap="medium")
-            with add_form_col:
-                add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
-                if st.button("Add to collection", use_container_width=True):
-                    try:
-                        action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
-                        st.success("Collection updated." if action == "updated" else "Added to collection.")
-                        st.rerun()
-                    except Exception as exc:
-                        st.error(str(exc))
-            with add_preview_col:
-                st.markdown(render_selected_slot_card(active_slot), unsafe_allow_html=True)
+            st.markdown(render_selected_slot_card(active_slot), unsafe_allow_html=True)
+            add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
+            if st.button("Add to collection", key="collection_add_submit", use_container_width=True):
+                try:
+                    action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
+                    st.success("Collection updated." if action == "updated" else "Added to collection.")
+                    st.rerun()
+                except Exception as exc:
+                    st.error(str(exc))
 
-    with manage_tab:
+with tool_cols[1]:
+    with st.popover("Edit / remove", use_container_width=True):
         if not entry_options:
             st.markdown('<div class="ckt-empty">Your shelf is still empty, so there is nothing to edit yet.</div>', unsafe_allow_html=True)
         else:
@@ -317,25 +313,22 @@ with st.expander("Collection desk", expanded=not collection_entries):
                 key="collection_edit_picker",
             )
             selected_entry = selected_entry_option["entry"]
-            manage_form_col, manage_preview_col = st.columns([0.9, 1.1], gap="medium")
-            with manage_form_col:
-                updated_quantity = st.number_input(
-                    "New quantity",
-                    min_value=1,
-                    value=int(selected_entry.get("quantity") or 1),
-                    step=1,
-                    key=f"entry_qty_manage_{selected_entry['id']}",
-                )
-                action_cols = st.columns([1, 1], gap="small")
-                if action_cols[0].button("Save quantity", key=f"save_manage_{selected_entry['id']}", use_container_width=True):
-                    update_collection_quantity(auth_supabase, selected_entry["id"], int(updated_quantity))
-                    st.success("Quantity saved.")
-                    st.rerun()
-                if action_cols[1].button("Remove entry", key=f"delete_manage_{selected_entry['id']}", use_container_width=True):
-                    delete_collection_entry(auth_supabase, selected_entry["id"])
-                    st.success("Entry removed.")
-                    st.rerun()
-            with manage_preview_col:
-                st.markdown(render_collection_card(selected_entry), unsafe_allow_html=True)
+            st.markdown(render_collection_card(selected_entry), unsafe_allow_html=True)
+            updated_quantity = st.number_input(
+                "New quantity",
+                min_value=1,
+                value=int(selected_entry.get("quantity") or 1),
+                step=1,
+                key=f"entry_qty_manage_{selected_entry['id']}",
+            )
+            action_cols = st.columns([1, 1], gap="small")
+            if action_cols[0].button("Save quantity", key=f"save_manage_{selected_entry['id']}", use_container_width=True):
+                update_collection_quantity(auth_supabase, selected_entry["id"], int(updated_quantity))
+                st.success("Quantity saved.")
+                st.rerun()
+            if action_cols[1].button("Remove entry", key=f"delete_manage_{selected_entry['id']}", use_container_width=True):
+                delete_collection_entry(auth_supabase, selected_entry["id"])
+                st.success("Entry removed.")
+                st.rerun()
 
 st.markdown("</div>", unsafe_allow_html=True)
