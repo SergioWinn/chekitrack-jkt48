@@ -274,8 +274,8 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 .ct-nav-status-label {
     color: #7ee5dc;
-    font: 700 0.58rem/1.2 'IBM Plex Mono', monospace;
-    letter-spacing: 0.12em;
+    font: 700 0.58rem/1.2 'Poppins', sans-serif;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
@@ -691,7 +691,7 @@ DARK_THEME_CSS = DARK_CSS
 
 ARCHIVE_THEME_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Manrope:wght@400;500;700;800&family=Syne:wght@600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap');
 
 :root {
     --ckt-stage: #14182a;
@@ -756,6 +756,16 @@ ARCHIVE_THEME_CSS = """
     border-radius: 999px !important;
 }
 
+.stApp,
+[data-testid="stAppViewContainer"],
+[data-testid="stMain"],
+button,
+input,
+textarea,
+select {
+    font-family: 'Poppins', sans-serif !important;
+}
+
 .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     background:
         radial-gradient(circle at 10% -10%, rgba(99, 230, 216, 0.14), transparent 28rem),
@@ -766,7 +776,7 @@ ARCHIVE_THEME_CSS = """
 
 .ct-content.ct-archive {
     padding: 10px 6px 40px;
-    font-family: 'Manrope', sans-serif;
+    font-family: 'Poppins', sans-serif;
 }
 
 .ckt-hero {
@@ -778,17 +788,17 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-kicker,
 .ckt-meta {
-    font: 700 0.73rem/1.4 'IBM Plex Mono', monospace;
-    letter-spacing: 0.12em;
+    font: 700 0.73rem/1.4 'Poppins', sans-serif;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
     color: var(--ckt-cyan);
 }
 
 .ckt-headline {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Poppins', sans-serif;
     font-size: clamp(2.4rem, 5vw, 4.7rem);
-    line-height: 0.9;
-    letter-spacing: -0.06em;
+    line-height: 0.96;
+    letter-spacing: -0.04em;
     color: var(--ckt-text);
     margin: 4px 0 10px;
 }
@@ -825,8 +835,8 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-desk-title {
-    font: 800 1.55rem/0.95 'Syne', sans-serif;
-    letter-spacing: -0.05em;
+    font: 800 1.55rem/1 'Poppins', sans-serif;
+    letter-spacing: -0.03em;
     margin: 0 0 4px;
 }
 
@@ -853,7 +863,7 @@ ARCHIVE_THEME_CSS = """
     border-radius: 999px;
     background: var(--ckt-amber);
     color: #151220;
-    font: 700 0.67rem/1 'IBM Plex Mono', monospace;
+    font: 700 0.67rem/1 'Poppins', sans-serif;
     transform: rotate(8deg);
 }
 
@@ -873,7 +883,7 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-stat-card strong {
     display: block;
-    font: 800 1.7rem/0.96 'Manrope', sans-serif;
+    font: 800 1.7rem/0.96 'Poppins', sans-serif;
     font-variant-numeric: tabular-nums;
     color: var(--accent, var(--ckt-pink));
     margin: 6px 0 4px;
@@ -895,7 +905,7 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-pulse-value {
     display: block;
-    font: 800 1.55rem/1 'Manrope', sans-serif;
+    font: 800 1.55rem/1 'Poppins', sans-serif;
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.04em;
     color: var(--ckt-text);
@@ -936,7 +946,7 @@ ARCHIVE_THEME_CSS = """
     border-radius: 14px;
     background: rgba(255, 106, 139, 0.12);
     color: var(--ckt-pink);
-    font: 800 0.88rem/1 'IBM Plex Mono', monospace;
+    font: 800 0.88rem/1 'Poppins', sans-serif;
 }
 
 .ckt-rank-copy {
@@ -963,7 +973,7 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-rank-name {
-    font: 800 1rem/1.05 'Manrope', sans-serif;
+    font: 800 1rem/1.05 'Poppins', sans-serif;
     letter-spacing: -0.025em;
     color: var(--ckt-text);
     margin-bottom: 3px;
@@ -971,7 +981,7 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-rank-value {
     color: var(--ckt-text);
-    font: 800 1.3rem/1 'Manrope', sans-serif;
+    font: 800 1.3rem/1 'Poppins', sans-serif;
     font-variant-numeric: tabular-nums;
 }
 
@@ -987,7 +997,7 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-panel-title {
-    font: 800 1.02rem/1.08 'Manrope', sans-serif;
+    font: 800 1.02rem/1.08 'Poppins', sans-serif;
     letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 6px 0 10px;
@@ -1054,7 +1064,7 @@ ARCHIVE_THEME_CSS = """
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font: 800 0.75rem/1 'IBM Plex Mono', monospace;
+    font: 800 0.75rem/1 'Poppins', sans-serif;
     background: var(--ckt-paper);
     color: #151220;
     flex-shrink: 0;
@@ -1098,8 +1108,8 @@ ARCHIVE_THEME_CSS = """
     padding: 0.34rem 0.62rem;
     border-radius: 999px;
     white-space: nowrap;
-    font: 700 0.66rem/1 'IBM Plex Mono', monospace;
-    letter-spacing: 0.04em;
+    font: 700 0.66rem/1 'Poppins', sans-serif;
+    letter-spacing: 0.03em;
     text-transform: uppercase;
 }
 
@@ -1151,7 +1161,7 @@ ARCHIVE_THEME_CSS = """
     display: block;
     margin-top: 5px;
     color: var(--ckt-text);
-    font: 800 1.02rem/1.08 'Manrope', sans-serif;
+    font: 800 1.02rem/1.08 'Poppins', sans-serif;
     letter-spacing: -0.02em;
     font-variant-numeric: tabular-nums;
 }
@@ -1174,8 +1184,8 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-filter-copy h1,
 .ckt-member-title {
-    font: 800 clamp(2rem, 5vw, 3.7rem)/0.93 'Syne', sans-serif;
-    letter-spacing: -0.06em;
+    font: 800 clamp(2rem, 5vw, 3.7rem)/0.96 'Poppins', sans-serif;
+    letter-spacing: -0.04em;
     margin: 6px 0 12px;
     color: var(--ckt-text);
 }
@@ -1204,8 +1214,8 @@ ARCHIVE_THEME_CSS = """
 .ckt-month {
     margin-top: 12px;
     color: var(--ckt-cyan);
-    font: 700 0.74rem/1.4 'IBM Plex Mono', monospace;
-    letter-spacing: 0.14em;
+    font: 700 0.74rem/1.4 'Poppins', sans-serif;
+    letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
@@ -1231,13 +1241,13 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-date-rail strong {
     display: block;
-    font: 800 2rem/1 'Syne', sans-serif;
+    font: 800 2rem/1 'Poppins', sans-serif;
     color: var(--ckt-paper);
 }
 
 .ckt-date-rail span {
     color: var(--ckt-muted);
-    font: 700 0.7rem/1 'IBM Plex Mono', monospace;
+    font: 700 0.7rem/1 'Poppins', sans-serif;
     text-transform: uppercase;
 }
 
@@ -1252,7 +1262,7 @@ ARCHIVE_THEME_CSS = """
     align-items: center;
     justify-content: center;
     color: rgba(248, 242, 231, 0.56);
-    font: 700 0.74rem/1 'IBM Plex Mono', monospace;
+    font: 700 0.74rem/1 'Poppins', sans-serif;
 }
 
 .ckt-banner img,
@@ -1277,7 +1287,7 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-ticket-name {
-    font: 800 1.05rem/1.12 'Manrope', sans-serif;
+    font: 800 1.05rem/1.12 'Poppins', sans-serif;
     letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 0 0 5px;
@@ -1354,7 +1364,7 @@ ARCHIVE_THEME_CSS = """
     justify-content: center;
     background: linear-gradient(160deg, var(--ckt-paper), var(--ckt-paper-2));
     color: #151220;
-    font: 800 2.6rem/1 'Syne', sans-serif;
+    font: 800 2.6rem/1 'Poppins', sans-serif;
     padding: 12px;
 }
 
@@ -1501,7 +1511,7 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-dialog-section-title {
     color: var(--ckt-text);
-    font: 800 0.98rem/1.1 'Manrope', sans-serif;
+    font: 800 0.98rem/1.1 'Poppins', sans-serif;
     letter-spacing: -0.02em;
     margin: 2px 0 10px;
 }
@@ -1516,7 +1526,7 @@ ARCHIVE_THEME_CSS = """
     align-items: center;
     justify-content: center;
     color: #151220;
-    font: 800 1.6rem/1 'Syne', sans-serif;
+    font: 800 1.6rem/1 'Poppins', sans-serif;
     margin-bottom: 8px;
 }
 
@@ -1528,7 +1538,7 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-member-card-name {
-    font: 800 0.92rem/1.12 'Manrope', sans-serif;
+    font: 800 0.92rem/1.12 'Poppins', sans-serif;
     letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin-bottom: 3px;
@@ -1612,8 +1622,8 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-overview-title {
-    font: 800 clamp(2rem, 4vw, 3.2rem)/0.92 'Syne', sans-serif;
-    letter-spacing: -0.06em;
+    font: 800 clamp(2rem, 4vw, 3.2rem)/0.96 'Poppins', sans-serif;
+    letter-spacing: -0.04em;
     margin: 4px 0 8px;
     color: var(--ckt-text);
     max-width: 11ch;
@@ -1680,7 +1690,7 @@ ARCHIVE_THEME_CSS = """
 .ckt-status-value {
     display: block;
     margin-top: 6px;
-    font: 800 clamp(1rem, 2vw, 1.2rem)/1.04 'Manrope', sans-serif;
+    font: 800 clamp(1rem, 2vw, 1.2rem)/1.04 'Poppins', sans-serif;
     letter-spacing: -0.03em;
     font-variant-numeric: tabular-nums;
     color: var(--ckt-text);
