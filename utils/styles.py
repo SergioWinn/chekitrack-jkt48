@@ -1630,11 +1630,6 @@ select {
     justify-content: center;
 }
 
-.ckt-member-pill.is-empty {
-    background: rgba(248, 242, 231, 0.025);
-    border: 1px dashed rgba(248, 242, 231, 0.08);
-}
-
 .ckt-member-stage {
     display: flex;
     align-items: flex-start;
