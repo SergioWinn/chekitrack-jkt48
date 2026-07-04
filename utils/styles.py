@@ -1585,9 +1585,9 @@ select {
     letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 0 0 5px;
-    white-space: normal;
-    overflow: visible;
-    text-overflow: clip;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ckt-member-line {
@@ -2747,9 +2747,9 @@ select {
     .ckt-ticket-name {
         font-size: 0.9rem;
         line-height: 1.08;
-        white-space: normal;
-        overflow: visible;
-        text-overflow: clip;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     .ckt-small {
