@@ -1437,14 +1437,14 @@ select {
 
 .ckt-toolbar-note {
     color: var(--ckt-muted);
-    font-size: 0.75rem;
-    line-height: 1.4;
+    font-size: 0.84rem;
+    line-height: 1.55;
     margin: 0 0 8px;
 }
 
 .ckt-mini-cell {
     min-width: 0;
-    padding: 11px 12px;
+    padding: 12px 13px;
     border-radius: 18px;
     background: rgba(243, 235, 221, 0.04);
     border: 1px solid rgba(243, 235, 221, 0.08);
@@ -1472,7 +1472,8 @@ select {
 }
 
 .ckt-browser-meta .ckt-small {
-    font-size: 0.76rem;
+    font-size: 0.82rem;
+    line-height: 1.45;
 }
 
 .ckt-filter-copy h1,
@@ -1507,9 +1508,8 @@ select {
 .ckt-month {
     margin: 8px 0 6px;
     color: var(--ckt-cyan);
-    font: 700 0.74rem/1.4 'Poppins', sans-serif;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 700 0.82rem/1.4 'Poppins', sans-serif;
+    letter-spacing: 0.03em;
 }
 
 .ckt-ticket-card {
@@ -1571,6 +1571,7 @@ select {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
+    flex-wrap: wrap;
     gap: 12px;
 }
 
@@ -1584,9 +1585,9 @@ select {
     letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 0 0 5px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: clip;
 }
 
 .ckt-member-line {
@@ -2590,6 +2591,21 @@ select {
         padding: 18px 0 36px;
     }
 
+    .stTextInput input,
+    .stPasswordInput input,
+    [data-baseweb="input"] input,
+    [data-baseweb="textarea"] textarea,
+    [data-baseweb="select"] > div,
+    .stDateInput input,
+    .stTimeInput input {
+        font-size: 16px !important;
+    }
+
+    [role="radiogroup"] label,
+    .stTabs [data-baseweb="tab"] {
+        min-height: 42px !important;
+    }
+
     .ckt-status-strip {
         grid-template-columns: 1fr;
         padding: 14px 12px;
@@ -2631,7 +2647,7 @@ select {
     }
 
     .stTabs [data-baseweb="tab"] {
-        min-height: 38px;
+        min-height: 42px;
         padding: 0 12px;
         font-size: 0.78rem;
     }
@@ -2814,8 +2830,9 @@ select {
 
 @media (max-width: 480px) {
     .ckt-member-browser-grid,
-    .ckt-album-grid {
-        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    .ckt-album-grid,
+    .ckt-mini-strip {
+        grid-template-columns: 1fr !important;
         gap: 8px;
     }
 
@@ -2852,6 +2869,13 @@ select {
 
     .ckt-banner {
         min-height: 88px;
+    }
+
+    .ckt-toolbar-note,
+    .ckt-browser-meta .ckt-small,
+    .ckt-small {
+        font-size: 0.74rem;
+        line-height: 1.45;
     }
 
     .ckt-banner img,
@@ -2904,10 +2928,6 @@ select {
         margin: 0 !important;
     }
 
-    .ckt-small {
-        font-size: 0.66rem;
-    }
-
     .ckt-member-pill span:last-child {
         font-size: 0.68rem;
     }
@@ -2929,12 +2949,6 @@ select {
 }
 
 @media (max-width: 420px) {
-    .ckt-member-browser-grid,
-    .ckt-album-grid,
-    .ckt-mini-strip {
-        grid-template-columns: 1fr !important;
-    }
-
     .ckt-stat-grid {
         grid-template-columns: 1fr !important;
     }
@@ -3145,8 +3159,8 @@ def render_event_chip(event_type: str) -> str:
 
 def render_status_chip(is_waiting: bool) -> str:
     if is_waiting:
-        return '<span class="ckt-chip ckt-chip-waiting">Waiting for roulette</span>'
-    return '<span class="ckt-chip ckt-chip-completed">Completed</span>'
+        return '<span class="ckt-chip ckt-chip-waiting">Needs winner</span>'
+    return '<span class="ckt-chip ckt-chip-completed">Winner assigned</span>'
 
 
 def render_avatar_markup(url: str | None, name: str, class_name: str = "ckt-avatar") -> str:

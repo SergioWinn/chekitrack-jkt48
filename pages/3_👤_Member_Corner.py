@@ -55,7 +55,7 @@ def build_member_archive(rows):
 
 def render_album(history_rows, member_id):
     if not history_rows:
-        return '<div class="ckt-empty">No completed calls yet. Session history will appear here.</div>'
+        return '<div class="ckt-empty">No completed entries yet. This member\'s event history will appear here.</div>'
 
     cards = []
     for row in history_rows:
@@ -67,7 +67,7 @@ def render_album(history_rows, member_id):
                 f'alt="{safe_text(event_name)} banner" loading="lazy"></div>'
             )
         else:
-            thumb = '<div class="ckt-album-thumb ckt-banner">No banner</div>'
+            thumb = '<div class="ckt-album-thumb ckt-banner">No image</div>'
 
         date_text = format_event_date(pd.to_datetime(row["start_time"]))
         slot_chip = ""
@@ -96,7 +96,7 @@ def render_album(history_rows, member_id):
 
 
 def render_member_dossier(member, history, total_cheki, palette_index: int):
-    last_date = format_event_date(pd.to_datetime(history[0]["start_time"])) if history else "No completed sessions yet"
+    last_date = format_event_date(pd.to_datetime(history[0]["start_time"])) if history else "No assigned events yet"
     bg, fg = AVATAR_PALETTES[palette_index % len(AVATAR_PALETTES)]
     avatar_url = member.get("avatar_url")
     if avatar_url:
@@ -117,13 +117,13 @@ def render_member_dossier(member, history, total_cheki, palette_index: int):
         f'<p class="ckt-body" style="margin-top:0">{safe_text(member.get("full_name", ""))}</p>'
         '<div class="ckt-meta-row">'
         f'<span class="ckt-chip ckt-chip-team">{safe_text(member.get("status", ""))}</span>'
-        f'<span class="ckt-chip ckt-chip-team">Gen {safe_text(member.get("generasi", ""))}</span>'
-        f'<span class="ckt-chip ckt-chip-completed">Total cheki {total_cheki}</span>'
+        f'<span class="ckt-chip ckt-chip-team">Generation {safe_text(member.get("generasi", ""))}</span>'
+        f'<span class="ckt-chip ckt-chip-completed">Total entries {total_cheki}</span>'
         "</div>"
-        f'<p class="ckt-body">Last completed session: {safe_text(last_date)}</p>'
+        f'<p class="ckt-body">Most recent assigned event: {safe_text(last_date)}</p>'
         "</div>"
         "</section>"
-        '<div class="ckt-dialog-section-title">Event history</div>'
+        '<div class="ckt-dialog-section-title">Recent event history</div>'
         f'{render_album(history, member["id"])}'
     )
 
@@ -216,22 +216,27 @@ st.markdown(
     """
     <section class="ckt-compact-intro">
       <div class="ckt-surface ckt-panel ckt-intro-panel">
-        <div class="ckt-kicker">Member corner</div>
-        <h1 class="ckt-member-title">Open a member profile without losing the grid.</h1>
-        <p class="ckt-body">Search by nickname, full name, team, or generation, then open the profile card that matches.</p>
+        <div class="ckt-kicker">Members</div>
+        <h1 class="ckt-member-title">Find a member, then open their recent history.</h1>
+        <p class="ckt-body">Search by name, team, or generation. When you open a card, the grid stays in place so it is easy to keep browsing.</p>
       </div>
     </section>
     """,
     unsafe_allow_html=True,
 )
 
+st.markdown(
+    '<p class="ckt-toolbar-note">Use search if you know the name, or use the team filter to narrow the grid first.</p>',
+    unsafe_allow_html=True,
+)
+
 status_options = ["All", "LOVE", "DREAM", "PASSION", "TRAINEE", "GRADUATED"]
-search_query = st.text_input("Quick search", placeholder="Search nickname, full name, team, or generation")
+search_query = st.text_input("Search members", placeholder="Search nickname, full name, team, or generation")
 status_widget = getattr(st, "segmented_control", None)
 if status_widget:
-    selected_status = status_widget("Team", status_options, default="All")
+    selected_status = status_widget("Team filter", status_options, default="All")
 else:
-    selected_status = st.selectbox("Team", status_options)
+    selected_status = st.selectbox("Team filter", status_options)
 
 visible_members = [
     member for member in members_data
@@ -244,17 +249,17 @@ st.markdown(
     f"""
     <section class="ckt-mini-strip">
       <div class="ckt-mini-cell">
-        <div class="ckt-meta">Visible members</div>
+        <div class="ckt-meta">Members shown</div>
         <strong class="ckt-mini-value">{len(visible_members)}</strong>
       </div>
       <div class="ckt-mini-cell">
-        <div class="ckt-meta">With archive history</div>
+        <div class="ckt-meta">With event history</div>
         <strong class="ckt-mini-value">{members_with_history}</strong>
       </div>
       <div class="ckt-mini-cell">
-        <div class="ckt-meta">Current team</div>
+        <div class="ckt-meta">Team filter</div>
         <strong class="ckt-mini-value">{safe_text(selected_status)}</strong>
-        <div class="ckt-small">{safe_text(search_query.strip()) if search_query.strip() else 'No search keyword'}</div>
+        <div class="ckt-small">{safe_text('Search: ' + search_query.strip()) if search_query.strip() else 'No search term yet'}</div>
       </div>
     </section>
     """,
@@ -262,11 +267,11 @@ st.markdown(
 )
 
 if not visible_members:
-    st.markdown('<div class="ckt-empty">No members match this team filter yet.</div>', unsafe_allow_html=True)
+    st.markdown('<div class="ckt-empty">No members match this search or filter. Try a different name or team.</div>', unsafe_allow_html=True)
 else:
     st.markdown(
-        f'<div class="ckt-browser-meta"><div class="ckt-small">{len(visible_members)} member cards ready to open.</div>'
-        '<div class="ckt-small">Click a card to inspect recent sessions without leaving the grid.</div></div>',
+        f'<div class="ckt-browser-meta"><div class="ckt-small">{len(visible_members)} member card{"s" if len(visible_members) != 1 else ""} ready to open.</div>'
+        '<div class="ckt-small">Tap or click a card to open recent history without losing your place in the grid.</div></div>',
         unsafe_allow_html=True,
     )
     browser_markup = "".join(

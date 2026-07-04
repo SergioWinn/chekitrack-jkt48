@@ -10,6 +10,7 @@ from utils.styles import (
     render_avatar_markup,
     render_event_chip,
     render_navbar,
+    render_status_chip,
     safe_text,
 )
 from utils.supabase_client import get_supabase
@@ -45,7 +46,7 @@ def group_timeline_by_month(events):
     return grouped
 
 
-def render_member_entry(member, waiting_label: str = "Waiting for roulette"):
+def render_member_entry(member, waiting_label: str = "Winner not assigned yet"):
     if member:
         nickname = member.get("nickname") or member.get("full_name") or "Unknown member"
         return (
@@ -59,7 +60,7 @@ def render_member_entry(member, waiting_label: str = "Waiting for roulette"):
 
 def render_timeline(events):
     if not events:
-        return '<div class="ckt-empty">No events match this filter.</div>'
+        return '<div class="ckt-empty">No events match this view. Try another filter.</div>'
 
     parts = ['<div class="ckt-timeline">']
     for row in events:
@@ -80,7 +81,7 @@ def render_timeline(events):
                 f'alt="{safe_text(event_name)} banner" loading="lazy"></div>'
             )
         else:
-            banner = '<div class="ckt-banner">No banner</div>'
+            banner = '<div class="ckt-banner">No image</div>'
 
         if is_single_member:
             member_markup = f'<div class="ckt-member-line">{render_member_entry(member_a)}</div>'
@@ -102,7 +103,7 @@ def render_timeline(events):
                 f"{banner}"
                 f'<div><div class="ckt-ticket-top"><div class="ckt-ticket-copy"><h3 class="ckt-ticket-name">{safe_text(event_name)}</h3>'
                 f'<div class="ckt-small">{safe_text(format_event_date(start))} | {safe_text(format_event_time(start, end))}</div>'
-                f'</div>{render_event_chip(event_type)}</div>'
+                f'</div><div class="ckt-meta-row">{render_event_chip(event_type)}{render_status_chip(is_waiting)}</div></div>'
                 f"{member_markup}</div>"
                 f"</div>"
             )
@@ -147,39 +148,44 @@ st.markdown(
     """
     <section class="ckt-compact-intro">
       <div class="ckt-surface ckt-panel ckt-intro-panel">
-        <div class="ckt-kicker">Ticket archive</div>
-        <h1 class="ckt-member-title">Follow every draw in date order.</h1>
-        <p class="ckt-body">Use the filter to narrow the board, then scan waiting slots before filled ones slide into history.</p>
+        <div class="ckt-kicker">Timeline</div>
+        <h1 class="ckt-member-title">Browse every event in date order.</h1>
+        <p class="ckt-body">Start with the cards marked waiting, then scroll down for completed results and older events.</p>
       </div>
     </section>
     """,
     unsafe_allow_html=True,
 )
 
+st.markdown(
+    '<p class="ckt-toolbar-note">Use the filter below to show all events or only one format.</p>',
+    unsafe_allow_html=True,
+)
+
 filter_widget = getattr(st, "segmented_control", None)
 options = ["All", "Roulette", "Birthday", "Graduation"]
 if filter_widget:
-    filter_type = filter_widget("Event type", options, default="All")
+    filter_type = filter_widget("Show events", options, default="All")
 else:
-    filter_type = st.selectbox("Event type", options)
+    filter_type = st.selectbox("Show events", options)
 
 filtered = raw if filter_type == "All" else [row for row in raw if row.get("event_type") == filter_type]
 filtered_count = len(filtered)
-filter_note = "All event types" if filter_type == "All" else f"Only {filter_type}"
+filter_note = "Showing every event type" if filter_type == "All" else f"Showing only {filter_type} events"
 
 st.markdown(
     f"""
     <section class="ckt-mini-strip">
         <div class="ckt-mini-cell">
-          <div class="ckt-meta">Visible events</div>
+          <div class="ckt-meta">Events shown</div>
           <strong class="ckt-mini-value">{filtered_count}</strong>
         </div>
         <div class="ckt-mini-cell">
-          <div class="ckt-meta">Waiting now</div>
+          <div class="ckt-meta">Open slots</div>
           <strong class="ckt-mini-value {'is-hot' if pending_count else ''}">{pending_count}</strong>
         </div>
         <div class="ckt-mini-cell">
-          <div class="ckt-meta">Current filter</div>
+          <div class="ckt-meta">Showing</div>
           <strong class="ckt-mini-value">{safe_text(filter_type)}</strong>
           <div class="ckt-small">{safe_text(filter_note)}</div>
         </div>
@@ -196,7 +202,7 @@ for month_label, month_rows in group_timeline_by_month(filtered).items():
         f'{render_timeline(month_rows)}'
         "</section>"
     )
-timeline_markup = "".join(timeline_sections) if timeline_sections else '<div class="ckt-empty">No events match this filter.</div>'
+timeline_markup = "".join(timeline_sections) if timeline_sections else '<div class="ckt-empty">No events match this view. Try another filter.</div>'
 st.markdown(timeline_markup, unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
