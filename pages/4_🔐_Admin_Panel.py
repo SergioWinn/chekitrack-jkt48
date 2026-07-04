@@ -95,6 +95,30 @@ def render_admin_tool_intro(kicker: str, title: str, body: str):
     """
 
 
+def event_has_waiting_slot_a(event) -> bool:
+    return not event.get("member_id_a")
+
+
+def event_has_waiting_slot_b(event) -> bool:
+    return (event.get("slot_mode") or 1) == 2 and not event.get("member_id_b")
+
+
+def fill_results_matches_filter(event, selected_filter: str) -> bool:
+    event_type = event.get("event_type")
+    is_single = single_member_event(event_type)
+    if selected_filter == "All":
+        return True
+    if selected_filter == "Slot A":
+        return event_has_waiting_slot_a(event)
+    if selected_filter == "Slot B":
+        return event_has_waiting_slot_b(event)
+    if selected_filter == "Single member":
+        return is_single
+    if selected_filter == "Two slots":
+        return not is_single and (event.get("slot_mode") or 1) == 2
+    return True
+
+
 def sync_edit_member_state(selected_member):
     selected_id = selected_member["id"]
     if st.session_state.get("admin_edit_member_loaded_id") == selected_id:
@@ -411,10 +435,50 @@ if True:
         ]
 
         if tbd_events and members_data:
-            option_labels = list(member_options.keys())
-            for start_idx in range(0, len(tbd_events), 3):
-                event_row = tbd_events[start_idx:start_idx + 3]
-                grid_cols = st.columns(3, gap="medium")
+            waiting_slot_a = sum(1 for event in tbd_events if event_has_waiting_slot_a(event))
+            waiting_slot_b = sum(1 for event in tbd_events if event_has_waiting_slot_b(event))
+            single_member_count = sum(1 for event in tbd_events if single_member_event(event.get("event_type")))
+
+            st.markdown(
+                f"""
+                <section class="ckt-mini-strip ckt-admin-strip" style="margin-bottom:12px">
+                  <div class="ckt-mini-cell">
+                    <div class="ckt-meta">Queue size</div>
+                    <strong class="ckt-mini-value">{len(tbd_events)}</strong>
+                  </div>
+                  <div class="ckt-mini-cell">
+                    <div class="ckt-meta">Waiting slot A</div>
+                    <strong class="ckt-mini-value">{waiting_slot_a}</strong>
+                  </div>
+                  <div class="ckt-mini-cell">
+                    <div class="ckt-meta">Waiting slot B</div>
+                    <strong class="ckt-mini-value">{waiting_slot_b}</strong>
+                  </div>
+                </section>
+                """,
+                unsafe_allow_html=True,
+            )
+
+            queue_filter_widget = getattr(st, "segmented_control", None)
+            queue_filter_options = ["All", "Slot A", "Slot B", "Single member", "Two slots"]
+            if queue_filter_widget:
+                queue_filter = queue_filter_widget("Queue filter", queue_filter_options, default="All")
+            else:
+                queue_filter = st.selectbox("Queue filter", queue_filter_options)
+
+            visible_tbd_events = [event for event in tbd_events if fill_results_matches_filter(event, queue_filter)]
+
+            if not visible_tbd_events:
+                st.markdown(
+                    f'<div class="ckt-empty">No waiting entries match the {safe_text(queue_filter)} filter.</div>',
+                    unsafe_allow_html=True,
+                )
+                option_labels = list(member_options.keys())
+            else:
+                option_labels = list(member_options.keys())
+            for start_idx in range(0, len(visible_tbd_events), 2):
+                event_row = visible_tbd_events[start_idx:start_idx + 2]
+                grid_cols = st.columns(2, gap="medium")
                 for col, event in zip(grid_cols, event_row):
                     start_dt = pd.to_datetime(event["start_time"])
                     slot_mode = event.get("slot_mode") or 1
@@ -431,7 +495,7 @@ if True:
                     with col:
                         st.markdown(
                             f"""
-                            <section class="ckt-surface ckt-panel" style="margin-bottom:14px">
+                            <section class="ckt-surface ckt-panel ckt-admin-tool-head" style="margin-bottom:12px">
                               <div class="ckt-kicker">Waiting draw</div>
                               <h2 class="ckt-panel-title">{safe_text(event['event_name'])}</h2>
                               <div class="ckt-small">{safe_text(format_event_date(start_dt))}</div>
@@ -466,7 +530,7 @@ if True:
                                 key=f"winner_b_{event['id']}",
                             )
 
-                        if st.button("Update winner", key=f"update_{event['id']}", use_container_width=True):
+                        if st.button("Save result", key=f"update_{event['id']}", use_container_width=True):
                             payload = {
                                 "slot_mode": slot_mode,
                                 "member_id_a": member_options[winner_a],
