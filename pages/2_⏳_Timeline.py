@@ -57,6 +57,10 @@ def render_member_entry(member, waiting_label: str = "Winner not assigned yet"):
     return f'<div class="ckt-member-pill is-waiting"><span class="ckt-chip ckt-chip-waiting">{safe_text(waiting_label)}</span></div>'
 
 
+def render_empty_member_entry():
+    return '<div class="ckt-member-pill is-empty" aria-hidden="true"></div>'
+
+
 def render_timeline(events):
     if not events:
         return '<div class="ckt-empty">No events match this view. Try another filter.</div>'
@@ -93,7 +97,12 @@ def render_timeline(events):
                     "</div>"
                 )
             else:
-                member_markup = f'<div class="ckt-member-line">{render_member_entry(member_a)}</div>'
+                member_markup = (
+                    '<div class="ckt-member-pair">'
+                    f'{render_member_entry(member_a)}'
+                    f'{render_empty_member_entry()}'
+                    "</div>"
+                )
 
         parts.append(
             (
