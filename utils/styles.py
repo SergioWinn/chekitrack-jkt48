@@ -1938,7 +1938,7 @@ select {
 
 .ckt-collection-card {
     border-radius: 22px;
-    padding: 14px;
+    padding: 12px;
     background: rgba(243, 235, 221, 0.04);
     overflow: hidden;
 }
@@ -1976,22 +1976,25 @@ select {
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
-    gap: 12px;
+    gap: 10px;
 }
 
-.ckt-collection-card-top > div:first-child {
+.ckt-collection-copy {
     min-width: 0;
     flex: 1 1 auto;
 }
 
 .ckt-collection-event {
+    display: block;
+    width: 100%;
     font: 800 1.02rem/1.12 'Poppins', sans-serif;
     letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 5px 0 0;
-    white-space: nowrap;
+    white-space: nowrap !important;
     overflow: hidden;
     text-overflow: ellipsis;
+    max-width: 100%;
 }
 
 .ckt-collection-qty {
@@ -2079,6 +2082,10 @@ select {
 
     .ckt-collection-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ckt-collection-card {
+        padding: 12px;
     }
 
     .ckt-stat-grid {
@@ -2205,7 +2212,7 @@ select {
 
     .ckt-collection-grid {
         grid-template-columns: 1fr !important;
-        gap: 10px;
+        gap: 9px;
     }
 
     .ckt-rank-list {

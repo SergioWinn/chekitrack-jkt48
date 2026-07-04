@@ -46,7 +46,7 @@ def render_collection_card(entry):
     <article class="ckt-surface ckt-collection-card">
       {poster}
       <div class="ckt-collection-card-top">
-        <div>
+        <div class="ckt-collection-copy">
           <div class="ckt-meta">{safe_text(entry.get('event_type', 'Roulette'))}</div>
           <h3 class="ckt-collection-event" title="{event_name}">{event_name}</h3>
         </div>
@@ -96,7 +96,7 @@ def render_selected_slot_card(slot):
 def render_collection_shelf(entries, columns_count: int = 4):
     for start in range(0, len(entries), columns_count):
         row_entries = entries[start:start + columns_count]
-        cols = st.columns(columns_count, gap="large")
+        cols = st.columns(columns_count, gap="small")
         for col, entry in zip(cols, row_entries):
             with col:
                 st.markdown(render_collection_card(entry), unsafe_allow_html=True)
