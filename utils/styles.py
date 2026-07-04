@@ -2323,14 +2323,23 @@ def apply_styles():
 
 
 def render_navbar(active: str, pending: int = 0):
-    from utils.admin_access import admin_nav_enabled
+    from utils.admin_access import admin_nav_enabled, hydrate_admin_access
+    from utils.auth import current_profile, current_username, hydrate_auth_session, is_admin, is_authenticated, sign_out_user
+
+    hydrate_admin_access()
+    hydrate_auth_session()
+
+    show_collection = is_authenticated()
+    show_admin = admin_nav_enabled() or is_admin()
 
     pages = [
         ("overview", "Overview",       "pages/1_📊_Overview.py"),
         ("timeline", "Timeline",       "pages/2_⏳_Timeline.py"),
         ("member",   "Member Corner",  "pages/3_👤_Member_Corner.py"),
     ]
-    if admin_nav_enabled():
+    if show_collection:
+        pages.append(("collection", "My Collection", "pages/5_🗂️_My_Collection.py"))
+    if show_admin:
         pages.append(("admin", "Admin", "pages/4_🔐_Admin_Panel.py"))
 
     if pending > 0:
@@ -2387,6 +2396,22 @@ def render_navbar(active: str, pending: int = 0):
         </div>
     </div>
     """, unsafe_allow_html=True)
+
+    profile = current_profile()
+    if is_authenticated():
+        role = profile.get("role", "collector") if profile else "collector"
+        cols = st.columns([2.4, 1.2, 1.0], gap="small")
+        cols[0].caption(f"Signed in as @{current_username() or 'collector'} ({role})")
+        if cols[1].button("Open collection", key=f"open_collection_{active}", use_container_width=True):
+            st.switch_page("pages/5_🗂️_My_Collection.py")
+        if cols[2].button("Sign out", key=f"signout_{active}", use_container_width=True):
+            sign_out_user()
+            st.rerun()
+    else:
+        cols = st.columns([2.8, 1.2], gap="small")
+        cols[0].caption("Sign in to save your cheki collection.")
+        if cols[1].button("Open collection", key=f"guest_collection_{active}", use_container_width=True):
+            st.switch_page("pages/5_🗂️_My_Collection.py")
 
 
 def make_tag(event_type: str) -> str:

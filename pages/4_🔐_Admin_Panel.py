@@ -4,6 +4,8 @@ import pandas as pd
 import streamlit as st
 
 from utils.admin_access import hydrate_admin_access
+from utils.auth import hydrate_auth_session, is_admin
+from utils.collections import count_pending_slots
 from utils.supabase_client import get_supabase
 from utils.styles import ARCHIVE_THEME_CSS, DARK_THEME_CSS, format_event_date, render_navbar, safe_text
 
@@ -21,17 +23,6 @@ def load_event_presets(supabase_client):
         return response.data or []
     except Exception:
         return []
-
-
-def count_pending_slots(rows):
-    pending = 0
-    for row in rows:
-        slot_mode = row.get("slot_mode") or 1
-        if not row.get("member_id_a"):
-            pending += 1
-        if slot_mode == 2 and not row.get("member_id_b"):
-            pending += 1
-    return pending
 
 
 def single_member_event(event_type: str | None) -> bool:
@@ -122,7 +113,8 @@ pending_rows = (
 )
 pending_count = count_pending_slots(pending_rows)
 
-if not hydrate_admin_access():
+hydrate_auth_session()
+if not (hydrate_admin_access() or is_admin()):
     st.switch_page("pages/1_📊_Overview.py")
 
 render_navbar("admin", pending_count)

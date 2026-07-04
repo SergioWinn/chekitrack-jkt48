@@ -54,3 +54,5 @@ Main file:
 
 - Admin actions depend on valid Supabase write access.
 - Member and event schema are expected to already exist in Supabase.
+- For username-based auth and user collections, run `docs/supabase_auth_collection.sql` in Supabase SQL Editor.
+- Disable email confirmation in Supabase Auth before using the username-first signup flow.
