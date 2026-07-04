@@ -49,22 +49,24 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 /* ── Navbar shell ── */
 .ct-navbar-shell {
     max-width: 1180px;
-    margin: 6px auto 0;
+    margin: 10px auto 0;
 }
 
 .ct-navbar {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 8px;
-    padding: 11px 16px;
-    border: 1px solid rgba(248, 242, 231, 0.08);
-    border-radius: 20px;
+    gap: 10px;
+    padding: 14px 18px;
+    border: 1px solid rgba(248, 242, 231, 0.1);
+    border-radius: 24px;
     background:
-        radial-gradient(circle at top right, rgba(255, 106, 139, 0.12), transparent 24%),
-        radial-gradient(circle at left center, rgba(120, 224, 209, 0.08), transparent 20%),
-        linear-gradient(180deg, rgba(20, 24, 42, 0.98), rgba(16, 20, 34, 0.97));
-    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
+        radial-gradient(circle at top right, rgba(255, 106, 139, 0.16), transparent 24%),
+        radial-gradient(circle at left center, rgba(120, 224, 209, 0.1), transparent 22%),
+        linear-gradient(180deg, rgba(22, 27, 45, 0.985), rgba(16, 20, 34, 0.97));
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 18px 44px rgba(0, 0, 0, 0.2);
 }
 
 .ct-navbar-mainline {
@@ -77,7 +79,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 .ct-brand-block {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    gap: 4px;
     align-items: flex-start;
     text-align: left;
     min-width: 0;
@@ -92,7 +94,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 }
 
 .ct-logo {
-    font-size: 1rem;
+    font-size: 1.08rem;
     font-weight: 800;
     color: #fff;
     display: inline-flex;
@@ -104,10 +106,11 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 }
 
 .ct-brand-sub {
-    color: #a7abc1;
-    font-size: 0.71rem;
+    color: #b2b7ca;
+    font-size: 0.76rem;
     margin-top: 0;
-    max-width: 30rem;
+    max-width: 34rem;
+    line-height: 1.45;
 }
 
 .ct-logo-dot {
@@ -129,8 +132,10 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 
 .ct-credit-label {
     color: #9ca0b8;
-    font-size: 0.75rem;
+    font-size: 0.7rem;
     line-height: 1.4;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
 }
 
 .ct-credit-link {
@@ -148,17 +153,18 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     align-items: center;
     gap: 6px;
     text-decoration: none;
-    padding: 0.42rem 0.76rem;
+    padding: 0.5rem 0.9rem;
     border-radius: 999px;
-    background: rgba(255, 106, 139, 0.08);
-    color: #fff;
-    font-size: 0.71rem;
+    background: linear-gradient(180deg, rgba(255, 106, 139, 0.12), rgba(255, 106, 139, 0.06));
+    color: #ffe7ef;
+    font-size: 0.74rem;
     font-weight: 800;
-    border: 1px solid rgba(255, 106, 139, 0.16);
+    border: 1px solid rgba(255, 106, 139, 0.22);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .ct-tako-btn:hover {
-    background: rgba(255, 106, 139, 0.16);
+    background: linear-gradient(180deg, rgba(255, 106, 139, 0.18), rgba(255, 106, 139, 0.1));
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
@@ -167,13 +173,16 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
     z-index: 1000;
     max-width: 1180px;
     width: 100%;
-    margin: 6px auto 2px !important;
-    padding: 6px !important;
+    margin: 8px auto 8px !important;
+    padding: 8px !important;
     border: 1px solid rgba(248, 242, 231, 0.08);
-    border-radius: 18px;
-    background: linear-gradient(180deg, rgba(20, 24, 42, 0.92), rgba(16, 20, 34, 0.9));
+    border-radius: 22px;
+    background:
+        linear-gradient(180deg, rgba(28, 34, 56, 0.94), rgba(16, 20, 34, 0.92));
     backdrop-filter: blur(14px);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 16px 32px rgba(0, 0, 0, 0.16);
     overflow: visible;
 }
 
@@ -204,17 +213,17 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 /* ── Nav buttons (Streamlit buttons styled as nav links) ── */
 .ct-navbtn button {
-    background: transparent !important;
-    border: 1px solid transparent !important;
-    border-radius: 12px !important;
-    color: #969bb5 !important;
-    font-size: 0.86rem !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.012)) !important;
+    border: 1px solid rgba(248, 242, 231, 0.06) !important;
+    border-radius: 16px !important;
+    color: #a6abc0 !important;
+    font-size: 0.88rem !important;
     font-weight: 750 !important;
-    padding: 0 12px !important;
-    height: 44px !important;
+    padding: 0 14px !important;
+    height: 48px !important;
     cursor: pointer !important;
     transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s !important;
-    box-shadow: none !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
     white-space: nowrap !important;
     width: 100% !important;
     letter-spacing: -0.01em !important;
@@ -227,20 +236,22 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 .ct-navbtn button:hover {
     color: #ffffff !important;
-    background: rgba(255, 255, 255, 0.03) !important;
-    border-color: rgba(248, 242, 231, 0.06) !important;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.025)) !important;
+    border-color: rgba(120, 224, 209, 0.14) !important;
     transform: translateY(-1px);
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02) !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 10px 18px rgba(5, 10, 20, 0.14) !important;
 }
 .ct-navbtn-active button {
     color: #ffffff !important;
-    border-color: rgba(120, 224, 209, 0.18) !important;
+    border-color: rgba(120, 224, 209, 0.26) !important;
     background:
-        radial-gradient(circle at top left, rgba(255, 106, 139, 0.12), transparent 42%),
-        linear-gradient(180deg, rgba(120, 224, 209, 0.12), rgba(120, 224, 209, 0.05)) !important;
+        radial-gradient(circle at top left, rgba(255, 106, 139, 0.16), transparent 42%),
+        linear-gradient(180deg, rgba(120, 224, 209, 0.16), rgba(120, 224, 209, 0.05)) !important;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.05),
-        0 8px 14px rgba(8, 14, 20, 0.16) !important;
+        0 12px 20px rgba(8, 14, 20, 0.18) !important;
 }
 
 .ct-navbar-aux {
@@ -264,8 +275,14 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 .ct-session-stack {
     display: grid;
-    gap: 6px;
+    gap: 8px;
     justify-items: start;
+    width: 100%;
+    padding: 12px 14px;
+    border-radius: 18px;
+    border: 1px solid rgba(243, 235, 221, 0.08);
+    background: linear-gradient(180deg, rgba(243, 235, 221, 0.05), rgba(243, 235, 221, 0.02));
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) {
@@ -325,25 +342,23 @@ div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) .stButton {
 }
 
 .ct-auth-row {
-    display: inline-flex;
-    align-items: center;
-    gap: 10px;
-    flex-wrap: wrap;
+    display: block;
+    width: 100%;
     min-width: 0;
 }
 
 .ct-session-role {
     display: inline-flex;
     align-items: center;
-    padding: 0.16rem 0.52rem;
+    padding: 0.2rem 0.56rem;
     border-radius: 999px;
-    background: rgba(120, 224, 209, 0.08);
-    border: 1px solid rgba(120, 224, 209, 0.16);
-    color: #95ece1;
+    background: rgba(120, 224, 209, 0.1);
+    border: 1px solid rgba(120, 224, 209, 0.18);
+    color: #9af0e5;
     font-size: 0.66rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 0.04em;
+    letter-spacing: 0.06em;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) {
@@ -380,53 +395,57 @@ div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
 .ct-authbtn button {
     width: auto !important;
     min-width: 132px;
-    min-height: 38px !important;
-    padding: 0 14px !important;
+    min-height: 42px !important;
+    padding: 0 16px !important;
     border-radius: 999px !important;
-    border: 1px solid rgba(243, 235, 221, 0.08) !important;
-    background: rgba(243, 235, 221, 0.04) !important;
+    border: 1px solid rgba(243, 235, 221, 0.1) !important;
+    background: linear-gradient(180deg, rgba(243, 235, 221, 0.06), rgba(243, 235, 221, 0.025)) !important;
     color: #f4f6fb !important;
     font-size: 0.8rem !important;
     font-weight: 700 !important;
-    box-shadow: none !important;
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.03),
+        0 10px 20px rgba(5, 10, 20, 0.12) !important;
 }
 
 .ct-authbtn button:hover {
-    background: rgba(243, 235, 221, 0.08) !important;
-    border-color: rgba(243, 235, 221, 0.12) !important;
+    background: linear-gradient(180deg, rgba(243, 235, 221, 0.1), rgba(243, 235, 221, 0.04)) !important;
+    border-color: rgba(243, 235, 221, 0.14) !important;
 }
 
 .ct-authbtn-subtle button {
-    background: rgba(255, 106, 139, 0.06) !important;
-    border-color: rgba(255, 106, 139, 0.14) !important;
+    background: linear-gradient(180deg, rgba(255, 106, 139, 0.09), rgba(255, 106, 139, 0.04)) !important;
+    border-color: rgba(255, 106, 139, 0.18) !important;
     color: #ffdbe4 !important;
 }
 
 .ct-authbtn-subtle button:hover {
-    background: rgba(255, 106, 139, 0.1) !important;
+    background: linear-gradient(180deg, rgba(255, 106, 139, 0.14), rgba(255, 106, 139, 0.06)) !important;
 }
 
 .ct-nav-status {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 7px 10px;
+    gap: 10px;
+    padding: 9px 12px;
     border-radius: 999px;
-    background: rgba(243, 235, 221, 0.06);
-    border: 1px solid rgba(243, 235, 221, 0.1);
+    background: linear-gradient(180deg, rgba(243, 235, 221, 0.07), rgba(243, 235, 221, 0.035));
+    border: 1px solid rgba(243, 235, 221, 0.12);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    flex-wrap: wrap;
 }
 
 .ct-nav-status-label {
-    color: #7ee5dc;
-    font: 700 0.58rem/1.2 'Poppins', sans-serif;
+    color: #86ece2;
+    font: 700 0.6rem/1.2 'Poppins', sans-serif;
     letter-spacing: 0.08em;
     text-transform: uppercase;
 }
 
 .ct-nav-status-value {
     color: #e7e8f3;
-    font-size: 0.78rem;
-    font-weight: 700;
+    font-size: 0.8rem;
+    font-weight: 800;
     letter-spacing: -0.02em;
 }
 
@@ -542,9 +561,9 @@ div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
     }
 
     .ct-navbar {
-        gap: 6px;
-        padding: 9px 12px 9px;
-        border-radius: 18px;
+        gap: 8px;
+        padding: 11px 12px 11px;
+        border-radius: 20px;
     }
 
     .ct-navbar-mainline {
@@ -612,9 +631,9 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
     }
 
     .ct-navbtn button {
-        min-height: 34px !important;
+        min-height: 38px !important;
         height: auto !important;
-        padding: 6px 8px !important;
+        padding: 7px 10px !important;
         font-size: 0.82rem !important;
         white-space: normal !important;
         line-height: 1.15 !important;
@@ -662,7 +681,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
     .ct-authbtn button {
         width: 100% !important;
         min-width: 0;
-        min-height: 34px !important;
+        min-height: 38px !important;
         font-size: 0.76rem !important;
     }
 
@@ -1947,70 +1966,82 @@ select {
 }
 
 .ckt-overview-hero {
-    gap: 10px;
+    gap: 14px;
 }
 
 .ckt-overview-lead {
     display: flex;
-    align-items: end;
+    align-items: stretch;
     justify-content: space-between;
-    gap: 16px;
+    gap: 20px;
+}
+
+.ckt-overview-lead > div:first-child {
+    max-width: 43rem;
 }
 
 .ckt-overview-title {
-    font: 800 clamp(2rem, 4vw, 3.2rem)/0.96 'Poppins', sans-serif;
+    font: 800 clamp(2.2rem, 4.6vw, 4rem)/0.94 'Poppins', sans-serif;
     letter-spacing: -0.04em;
-    margin: 4px 0 8px;
+    margin: 6px 0 10px;
     color: var(--ckt-text);
-    max-width: 11ch;
+    max-width: 13ch;
 }
 
 .ckt-overview-note {
-    max-width: 20rem;
-    padding: 12px 14px;
-    border-radius: 18px;
-    background: rgba(243, 235, 221, 0.04);
-    border: 1px solid rgba(243, 235, 221, 0.08);
+    align-self: end;
+    max-width: 22rem;
+    padding: 16px 18px;
+    border-radius: 22px;
+    background:
+        linear-gradient(180deg, rgba(243, 235, 221, 0.08), rgba(243, 235, 221, 0.03)),
+        linear-gradient(135deg, rgba(255, 106, 139, 0.08), rgba(120, 224, 209, 0.04));
+    border: 1px solid rgba(243, 235, 221, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .ckt-status-strip {
     position: relative;
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 8px;
-    padding: 18px 16px;
-    border-radius: 24px;
+    gap: 10px;
+    padding: 22px 20px;
+    border-radius: 28px;
     overflow: hidden;
     background:
-        linear-gradient(180deg, rgba(243, 235, 221, 0.08), rgba(243, 235, 221, 0.03)),
-        linear-gradient(140deg, rgba(24, 28, 48, 0.96), rgba(18, 22, 37, 0.98));
+        linear-gradient(180deg, rgba(243, 235, 221, 0.09), rgba(243, 235, 221, 0.03)),
+        linear-gradient(140deg, rgba(24, 28, 48, 0.98), rgba(18, 22, 37, 0.98));
+    border: 1px solid rgba(243, 235, 221, 0.1);
+    box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.04),
+        0 18px 34px rgba(10, 14, 22, 0.18);
 }
 
 .ckt-status-strip:before,
 .ckt-status-strip:after {
     content: "";
     position: absolute;
-    left: 18px;
-    right: 18px;
-    height: 10px;
-    background: radial-gradient(circle, rgba(243, 235, 221, 0.95) 0 4px, transparent 4.6px) repeat-x;
-    background-size: 18px 10px;
-    opacity: 0.22;
+    left: 22px;
+    right: 22px;
+    height: 8px;
+    background: radial-gradient(circle, rgba(243, 235, 221, 0.85) 0 3px, transparent 3.8px) repeat-x;
+    background-size: 18px 8px;
+    opacity: 0.14;
     pointer-events: none;
 }
 
 .ckt-status-strip:before {
-    top: -5px;
+    top: -4px;
 }
 
 .ckt-status-strip:after {
-    bottom: -5px;
+    bottom: -4px;
 }
 
 .ckt-status-cell {
     position: relative;
     min-width: 0;
-    padding: 2px 10px 2px 0;
+    padding: 4px 12px 4px 0;
 }
 
 .ckt-status-cell:not(:last-child):after {
@@ -2025,8 +2056,8 @@ select {
 
 .ckt-status-value {
     display: block;
-    margin-top: 6px;
-    font: 800 clamp(1rem, 2vw, 1.2rem)/1.04 'Poppins', sans-serif;
+    margin-top: 8px;
+    font: 800 clamp(1.12rem, 2vw, 1.42rem)/1.02 'Poppins', sans-serif;
     letter-spacing: -0.03em;
     font-variant-numeric: tabular-nums;
     color: var(--ckt-text);
@@ -2034,12 +2065,13 @@ select {
 
 .ckt-status-value.is-hot {
     color: var(--ckt-pink);
+    text-shadow: 0 0 16px rgba(255, 106, 139, 0.16);
 }
 
 .ckt-status-subline {
-    margin-top: 5px;
+    margin-top: 7px;
     color: var(--ckt-muted);
-    font-size: 0.74rem;
+    font-size: 0.78rem;
     line-height: 1.4;
 }
 
@@ -3016,7 +3048,7 @@ def render_navbar(active: str, pending: int = 0):
                 </div>
                 <div class="ct-navbar-side">
                     {status_html}
-                    <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank">Support via Tako</a>
+                    <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank" rel="noopener noreferrer">Support via Tako</a>
                 </div>
             </div>
         </div>
@@ -3040,12 +3072,12 @@ def render_navbar(active: str, pending: int = 0):
         with cols[0]:
             if authenticated:
                 st.markdown(
-                    f'<div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span></div><div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div></div>',
+                    f'<div class="ct-auth-row"><div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank" rel="noopener noreferrer">@estrellawin19</a></span></div><div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div></div></div>',
                     unsafe_allow_html=True,
                 )
             else:
                 st.markdown(
-                    '<div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span></div><div class="ct-session-note is-guest">Sign in to save your cheki collection.</div></div>',
+                    '<div class="ct-auth-row"><div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank" rel="noopener noreferrer">@estrellawin19</a></span></div><div class="ct-session-note is-guest">Sign in to save your cheki collection.</div></div></div>',
                     unsafe_allow_html=True,
                 )
         with cols[1]:
