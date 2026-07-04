@@ -6,7 +6,7 @@ import streamlit as st
 from utils.auth import hydrate_auth_session, is_admin
 from utils.collections import count_pending_slots
 from utils.supabase_client import get_supabase
-from utils.styles import ARCHIVE_THEME_CSS, DARK_THEME_CSS, format_event_date, render_navbar, safe_text
+from utils.styles import ARCHIVE_THEME_CSS, DARK_THEME_CSS, format_event_date, format_event_time, render_navbar, safe_text
 
 
 def load_event_presets(supabase_client):
@@ -484,10 +484,11 @@ if True:
                     slot_mode = event.get("slot_mode") or 1
                     event_type = event.get("event_type")
                     is_single_member = single_member_event(event_type)
+                    event_time_copy = safe_text(format_event_time(start_dt))
                     preview = (
-                        f'<div class="ckt-banner" style="margin-top:10px"><img src="{safe_text(event["event_image_url"])}" alt="{safe_text(event["event_name"])} banner" loading="lazy"></div>'
+                        f'<div class="ckt-admin-queue-thumb"><img src="{safe_text(event["event_image_url"])}" alt="{safe_text(event["event_name"])} banner" loading="lazy"></div>'
                         if event.get("event_image_url")
-                        else '<div class="ckt-empty">No banner preview</div>'
+                        else '<div class="ckt-admin-queue-thumb is-empty"><span>No preview</span></div>'
                     )
                     slot_a_label = member_labels.get(event.get("member_id_a"), "Waiting for roulette")
                     slot_b_label = member_labels.get(event.get("member_id_b"), "Waiting for roulette")
@@ -496,17 +497,21 @@ if True:
                         st.markdown(
                             f"""
                             <section class="ckt-surface ckt-panel ckt-admin-tool-head" style="margin-bottom:12px">
-                              <div class="ckt-kicker">Waiting draw</div>
-                              <h2 class="ckt-panel-title">{safe_text(event['event_name'])}</h2>
-                              <div class="ckt-small">{safe_text(format_event_date(start_dt))}</div>
-                              <div class="ckt-meta-row">
+                              <div class="ckt-panel-head ckt-admin-queue-head">
+                                <div class="ckt-admin-queue-copy">
+                                  <div class="ckt-kicker">Waiting draw</div>
+                                  <h2 class="ckt-panel-title">{safe_text(event['event_name'])}</h2>
+                                  <div class="ckt-small">{safe_text(format_event_date(start_dt))} | {event_time_copy}</div>
+                                </div>
+                                {preview}
+                              </div>
+                              <div class="ckt-meta-row" style="margin-top:10px">
                                 <span class="ckt-chip ckt-chip-team">{safe_text(('Member ' if is_single_member else 'Slot A ') + slot_a_label)}</span>
                                 {
                                     f'<span class="ckt-chip ckt-chip-team">Slot B {safe_text(slot_b_label)}</span>'
                                     if (not is_single_member and slot_mode == 2) else ""
                                 }
                               </div>
-                              {preview}
                             </section>
                             """,
                             unsafe_allow_html=True,

@@ -2279,6 +2279,42 @@ select {
     background: linear-gradient(180deg, rgba(24, 33, 42, 0.96), rgba(14, 19, 26, 0.98));
 }
 
+.ckt-admin-queue-head {
+    align-items: stretch;
+}
+
+.ckt-admin-queue-copy {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.ckt-admin-queue-thumb {
+    width: 112px;
+    min-width: 112px;
+    max-width: 112px;
+    aspect-ratio: 4 / 3;
+    border-radius: 14px;
+    overflow: hidden;
+    background: rgba(8, 11, 17, 0.94);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ckt-admin-queue-thumb img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    padding: 8px;
+    display: block;
+}
+
+.ckt-admin-queue-thumb.is-empty span {
+    color: rgba(250, 247, 242, 0.55);
+    font-size: 0.72rem;
+    font-weight: 600;
+}
+
 [data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-panel,
 [data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-surface {
     background: linear-gradient(180deg, rgba(15, 20, 28, 0.94), rgba(10, 14, 20, 0.98));
