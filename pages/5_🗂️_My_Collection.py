@@ -254,112 +254,88 @@ else:
     else:
         render_collection_shelf(visible_collection_entries)
 
-st.markdown(
-    """
-    <section class="ckt-surface ckt-panel" style="margin-top:14px">
-      <div class="ckt-kicker">Collection desk</div>
-      <h2 class="ckt-panel-title">Add, update, or remove an entry</h2>
-      <p class="ckt-body">The shelf above stays clean for reading. Use the desk below when you want to change something.</p>
-    </section>
-    """,
-    unsafe_allow_html=True,
-)
+with st.expander("Collection desk", expanded=not collection_entries):
+    st.caption("Use this compact desk only when you want to add, update, or remove entries.")
 
-desk_left, desk_right = st.columns([1.02, 0.98], gap="large")
+    add_tab, manage_tab = st.tabs(["Add from archive", "Edit / remove"])
 
-with desk_left:
-    st.markdown(
-        """
-        <section class="ckt-surface ckt-panel">
-          <div class="ckt-kicker">Add from archive</div>
-          <h2 class="ckt-panel-title">Choose an event result</h2>
-          <p class="ckt-body">Only resolved event slots appear here, so member assignment always follows the archive.</p>
-        </section>
-        """,
-        unsafe_allow_html=True,
-    )
+    with add_tab:
+        if not collectible_slots:
+            st.markdown('<div class="ckt-empty">No resolved event slots are ready for collection yet.</div>', unsafe_allow_html=True)
+        else:
+            event_map = {}
+            for slot in collectible_slots:
+                dt = pd.to_datetime(slot["start_time"])
+                end_dt = pd.to_datetime(slot["end_time"]) if slot.get("end_time") else None
+                event_map.setdefault(
+                    slot["event_id"],
+                    {
+                        "event_id": slot["event_id"],
+                        "label": f'{slot["event_name"]} | {dt.day} {dt:%b %Y} | {format_event_time(dt, end_dt)} | {slot["event_type"]}',
+                    },
+                )
 
-    if not collectible_slots:
-        st.markdown('<div class="ckt-empty">No resolved event slots are ready for collection yet.</div>', unsafe_allow_html=True)
-    else:
-        event_map = {}
-        for slot in collectible_slots:
-            dt = pd.to_datetime(slot["start_time"])
-            end_dt = pd.to_datetime(slot["end_time"]) if slot.get("end_time") else None
-            event_map.setdefault(
-                slot["event_id"],
-                {
-                    "event_id": slot["event_id"],
-                    "label": f'{slot["event_name"]} | {dt.day} {dt:%b %Y} | {format_event_time(dt, end_dt)} | {slot["event_type"]}',
-                },
+            event_options = list(event_map.values())
+            selected_event = st.selectbox(
+                "Event",
+                event_options,
+                format_func=lambda item: item["label"],
+                key="collection_event_picker",
             )
 
-        event_options = list(event_map.values())
-        selected_event = st.selectbox(
-            "Event",
-            event_options,
-            format_func=lambda item: item["label"],
-            key="collection_event_picker",
-        )
+            selected_slots = [slot for slot in collectible_slots if slot["event_id"] == selected_event["event_id"]]
+            active_slot = selected_slots[0]
+            if len(selected_slots) > 1:
+                active_slot = st.selectbox(
+                    "Result slot",
+                    selected_slots,
+                    format_func=lambda item: f'{item["slot_label"]} | {item["member_name"]}',
+                    key="collection_slot_picker",
+                )
 
-        selected_slots = [slot for slot in collectible_slots if slot["event_id"] == selected_event["event_id"]]
-        active_slot = selected_slots[0]
-        if len(selected_slots) > 1:
-            active_slot = st.selectbox(
-                "Result slot",
-                selected_slots,
-                format_func=lambda item: f'{item["slot_label"]} | {item["member_name"]}',
-                key="collection_slot_picker",
+            add_form_col, add_preview_col = st.columns([0.9, 1.1], gap="medium")
+            with add_form_col:
+                add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
+                if st.button("Add to collection", use_container_width=True):
+                    try:
+                        action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
+                        st.success("Collection updated." if action == "updated" else "Added to collection.")
+                        st.rerun()
+                    except Exception as exc:
+                        st.error(str(exc))
+            with add_preview_col:
+                st.markdown(render_selected_slot_card(active_slot), unsafe_allow_html=True)
+
+    with manage_tab:
+        if not entry_options:
+            st.markdown('<div class="ckt-empty">Your shelf is still empty, so there is nothing to edit yet.</div>', unsafe_allow_html=True)
+        else:
+            selected_entry_option = st.selectbox(
+                "Saved entry",
+                entry_options,
+                format_func=lambda item: item["label"],
+                key="collection_edit_picker",
             )
-
-        st.markdown(render_selected_slot_card(active_slot), unsafe_allow_html=True)
-        add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
-        if st.button("Add to collection", use_container_width=True):
-            try:
-                action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
-                st.success("Collection updated." if action == "updated" else "Added to collection.")
-                st.rerun()
-            except Exception as exc:
-                st.error(str(exc))
-
-with desk_right:
-    st.markdown(
-        """
-        <section class="ckt-surface ckt-panel">
-          <div class="ckt-kicker">Manage saved entry</div>
-          <h2 class="ckt-panel-title">Edit quantity or remove</h2>
-          <p class="ckt-body">Pick one saved row from your shelf, then update the count or remove it entirely.</p>
-        </section>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    if not entry_options:
-        st.markdown('<div class="ckt-empty">Your shelf is still empty, so there is nothing to edit yet.</div>', unsafe_allow_html=True)
-    else:
-        selected_entry_option = st.selectbox(
-            "Saved entry",
-            entry_options,
-            format_func=lambda item: item["label"],
-            key="collection_edit_picker",
-        )
-        selected_entry = selected_entry_option["entry"]
-        st.markdown(render_collection_card(selected_entry), unsafe_allow_html=True)
-        updated_quantity = st.number_input(
-            "New quantity",
-            min_value=1,
-            value=int(selected_entry.get("quantity") or 1),
-            step=1,
-            key=f"entry_qty_manage_{selected_entry['id']}",
-        )
-        action_cols = st.columns([1, 1], gap="small")
-        if action_cols[0].button("Save quantity", key=f"save_manage_{selected_entry['id']}", use_container_width=True):
-            update_collection_quantity(auth_supabase, selected_entry["id"], int(updated_quantity))
-            st.success("Quantity saved.")
-            st.rerun()
-        if action_cols[1].button("Remove entry", key=f"delete_manage_{selected_entry['id']}", use_container_width=True):
-            delete_collection_entry(auth_supabase, selected_entry["id"])
-            st.success("Entry removed.")
-            st.rerun()
+            selected_entry = selected_entry_option["entry"]
+            manage_form_col, manage_preview_col = st.columns([0.9, 1.1], gap="medium")
+            with manage_form_col:
+                updated_quantity = st.number_input(
+                    "New quantity",
+                    min_value=1,
+                    value=int(selected_entry.get("quantity") or 1),
+                    step=1,
+                    key=f"entry_qty_manage_{selected_entry['id']}",
+                )
+                action_cols = st.columns([1, 1], gap="small")
+                if action_cols[0].button("Save quantity", key=f"save_manage_{selected_entry['id']}", use_container_width=True):
+                    update_collection_quantity(auth_supabase, selected_entry["id"], int(updated_quantity))
+                    st.success("Quantity saved.")
+                    st.rerun()
+                if action_cols[1].button("Remove entry", key=f"delete_manage_{selected_entry['id']}", use_container_width=True):
+                    delete_collection_entry(auth_supabase, selected_entry["id"])
+                    st.success("Entry removed.")
+                    st.rerun()
+            with manage_preview_col:
+                st.markdown(render_collection_card(selected_entry), unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
