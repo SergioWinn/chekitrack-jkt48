@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from utils.admin_access import admin_nav_enabled, hydrate_admin_access
+from utils.admin_access import hydrate_admin_access
 from utils.styles import (
     ARCHIVE_THEME_CSS,
     DARK_THEME_CSS,
@@ -126,7 +126,7 @@ pending_rows = (
 pending_count = count_pending_slots(pending_rows)
 
 hydrate_admin_access()
-render_navbar("timeline", pending_count, show_admin=admin_nav_enabled())
+render_navbar("timeline", pending_count)
 st.markdown('<div class="ct-content ct-archive">', unsafe_allow_html=True)
 
 raw = (

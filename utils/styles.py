@@ -2322,13 +2322,15 @@ def apply_styles():
     st.markdown(DARK_CSS, unsafe_allow_html=True)
 
 
-def render_navbar(active: str, pending: int = 0, show_admin: bool = False):
+def render_navbar(active: str, pending: int = 0):
+    from utils.admin_access import admin_nav_enabled
+
     pages = [
         ("overview", "Overview",       "pages/1_📊_Overview.py"),
         ("timeline", "Timeline",       "pages/2_⏳_Timeline.py"),
         ("member",   "Member Corner",  "pages/3_👤_Member_Corner.py"),
     ]
-    if show_admin:
+    if admin_nav_enabled():
         pages.append(("admin", "Admin", "pages/4_🔐_Admin_Panel.py"))
 
     if pending > 0:

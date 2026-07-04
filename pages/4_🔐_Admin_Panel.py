@@ -125,7 +125,7 @@ pending_count = count_pending_slots(pending_rows)
 if not hydrate_admin_access():
     st.switch_page("pages/1_📊_Overview.py")
 
-render_navbar("admin", pending_count, show_admin=True)
+render_navbar("admin", pending_count)
 st.markdown('<div class="ct-content ct-archive">', unsafe_allow_html=True)
 
 st.markdown(

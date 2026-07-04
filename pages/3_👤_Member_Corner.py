@@ -1,7 +1,7 @@
 import pandas as pd
 import streamlit as st
 
-from utils.admin_access import admin_nav_enabled, hydrate_admin_access
+from utils.admin_access import hydrate_admin_access
 from utils.styles import (
     ARCHIVE_THEME_CSS,
     AVATAR_PALETTES,
@@ -193,7 +193,7 @@ pending_rows = (
 pending_count = count_pending_slots(pending_rows)
 
 hydrate_admin_access()
-render_navbar("member", pending_count, show_admin=admin_nav_enabled())
+render_navbar("member", pending_count)
 st.markdown('<div class="ct-content ct-archive">', unsafe_allow_html=True)
 
 members_data = supabase.table("members").select("*").order("nickname").execute().data or []
