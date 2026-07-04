@@ -331,4 +331,15 @@ with tool_cols[1]:
                 st.success("Entry removed.")
                 st.rerun()
 
+with tool_cols[2]:
+    st.markdown(
+        """
+        <section class="ckt-surface ckt-panel" style="padding:12px 14px">
+          <div class="ckt-kicker">Quick tools</div>
+          <div class="ckt-small">Open only when you need to add a new event result or correct a saved quantity.</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
 st.markdown("</div>", unsafe_allow_html=True)

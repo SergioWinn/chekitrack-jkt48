@@ -917,6 +917,31 @@ ARCHIVE_THEME_CSS = """
     border-color: rgba(120, 224, 209, 0.22) !important;
 }
 
+div[data-testid="stPopover"] > button,
+div[data-testid="stPopover"] button[kind="secondary"] {
+    width: 100%;
+    min-height: 40px;
+    border-radius: 999px !important;
+    border: 1px solid rgba(243, 235, 221, 0.1) !important;
+    background: rgba(243, 235, 221, 0.04) !important;
+    color: #f4f6fb !important;
+    font-size: 0.82rem !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+}
+
+div[data-testid="stPopover"] > button:hover,
+div[data-testid="stPopover"] button[kind="secondary"]:hover {
+    background: rgba(243, 235, 221, 0.08) !important;
+    border-color: rgba(243, 235, 221, 0.14) !important;
+}
+
+div[data-testid="stPopover"] > button:focus-visible,
+div[data-testid="stPopover"] button[kind="secondary"]:focus-visible {
+    outline: 2px solid rgba(120, 224, 209, 0.8) !important;
+    outline-offset: 1px !important;
+}
+
 [role="radiogroup"] {
     gap: 8px;
     flex-wrap: wrap;
