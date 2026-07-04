@@ -37,32 +37,26 @@ def render_collection_card(entry):
     event_time = format_event_time(dt, end_dt) if dt is not None else "Archived time"
     slot_label = entry.get("slot_key", "A")
     event_name = safe_text(entry.get('event_name', 'Archived event'))
-    poster = (
-        f'<div class="ckt-collection-poster"><img src="{safe_text(entry.get("event_image_url"))}" alt="{event_name} poster" loading="lazy"></div>'
-        if entry.get("event_image_url")
-        else f'<div class="ckt-collection-poster is-empty"><span>{safe_text(entry.get("event_type", "Archive"))}</span></div>'
-    )
     return f"""
     <article class="ckt-surface ckt-collection-card">
-      {poster}
       <div class="ckt-collection-card-top">
-        <div class="ckt-collection-copy">
-          <div class="ckt-meta">{safe_text(entry.get('event_type', 'Roulette'))}</div>
-          <h3 class="ckt-collection-event" title="{event_name}">{event_name}</h3>
+        <div class="ckt-collection-identity">
+          {render_avatar_markup(entry.get('member_avatar_url'), entry.get('member_name', 'Unknown member'), class_name='ckt-collection-avatar')}
+          <div class="ckt-collection-identity-copy">
+            <div class="ckt-collection-member-name">{safe_text(entry.get('member_name', 'Unknown member'))}</div>
+            <div class="ckt-small">{safe_text(f"Gen {entry['member_generasi']}") if entry.get('member_generasi') else 'Generation unknown'}</div>
+          </div>
         </div>
         <div class="ckt-collection-qty">{int(entry.get('quantity') or 0)}x</div>
+      </div>
+      <div class="ckt-collection-copy">
+        <div class="ckt-meta">{safe_text(entry.get('event_type', 'Roulette'))}</div>
+        <h3 class="ckt-collection-event" title="{event_name}">{event_name}</h3>
       </div>
       <div class="ckt-small">{safe_text(event_date)} | {safe_text(event_time)}</div>
       <div class="ckt-meta-row" style="margin:10px 0 12px">
         <span class="ckt-chip ckt-chip-team">Slot {safe_text(slot_label)}</span>
         {render_event_chip(entry.get('event_type', 'Roulette'))}
-      </div>
-      <div class="ckt-collection-member">
-        {render_avatar_markup(entry.get('member_avatar_url'), entry.get('member_name', 'Unknown member'))}
-        <div>
-          <div class="ckt-collection-member-name">{safe_text(entry.get('member_name', 'Unknown member'))}</div>
-          <div class="ckt-small">{safe_text(f"Gen {entry['member_generasi']}") if entry.get('member_generasi') else 'Generation unknown'}</div>
-        </div>
       </div>
     </article>
     """
@@ -100,6 +94,7 @@ def render_collection_shelf(entries, columns_count: int = 4):
         for col, entry in zip(cols, row_entries):
             with col:
                 st.markdown(render_collection_card(entry), unsafe_allow_html=True)
+        st.markdown('<div style="height:12px"></div>', unsafe_allow_html=True)
 
 
 st.set_page_config(

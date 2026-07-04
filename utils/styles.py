@@ -1941,35 +1941,7 @@ select {
     padding: 12px;
     background: rgba(243, 235, 221, 0.04);
     overflow: hidden;
-}
-
-.ckt-collection-poster {
-    aspect-ratio: 16 / 10;
-    border-radius: 16px;
-    overflow: hidden;
-    background: rgba(11, 13, 22, 0.9);
-    margin-bottom: 12px;
-}
-
-.ckt-collection-poster img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    display: block;
-    padding: 10px;
-}
-
-.ckt-collection-poster.is-empty {
-    display: grid;
-    place-items: center;
-    background: linear-gradient(160deg, rgba(120, 224, 209, 0.08), rgba(255, 106, 139, 0.08));
-}
-
-.ckt-collection-poster.is-empty span {
-    color: rgba(250, 247, 242, 0.8);
-    font: 700 0.82rem/1.2 'Poppins', sans-serif;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    margin-bottom: 2px;
 }
 
 .ckt-collection-card-top {
@@ -1982,6 +1954,39 @@ select {
 .ckt-collection-copy {
     min-width: 0;
     flex: 1 1 auto;
+}
+
+.ckt-collection-identity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
+.ckt-collection-avatar {
+    width: 52px;
+    height: 52px;
+    border-radius: 16px;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--ckt-paper);
+    color: #151220;
+    flex-shrink: 0;
+    font: 800 1rem/1 'Poppins', sans-serif;
+}
+
+.ckt-collection-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+.ckt-collection-identity-copy {
+    min-width: 0;
 }
 
 .ckt-collection-event {
@@ -2021,6 +2026,9 @@ select {
     color: var(--ckt-text);
     font-size: 0.92rem;
     line-height: 1.15;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 @media (max-width: 980px) {
@@ -2086,6 +2094,11 @@ select {
 
     .ckt-collection-card {
         padding: 12px;
+    }
+
+    .ckt-collection-avatar {
+        width: 48px;
+        height: 48px;
     }
 
     .ckt-stat-grid {
@@ -2213,6 +2226,12 @@ select {
     .ckt-collection-grid {
         grid-template-columns: 1fr !important;
         gap: 9px;
+    }
+
+    .ckt-collection-avatar {
+        width: 44px;
+        height: 44px;
+        border-radius: 14px;
     }
 
     .ckt-rank-list {
