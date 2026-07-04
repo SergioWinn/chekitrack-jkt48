@@ -87,6 +87,25 @@ def render_selected_slot_card(slot):
     """
 
 
+def render_collection_compact_preview(title: str, event_name: str, member_name: str, member_avatar_url: str | None, event_type: str, slot_label: str):
+    return f"""
+    <section class="ckt-surface ckt-collection-mini-card">
+      <div class="ckt-meta">{safe_text(title)}</div>
+      <div class="ckt-collection-mini-title">{safe_text(event_name)}</div>
+      <div class="ckt-meta-row" style="margin:8px 0 10px">
+        {render_event_chip(event_type)}
+        <span class="ckt-chip ckt-chip-team">{safe_text(slot_label)}</span>
+      </div>
+      <div class="ckt-collection-member">
+        {render_avatar_markup(member_avatar_url, member_name, class_name='ckt-collection-avatar')}
+        <div class="ckt-collection-identity-copy">
+          <div class="ckt-collection-member-name">{safe_text(member_name)}</div>
+        </div>
+      </div>
+    </section>
+    """
+
+
 def render_collection_shelf(entries, columns_count: int = 4):
     for start in range(0, len(entries), columns_count):
         row_entries = entries[start:start + columns_count]
@@ -254,7 +273,7 @@ else:
     else:
         render_collection_shelf(visible_collection_entries)
 
-tool_cols = st.columns([1, 1, 2.4], gap="small")
+tool_cols = st.columns([1, 1], gap="small")
 
 with tool_cols[0]:
     with st.popover("Add entry", use_container_width=True):
@@ -291,9 +310,20 @@ with tool_cols[0]:
                     key="collection_slot_picker",
                 )
 
-            st.markdown(render_selected_slot_card(active_slot), unsafe_allow_html=True)
-            add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
-            if st.button("Add to collection", key="collection_add_submit", use_container_width=True):
+            st.markdown(
+                render_collection_compact_preview(
+                    "Selected result",
+                    active_slot["event_name"],
+                    active_slot["member_name"],
+                    active_slot.get("member_avatar_url"),
+                    active_slot["event_type"],
+                    active_slot["slot_label"],
+                ),
+                unsafe_allow_html=True,
+            )
+            add_quantity_col, add_submit_col = st.columns([0.9, 1.1], gap="small")
+            add_quantity = add_quantity_col.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
+            if add_submit_col.button("Add to collection", key="collection_add_submit", use_container_width=True):
                 try:
                     action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
                     st.success("Collection updated." if action == "updated" else "Added to collection.")
@@ -313,7 +343,17 @@ with tool_cols[1]:
                 key="collection_edit_picker",
             )
             selected_entry = selected_entry_option["entry"]
-            st.markdown(render_collection_card(selected_entry), unsafe_allow_html=True)
+            st.markdown(
+                render_collection_compact_preview(
+                    "Saved entry",
+                    selected_entry["event_name"],
+                    selected_entry["member_name"],
+                    selected_entry.get("member_avatar_url"),
+                    selected_entry["event_type"],
+                    f"Slot {selected_entry.get('slot_key', 'A')}",
+                ),
+                unsafe_allow_html=True,
+            )
             updated_quantity = st.number_input(
                 "New quantity",
                 min_value=1,
@@ -330,16 +370,5 @@ with tool_cols[1]:
                 delete_collection_entry(auth_supabase, selected_entry["id"])
                 st.success("Entry removed.")
                 st.rerun()
-
-with tool_cols[2]:
-    st.markdown(
-        """
-        <section class="ckt-surface ckt-panel" style="padding:12px 14px">
-          <div class="ckt-kicker">Quick tools</div>
-          <div class="ckt-small">Open only when you need to add a new event result or correct a saved quantity.</div>
-        </section>
-        """,
-        unsafe_allow_html=True,
-    )
 
 st.markdown("</div>", unsafe_allow_html=True)

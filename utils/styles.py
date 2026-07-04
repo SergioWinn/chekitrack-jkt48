@@ -2071,6 +2071,22 @@ select {
     text-overflow: ellipsis;
 }
 
+.ckt-collection-mini-card {
+    border-radius: 18px;
+    padding: 10px;
+    background: rgba(243, 235, 221, 0.035);
+    margin-bottom: 10px;
+}
+
+.ckt-collection-mini-title {
+    font: 800 0.94rem/1.15 'Poppins', sans-serif;
+    color: var(--ckt-text);
+    margin-top: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @media (max-width: 980px) {
     .ckt-grid-2 {
         grid-template-columns: 1fr;
