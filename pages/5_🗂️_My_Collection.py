@@ -259,23 +259,9 @@ visible_collection_entries = (
     else [entry for entry in collection_entries if entry.get("event_type") == collection_filter]
 )
 
-if not collection_entries:
-    st.markdown(
-        '<div class="ckt-empty">No collection entries yet. Use the collection desk below to add your first saved event slot.</div>',
-        unsafe_allow_html=True,
-    )
-else:
-    if not visible_collection_entries:
-        st.markdown(
-            f'<div class="ckt-empty">No saved entries match the {safe_text(collection_filter)} filter yet.</div>',
-            unsafe_allow_html=True,
-        )
-    else:
-        render_collection_shelf(visible_collection_entries)
+tool_cols = st.columns([2.2, 1, 1], gap="small")
 
-tool_cols = st.columns([1, 1], gap="small")
-
-with tool_cols[0]:
+with tool_cols[1]:
     with st.popover("Add entry", use_container_width=True):
         if not collectible_slots:
             st.markdown('<div class="ckt-empty">No resolved event slots are ready for collection yet.</div>', unsafe_allow_html=True)
@@ -331,7 +317,7 @@ with tool_cols[0]:
                 except Exception as exc:
                     st.error(str(exc))
 
-with tool_cols[1]:
+with tool_cols[2]:
     with st.popover("Edit / remove", use_container_width=True):
         if not entry_options:
             st.markdown('<div class="ckt-empty">Your shelf is still empty, so there is nothing to edit yet.</div>', unsafe_allow_html=True)
@@ -370,5 +356,19 @@ with tool_cols[1]:
                 delete_collection_entry(auth_supabase, selected_entry["id"])
                 st.success("Entry removed.")
                 st.rerun()
+
+if not collection_entries:
+    st.markdown(
+        '<div class="ckt-empty">No collection entries yet. Use the collection desk below to add your first saved event slot.</div>',
+        unsafe_allow_html=True,
+    )
+else:
+    if not visible_collection_entries:
+        st.markdown(
+            f'<div class="ckt-empty">No saved entries match the {safe_text(collection_filter)} filter yet.</div>',
+            unsafe_allow_html=True,
+        )
+    else:
+        render_collection_shelf(visible_collection_entries)
 
 st.markdown("</div>", unsafe_allow_html=True)

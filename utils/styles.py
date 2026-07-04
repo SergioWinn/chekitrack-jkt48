@@ -970,15 +970,15 @@ select {
 }
 
 .ct-content.ct-archive {
-    padding: 6px 6px 36px;
+    padding: 8px 6px 32px;
     font-family: 'Poppins', sans-serif;
 }
 
 .ckt-hero {
     display: grid;
-    gap: 14px;
+    gap: 12px;
     align-items: start;
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
 .ckt-kicker,
@@ -1113,7 +1113,7 @@ select {
 }
 
 .ckt-spotlight-panel {
-    margin-bottom: 18px;
+    margin-bottom: 14px;
 }
 
 .ckt-rank-list {
@@ -1188,7 +1188,7 @@ select {
 
 .ckt-panel {
     border-radius: 24px;
-    padding: 16px;
+    padding: 15px;
 }
 
 .ckt-panel-title {
@@ -1320,13 +1320,13 @@ select {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 .ckt-compact-intro {
     display: grid;
-    gap: 10px;
-    margin-bottom: 12px;
+    gap: 8px;
+    margin-bottom: 10px;
 }
 
 .ckt-intro-panel {
@@ -1342,6 +1342,14 @@ select {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
     gap: 8px;
+    margin-bottom: 10px;
+}
+
+.ckt-toolbar-note {
+    color: var(--ckt-muted);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    margin: 0 0 8px;
 }
 
 .ckt-mini-cell {
@@ -1370,7 +1378,7 @@ select {
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin: 4px 0 10px;
+    margin: 2px 0 8px;
 }
 
 .ckt-browser-meta .ckt-small {
@@ -1392,7 +1400,7 @@ select {
 }
 
 .ckt-month-section {
-    margin-bottom: 14px;
+    margin-bottom: 12px;
 }
 
 .ckt-timeline-columns {
@@ -1407,7 +1415,7 @@ select {
 }
 
 .ckt-month {
-    margin-top: 12px;
+    margin: 8px 0 6px;
     color: var(--ckt-cyan);
     font: 700 0.74rem/1.4 'Poppins', sans-serif;
     letter-spacing: 0.08em;
@@ -1629,7 +1637,21 @@ select {
 .ckt-member-browser-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
-    gap: 12px;
+    gap: 10px;
+}
+
+.stSegmentedControl,
+.stSelectbox,
+.stTextInput,
+.stNumberInput,
+.stDateInput,
+.stTimeInput,
+.stTabs {
+    margin-bottom: 10px;
+}
+
+.stButton {
+    margin-bottom: 8px;
 }
 
 .ckt-member-browser-item {
@@ -1748,7 +1770,7 @@ select {
     display: flex;
     flex-wrap: wrap;
     gap: 8px;
-    margin: 10px 0 14px;
+    margin: 8px 0 12px;
 }
 
 .ckt-preset-summary {
