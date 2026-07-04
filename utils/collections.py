@@ -18,7 +18,7 @@ def load_collectible_slots(supabase_client):
     rows = (
         supabase_client.table("chekicha")
         .select(
-            "id, event_name, event_type, start_time, event_image_url, slot_mode, "
+            "id, event_name, event_type, start_time, end_time, event_image_url, slot_mode, "
             "member_id_a, member_id_b, "
             "member_a:member_id_a(nickname, avatar_url, generasi), "
             "member_b:member_id_b(nickname, avatar_url, generasi)"
@@ -47,12 +47,13 @@ def load_collectible_slots(supabase_client):
                     "event_name": row.get("event_name", "Untitled event"),
                     "event_type": row.get("event_type", "Roulette"),
                     "start_time": row["start_time"],
+                    "end_time": row.get("end_time"),
                     "event_image_url": row.get("event_image_url"),
                     "member_id": row.get("member_id_a"),
                     "member_name": member_a.get("nickname", "Unknown member"),
                     "member_avatar_url": member_a.get("avatar_url"),
                     "member_generasi": member_a.get("generasi"),
-                    "display_label": f'{row.get("event_name", "Untitled event")} | {dt.day} {dt:%b %Y} | {slot_label} | {member_a.get("nickname", "Unknown member")}',
+                    "display_label": f'{row.get("event_name", "Untitled event")} | {dt.day} {dt:%b %Y} | {dt:%H:%M} | {slot_label} | {member_a.get("nickname", "Unknown member")}',
                 }
             )
 
@@ -66,12 +67,13 @@ def load_collectible_slots(supabase_client):
                     "event_name": row.get("event_name", "Untitled event"),
                     "event_type": row.get("event_type", "Roulette"),
                     "start_time": row["start_time"],
+                    "end_time": row.get("end_time"),
                     "event_image_url": row.get("event_image_url"),
                     "member_id": row.get("member_id_b"),
                     "member_name": member_b.get("nickname", "Unknown member"),
                     "member_avatar_url": member_b.get("avatar_url"),
                     "member_generasi": member_b.get("generasi"),
-                    "display_label": f'{row.get("event_name", "Untitled event")} | {dt.day} {dt:%b %Y} | Slot B | {member_b.get("nickname", "Unknown member")}',
+                    "display_label": f'{row.get("event_name", "Untitled event")} | {dt.day} {dt:%b %Y} | {dt:%H:%M} | Slot B | {member_b.get("nickname", "Unknown member")}',
                 }
             )
 

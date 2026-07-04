@@ -23,6 +23,7 @@ from utils.styles import (
     ARCHIVE_THEME_CSS,
     DARK_THEME_CSS,
     format_event_date,
+    format_event_time,
     render_avatar_markup,
     render_event_chip,
     render_navbar,
@@ -179,11 +180,12 @@ else:
     event_map = {}
     for slot in collectible_slots:
         dt = pd.to_datetime(slot["start_time"])
+        end_dt = pd.to_datetime(slot["end_time"]) if slot.get("end_time") else None
         event_map.setdefault(
             slot["event_id"],
             {
                 "event_id": slot["event_id"],
-                "label": f'{slot["event_name"]} | {dt.day} {dt:%b %Y} | {slot["event_type"]}',
+                "label": f'{slot["event_name"]} | {dt.day} {dt:%b %Y} | {format_event_time(dt, end_dt)} | {slot["event_type"]}',
             },
         )
 
@@ -215,6 +217,7 @@ else:
             </div>
             <div class="ckt-panel-note">{safe_text(active_slot['slot_label'])}</div>
           </div>
+          <div class="ckt-small">{safe_text(format_event_date(pd.to_datetime(active_slot['start_time'])))} | {safe_text(format_event_time(pd.to_datetime(active_slot['start_time']), pd.to_datetime(active_slot['end_time']) if active_slot.get('end_time') else None))}</div>
           <div class="ckt-meta-row" style="margin-bottom:10px">
             {render_event_chip(active_slot['event_type'])}
             <span class="ckt-chip ckt-chip-team">{safe_text(active_slot['slot_label'])}</span>
