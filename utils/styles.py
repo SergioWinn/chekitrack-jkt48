@@ -2322,13 +2322,14 @@ def apply_styles():
     st.markdown(DARK_CSS, unsafe_allow_html=True)
 
 
-def render_navbar(active: str, pending: int = 0):
+def render_navbar(active: str, pending: int = 0, show_admin: bool = False):
     pages = [
         ("overview", "Overview",       "pages/1_📊_Overview.py"),
         ("timeline", "Timeline",       "pages/2_⏳_Timeline.py"),
         ("member",   "Member Corner",  "pages/3_👤_Member_Corner.py"),
-        ("admin",    "Admin",          "pages/4_🔐_Admin_Panel.py"),
     ]
+    if show_admin:
+        pages.append(("admin", "Admin", "pages/4_🔐_Admin_Panel.py"))
 
     if pending > 0:
         pending_noun = "draw" if pending == 1 else "draws"

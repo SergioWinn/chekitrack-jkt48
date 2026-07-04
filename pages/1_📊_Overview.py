@@ -1,6 +1,7 @@
 import pandas as pd
 import streamlit as st
 
+from utils.admin_access import admin_nav_enabled, hydrate_admin_access
 from utils.styles import (
     ARCHIVE_THEME_CSS,
     DARK_THEME_CSS,
@@ -173,7 +174,8 @@ latest_archive = max((pd.to_datetime(row["start_time"]) for row in event_rows), 
 latest_archive_copy = format_event_date(latest_archive) if latest_archive is not None else "No archive dates yet"
 recent_completed_rows = collapse_recent_calls(completed_rows, limit=5)
 
-render_navbar("overview", total_pending)
+hydrate_admin_access()
+render_navbar("overview", total_pending, show_admin=admin_nav_enabled())
 st.markdown('<div class="ct-content ct-archive">', unsafe_allow_html=True)
 
 waiting_copy = (
