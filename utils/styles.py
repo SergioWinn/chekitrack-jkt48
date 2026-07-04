@@ -189,7 +189,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
     min-width: 0;
     flex: 1 1 0;
     max-width: none;
-    padding: 0 4px;
+    padding: 0 2px;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child):after {
@@ -373,6 +373,12 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 }
 
 @media (max-width: 640px) {
+    .block-container {
+        padding-top: 0 !important;
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+
     .ct-navbar {
         gap: 6px;
         padding: 9px 12px 9px;
@@ -410,23 +416,36 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
         gap: 0 !important;
     }
 
-    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
         flex: 1 1 100%;
         width: 100% !important;
         min-width: 0;
         padding: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
     }
 
-    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) [data-testid="column"] {
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) [data-testid="column"] {
         padding: 0 !important;
         margin: 0 !important;
     }
 
-    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .element-container {
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) [data-testid="column"] > .element-container {
         margin: 0 !important;
+        padding: 0 !important;
     }
 
-    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .element-container {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton > button {
         margin: 0 !important;
     }
 
@@ -476,14 +495,25 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
         gap: 0 !important;
     }
 
-    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
+div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
         width: 100% !important;
+        padding: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .element-container,
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton,
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) [data-testid="column"] {
+        padding: 0 !important;
+        margin: 0 !important;
     }
 
     .ct-navbtn button {
         min-height: 33px !important;
         padding: 5px 8px !important;
         font-size: 0.78rem !important;
+        margin: 0 !important;
     }
 }
 
