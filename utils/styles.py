@@ -300,6 +300,10 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     gap: 10px;
     width: auto;
     max-width: 38rem;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
 }
 
 .ct-session-kicker {
@@ -307,6 +311,17 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     font-size: 0.72rem;
     line-height: 1.2;
     letter-spacing: 0.02em;
+}
+
+.ct-auth-combo-copy {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.ct-auth-combo-copy .ct-session-note.is-guest {
+    color: #b3b8ca;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) {
@@ -434,6 +449,46 @@ div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
         0 10px 20px rgba(5, 10, 20, 0.12) !important;
 }
 
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) {
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto 6px !important;
+    padding: 10px 12px !important;
+    border-radius: 16px;
+    border: 1px solid rgba(243, 235, 221, 0.08) !important;
+    background: linear-gradient(180deg, rgba(243, 235, 221, 0.05), rgba(243, 235, 221, 0.02)) !important;
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03) !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) > div > div:first-child {
+    flex: 1 1 auto;
+    max-width: none;
+    min-width: 0;
+    padding: 0 !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) > div > div:last-child {
+    flex: 0 0 auto;
+    width: auto !important;
+    max-width: none;
+    min-width: 180px;
+    padding: 0 !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) [data-testid="column"],
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) .element-container,
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) .stButton {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .ct-authbtn button:hover {
     background: linear-gradient(180deg, rgba(243, 235, 221, 0.1), rgba(243, 235, 221, 0.04)) !important;
     border-color: rgba(243, 235, 221, 0.14) !important;
@@ -535,6 +590,11 @@ div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
         margin: 0 0 8px !important;
     }
 
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) {
+        max-width: none;
+        margin: 0 0 8px !important;
+    }
+
     div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) {
         max-width: none;
         margin: 0 0 8px !important;
@@ -542,6 +602,10 @@ div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
 
     div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div {
         align-items: flex-start;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) > div {
+        align-items: center;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div {
@@ -685,7 +749,17 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
         margin: 0 0 6px !important;
     }
 
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) {
+        margin: 0 0 6px !important;
+        padding: 9px 10px !important;
+    }
+
     div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) > div {
         flex-direction: column;
         align-items: stretch;
     }
@@ -700,6 +774,17 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
 
     div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div {
         justify-content: flex-start;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) > div > div:first-child,
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-combo) > div > div:last-child {
+        width: 100% !important;
+        min-width: 0;
+    }
+
+    .ct-auth-combo-copy {
+        align-items: flex-start;
+        gap: 6px;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div > div {
@@ -3130,7 +3215,7 @@ def render_navbar(active: str, pending: int = 0):
                 )
             else:
                 st.markdown(
-                    '<div class="ct-auth-row"><div class="ct-session-stack is-guest"><div class="ct-session-kicker">Save your collection</div><div class="ct-session-note is-guest">Sign in to save your collection.</div></div></div>',
+                    '<div class="ct-auth-combo"><div class="ct-session-stack is-guest"><div class="ct-auth-combo-copy"><div class="ct-session-kicker">Save your collection</div><div class="ct-session-note is-guest">Sign in to save your collection.</div></div></div></div>',
                     unsafe_allow_html=True,
                 )
         with cols[1]:
