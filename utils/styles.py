@@ -2740,41 +2740,25 @@ def render_navbar(active: str, pending: int = 0):
         <div class="ct-credit-cluster">
             <span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
         </div>
-        <div class="ct-session-note{' is-guest' if not authenticated else ''}">
-            {
-                f'<span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span>'
-                if authenticated
-                else 'Sign in to save your cheki collection.'
-            }
-        </div>
     </div>
     """, unsafe_allow_html=True)
 
     if authenticated:
-        if active == "collection":
-            cols = st.columns([2.4, 1], gap="small")
-            with cols[1]:
-                st.markdown('<div class="ct-authbtn ct-authbtn-subtle">', unsafe_allow_html=True)
-                if st.button("Sign out", key=f"signout_{active}", use_container_width=True):
-                    sign_out_user()
-                    st.rerun()
-                st.markdown('</div>', unsafe_allow_html=True)
-        else:
-            cols = st.columns([2.2, 1, 1], gap="small")
-            with cols[1]:
-                st.markdown('<div class="ct-authbtn">', unsafe_allow_html=True)
-                if st.button("My collection", key=f"open_collection_{active}", use_container_width=True):
-                    st.switch_page("pages/5_🗂️_My_Collection.py")
-                st.markdown('</div>', unsafe_allow_html=True)
-            with cols[2]:
-                st.markdown('<div class="ct-authbtn ct-authbtn-subtle">', unsafe_allow_html=True)
-                if st.button("Sign out", key=f"signout_{active}", use_container_width=True):
-                    sign_out_user()
-                    st.rerun()
-                st.markdown('</div>', unsafe_allow_html=True)
+        cols = st.columns([3.2, 1], gap="small")
+        cols[0].markdown(
+            f'<div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div>',
+            unsafe_allow_html=True,
+        )
+        with cols[1]:
+            st.markdown('<div class="ct-authbtn ct-authbtn-subtle">', unsafe_allow_html=True)
+            if st.button("Sign out", key=f"signout_{active}", use_container_width=True):
+                sign_out_user()
+                st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
     elif active != "collection":
-        cols = st.columns([1], gap="small")
-        with cols[0]:
+        cols = st.columns([3.2, 1], gap="small")
+        cols[0].markdown('<div class="ct-session-note is-guest">Sign in to save your cheki collection.</div>', unsafe_allow_html=True)
+        with cols[1]:
             st.markdown('<div class="ct-authbtn">', unsafe_allow_html=True)
             if st.button("Sign in for collection", key=f"guest_collection_{active}", use_container_width=True):
                 st.switch_page("pages/5_🗂️_My_Collection.py")
