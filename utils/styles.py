@@ -374,8 +374,8 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 @media (max-width: 640px) {
     .ct-navbar {
-        gap: 8px;
-        padding: 10px 12px 10px;
+        gap: 6px;
+        padding: 9px 12px 9px;
         border-radius: 18px;
     }
 
@@ -400,14 +400,14 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
         top: 8px;
-        padding: 4px !important;
+        padding: 3px !important;
         border-radius: 16px;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
         display: flex !important;
         flex-direction: column;
-        gap: 5px !important;
+        gap: 2px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
@@ -426,9 +426,9 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-navbtn button {
-        min-height: 42px !important;
+        min-height: 38px !important;
         height: auto !important;
-        padding: 8px 10px !important;
+        padding: 7px 9px !important;
         font-size: 0.82rem !important;
         white-space: normal !important;
         line-height: 1.15 !important;
@@ -463,11 +463,11 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
-        padding: 3px !important;
+        padding: 2px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
-        gap: 4px !important;
+        gap: 2px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
@@ -475,8 +475,8 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-navbtn button {
-        min-height: 40px !important;
-        padding: 7px 9px !important;
+        min-height: 36px !important;
+        padding: 6px 8px !important;
         font-size: 0.78rem !important;
     }
 }
