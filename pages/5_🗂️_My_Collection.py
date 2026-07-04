@@ -7,7 +7,6 @@ from utils.auth import (
     hydrate_auth_session,
     is_authenticated,
     sign_in_with_username,
-    sign_out_user,
     sign_up_with_username,
 )
 from utils.collections import (
@@ -57,6 +56,31 @@ def render_collection_entry(entry):
     """
 
 
+def render_selected_slot_card(slot):
+    start_dt = pd.to_datetime(slot["start_time"])
+    end_dt = pd.to_datetime(slot["end_time"]) if slot.get("end_time") else None
+    return f"""
+    <section class="ckt-surface ckt-panel" style="margin-top:10px">
+      <div class="ckt-panel-head">
+        <div>
+          <div class="ckt-meta">Selected result</div>
+          <h2 class="ckt-panel-title">{safe_text(slot['event_name'])}</h2>
+        </div>
+        <div class="ckt-panel-note">{safe_text(slot['slot_label'])}</div>
+      </div>
+      <div class="ckt-small">{safe_text(format_event_date(start_dt))} | {safe_text(format_event_time(start_dt, end_dt))}</div>
+      <div class="ckt-meta-row" style="margin-bottom:10px">
+        {render_event_chip(slot['event_type'])}
+        <span class="ckt-chip ckt-chip-team">{safe_text(slot['slot_label'])}</span>
+      </div>
+      <div class="ckt-member-line" style="margin-top:0">
+        {render_avatar_markup(slot.get('member_avatar_url'), slot['member_name'])}
+        <span>{safe_text(slot['member_name'])}</span>
+      </div>
+    </section>
+    """
+
+
 st.set_page_config(
     page_title="My Collection · Chekicha Timeline",
     page_icon="🗂️",
@@ -78,8 +102,8 @@ st.markdown(
     <section class="ckt-compact-intro">
       <div class="ckt-surface ckt-panel ckt-intro-panel">
         <div class="ckt-kicker">My collection</div>
-        <h1 class="ckt-member-title">Save your cheki by event, then track the member automatically.</h1>
-        <p class="ckt-body">Choose a resolved event first. If the event has two slots, pick Slot A or Slot B and the member will follow that result.</p>
+        <h1 class="ckt-member-title">Your cheki shelf comes first.</h1>
+        <p class="ckt-body">Open your saved archive first, then add or correct entries from resolved event results when you need to.</p>
       </div>
     </section>
     """,
@@ -166,93 +190,19 @@ st.markdown(
 st.markdown(
     """
     <section class="ckt-surface ckt-panel">
-      <div class="ckt-kicker">Add to collection</div>
-      <h2 class="ckt-panel-title">Choose an event first</h2>
-      <p class="ckt-body">Only resolved event slots appear here, so member assignment always follows the archive.</p>
-    </section>
-    """,
-    unsafe_allow_html=True,
-)
-
-if not collectible_slots:
-    st.markdown('<div class="ckt-empty">No resolved event slots are ready for collection yet.</div>', unsafe_allow_html=True)
-else:
-    event_map = {}
-    for slot in collectible_slots:
-        dt = pd.to_datetime(slot["start_time"])
-        end_dt = pd.to_datetime(slot["end_time"]) if slot.get("end_time") else None
-        event_map.setdefault(
-            slot["event_id"],
-            {
-                "event_id": slot["event_id"],
-                "label": f'{slot["event_name"]} | {dt.day} {dt:%b %Y} | {format_event_time(dt, end_dt)} | {slot["event_type"]}',
-            },
-        )
-
-    event_options = list(event_map.values())
-    selected_event = st.selectbox(
-        "Event",
-        event_options,
-        format_func=lambda item: item["label"],
-        key="collection_event_picker",
-    )
-
-    selected_slots = [slot for slot in collectible_slots if slot["event_id"] == selected_event["event_id"]]
-    active_slot = selected_slots[0]
-    if len(selected_slots) > 1:
-        active_slot = st.selectbox(
-            "Result slot",
-            selected_slots,
-            format_func=lambda item: f'{item["slot_label"]} | {item["member_name"]}',
-            key="collection_slot_picker",
-        )
-
-    st.markdown(
-        f"""
-        <section class="ckt-surface ckt-panel" style="margin-top:10px">
-          <div class="ckt-panel-head">
-            <div>
-              <div class="ckt-meta">Selected result</div>
-              <h2 class="ckt-panel-title">{safe_text(active_slot['event_name'])}</h2>
-            </div>
-            <div class="ckt-panel-note">{safe_text(active_slot['slot_label'])}</div>
-          </div>
-          <div class="ckt-small">{safe_text(format_event_date(pd.to_datetime(active_slot['start_time'])))} | {safe_text(format_event_time(pd.to_datetime(active_slot['start_time']), pd.to_datetime(active_slot['end_time']) if active_slot.get('end_time') else None))}</div>
-          <div class="ckt-meta-row" style="margin-bottom:10px">
-            {render_event_chip(active_slot['event_type'])}
-            <span class="ckt-chip ckt-chip-team">{safe_text(active_slot['slot_label'])}</span>
-          </div>
-          <div class="ckt-member-line" style="margin-top:0">
-            {render_avatar_markup(active_slot.get('member_avatar_url'), active_slot['member_name'])}
-            <span>{safe_text(active_slot['member_name'])}</span>
-          </div>
-        </section>
-        """,
-        unsafe_allow_html=True,
-    )
-
-    add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
-    if st.button("Add to collection", use_container_width=True):
-        try:
-            action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
-            st.success("Collection updated." if action == "updated" else "Added to collection.")
-            st.rerun()
-        except Exception as exc:
-            st.error(str(exc))
-
-st.markdown(
-    """
-    <section class="ckt-surface ckt-panel">
       <div class="ckt-kicker">Stored collection</div>
       <h2 class="ckt-panel-title">Your saved cheki</h2>
-      <p class="ckt-body">Update the quantity if your total changes, or remove a row that should not count anymore.</p>
+      <p class="ckt-body">This shelf is the main view. Update quantities here first, then open the collection desk below when you want to add more.</p>
     </section>
     """,
     unsafe_allow_html=True,
 )
 
 if not collection_entries:
-    st.markdown('<div class="ckt-empty">No collection entries yet. Pick a resolved event above to start your archive.</div>', unsafe_allow_html=True)
+    st.markdown(
+        '<div class="ckt-empty">No collection entries yet. Use the collection desk below to add your first saved event slot.</div>',
+        unsafe_allow_html=True,
+    )
 else:
     for entry in collection_entries:
         st.markdown(render_collection_entry(entry), unsafe_allow_html=True)
@@ -274,8 +224,63 @@ else:
             st.success("Entry removed.")
             st.rerun()
 
-if st.button("Sign out from collection", key="collection_signout_footer", use_container_width=True):
-    sign_out_user()
-    st.rerun()
+desk_expanded = not collection_entries
+with st.expander("Open collection desk", expanded=desk_expanded):
+    st.markdown(
+        """
+        <section class="ckt-surface ckt-panel">
+          <div class="ckt-kicker">Collection desk</div>
+          <h2 class="ckt-panel-title">Add or correct an event result</h2>
+          <p class="ckt-body">Only resolved event slots appear here, so member assignment always follows the archive. Use this desk after you review the shelf above.</p>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    if not collectible_slots:
+        st.markdown('<div class="ckt-empty">No resolved event slots are ready for collection yet.</div>', unsafe_allow_html=True)
+    else:
+        event_map = {}
+        for slot in collectible_slots:
+            dt = pd.to_datetime(slot["start_time"])
+            end_dt = pd.to_datetime(slot["end_time"]) if slot.get("end_time") else None
+            event_map.setdefault(
+                slot["event_id"],
+                {
+                    "event_id": slot["event_id"],
+                    "label": f'{slot["event_name"]} | {dt.day} {dt:%b %Y} | {format_event_time(dt, end_dt)} | {slot["event_type"]}',
+                },
+            )
+
+        event_options = list(event_map.values())
+        selected_event = st.selectbox(
+            "Event",
+            event_options,
+            format_func=lambda item: item["label"],
+            key="collection_event_picker",
+        )
+
+        selected_slots = [slot for slot in collectible_slots if slot["event_id"] == selected_event["event_id"]]
+        active_slot = selected_slots[0]
+        if len(selected_slots) > 1:
+            active_slot = st.selectbox(
+                "Result slot",
+                selected_slots,
+                format_func=lambda item: f'{item["slot_label"]} | {item["member_name"]}',
+                key="collection_slot_picker",
+            )
+
+        form_col, preview_col = st.columns([0.95, 1.05], gap="large")
+        with form_col:
+            add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
+            if st.button("Add to collection", use_container_width=True):
+                try:
+                    action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
+                    st.success("Collection updated." if action == "updated" else "Added to collection.")
+                    st.rerun()
+                except Exception as exc:
+                    st.error(str(exc))
+        with preview_col:
+            st.markdown(render_selected_slot_card(active_slot), unsafe_allow_html=True)
 
 st.markdown("</div>", unsafe_allow_html=True)
