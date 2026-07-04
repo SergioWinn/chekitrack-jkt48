@@ -3160,7 +3160,7 @@ def render_event_chip(event_type: str) -> str:
 def render_status_chip(is_waiting: bool) -> str:
     if is_waiting:
         return '<span class="ckt-chip ckt-chip-waiting">Needs winner</span>'
-    return '<span class="ckt-chip ckt-chip-completed">Winner assigned</span>'
+    return ''
 
 
 def render_avatar_markup(url: str | None, name: str, class_name: str = "ckt-avatar") -> str:
