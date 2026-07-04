@@ -2288,12 +2288,20 @@ select {
     flex: 1 1 auto;
 }
 
+.ckt-admin-queue-card {
+    padding: 12px;
+}
+
+.ckt-admin-queue-card .ckt-panel-title {
+    margin: 4px 0 6px;
+}
+
 .ckt-admin-queue-thumb {
-    width: 112px;
-    min-width: 112px;
-    max-width: 112px;
+    width: 88px;
+    min-width: 88px;
+    max-width: 88px;
     aspect-ratio: 4 / 3;
-    border-radius: 14px;
+    border-radius: 12px;
     overflow: hidden;
     background: rgba(8, 11, 17, 0.94);
     display: flex;
@@ -2305,7 +2313,7 @@ select {
     width: 100%;
     height: 100%;
     object-fit: contain;
-    padding: 8px;
+    padding: 6px;
     display: block;
 }
 
@@ -2313,6 +2321,13 @@ select {
     color: rgba(250, 247, 242, 0.55);
     font-size: 0.72rem;
     font-weight: 600;
+}
+
+.ckt-admin-queue-label {
+    color: var(--ckt-muted);
+    font-size: 0.72rem;
+    font-weight: 600;
+    margin: 0 0 5px;
 }
 
 [data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-panel,
