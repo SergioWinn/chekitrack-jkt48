@@ -87,6 +87,22 @@ def render_selected_slot_card(slot):
     """
 
 
+def group_collection_entries(entries):
+    order = ["Roulette", "Birthday", "Graduation"]
+    grouped = {key: [] for key in order}
+    extras = {}
+    for entry in entries:
+        event_type = entry.get("event_type") or "Other"
+        if event_type in grouped:
+            grouped[event_type].append(entry)
+        else:
+            extras.setdefault(event_type, []).append(entry)
+
+    sections = [(label, grouped[label]) for label in order if grouped[label]]
+    sections.extend(sorted(extras.items(), key=lambda item: item[0]))
+    return sections
+
+
 def render_collection_shelf(entries, columns_count: int = 4):
     for start in range(0, len(entries), columns_count):
         row_entries = entries[start:start + columns_count]
@@ -94,7 +110,7 @@ def render_collection_shelf(entries, columns_count: int = 4):
         for col, entry in zip(cols, row_entries):
             with col:
                 st.markdown(render_collection_card(entry), unsafe_allow_html=True)
-        st.markdown('<div style="height:12px"></div>', unsafe_allow_html=True)
+        st.markdown('<div class="ckt-collection-row-spacer"></div>', unsafe_allow_html=True)
 
 
 st.set_page_config(
@@ -229,7 +245,12 @@ if not collection_entries:
         unsafe_allow_html=True,
     )
 else:
-    render_collection_shelf(collection_entries)
+    for section_label, section_entries in group_collection_entries(collection_entries):
+        st.markdown(
+            f'<div class="ckt-collection-group-head"><div class="ckt-meta">{safe_text(section_label)}</div><div class="ckt-small">{len(section_entries)} saved slot{"s" if len(section_entries) != 1 else ""}</div></div>',
+            unsafe_allow_html=True,
+        )
+        render_collection_shelf(section_entries)
 
 st.markdown(
     """

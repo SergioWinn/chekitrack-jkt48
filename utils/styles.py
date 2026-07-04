@@ -1936,12 +1936,32 @@ select {
     margin-top: 12px;
 }
 
+.ckt-collection-group-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 14px 0 10px;
+}
+
+.ckt-collection-row-spacer {
+    height: 10px;
+}
+
 .ckt-collection-card {
     border-radius: 22px;
     padding: 12px;
     background: rgba(243, 235, 221, 0.04);
     overflow: hidden;
     margin-bottom: 2px;
+    transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease, box-shadow 0.16s ease;
+}
+
+.ckt-collection-card:hover {
+    transform: translateY(-2px);
+    border-color: rgba(243, 235, 221, 0.16);
+    background: rgba(243, 235, 221, 0.055);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.16);
 }
 
 .ckt-collection-card-top {
@@ -2003,15 +2023,18 @@ select {
 }
 
 .ckt-collection-qty {
-    color: var(--ckt-text);
-    font: 800 1.35rem/1 'Poppins', sans-serif;
-    letter-spacing: -0.03em;
+    color: #ffe5ec;
+    font: 800 1.02rem/1 'Poppins', sans-serif;
+    letter-spacing: -0.02em;
     white-space: nowrap;
-    padding: 0.28rem 0.58rem;
+    min-width: 44px;
+    justify-content: center;
+    display: inline-flex;
+    align-items: center;
+    padding: 0.34rem 0.56rem;
     border-radius: 999px;
     background: rgba(255, 106, 139, 0.1);
     border: 1px solid rgba(255, 106, 139, 0.16);
-    color: #ffe5ec;
 }
 
 .ckt-collection-member {
@@ -2060,6 +2083,12 @@ select {
     .ckt-panel-note {
         max-width: none;
         text-align: left;
+    }
+
+    .ckt-collection-group-head {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 3px;
     }
 }
 
