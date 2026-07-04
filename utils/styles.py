@@ -2228,6 +2228,66 @@ select {
     text-overflow: ellipsis;
 }
 
+.ckt-admin-stage {
+    --ckt-admin-accent: #8ef0ba;
+}
+
+.ckt-admin-hero {
+    grid-template-columns: minmax(0, 1.25fr) minmax(260px, 0.75fr);
+    align-items: stretch;
+}
+
+.ckt-admin-hero-panel {
+    background:
+        radial-gradient(circle at top left, rgba(142, 240, 186, 0.12), transparent 28%),
+        linear-gradient(180deg, rgba(18, 25, 34, 0.96), rgba(12, 17, 24, 0.98));
+    border-color: rgba(142, 240, 186, 0.14);
+}
+
+.ckt-admin-note {
+    padding: 14px 16px;
+    border-radius: 22px;
+    background: linear-gradient(180deg, rgba(142, 240, 186, 0.08), rgba(142, 240, 186, 0.03));
+    border: 1px solid rgba(142, 240, 186, 0.14);
+}
+
+.ckt-admin-note code {
+    color: #dfffee;
+    background: rgba(11, 13, 22, 0.4);
+    padding: 0.14rem 0.34rem;
+    border-radius: 8px;
+}
+
+.ckt-admin-banner {
+    margin: 0 0 10px;
+    padding: 12px 14px;
+    border-radius: 18px;
+    background: rgba(65, 159, 112, 0.22);
+    border: 1px solid rgba(142, 240, 186, 0.18);
+    color: #9bf4c3;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.ckt-admin-strip .ckt-mini-cell {
+    background: rgba(142, 240, 186, 0.05);
+    border-color: rgba(142, 240, 186, 0.12);
+}
+
+[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stTabs [data-baseweb="tab-list"] {
+    gap: 8px;
+}
+
+[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stTabs [data-baseweb="tab"] {
+    border-color: rgba(142, 240, 186, 0.12);
+    background: rgba(142, 240, 186, 0.03) !important;
+}
+
+[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stTabs [aria-selected="true"] {
+    background: rgba(142, 240, 186, 0.14) !important;
+    border-color: rgba(142, 240, 186, 0.24) !important;
+}
+
 @media (max-width: 980px) {
     .ckt-grid-2 {
         grid-template-columns: 1fr;
@@ -2257,6 +2317,10 @@ select {
     .ckt-panel-note {
         max-width: none;
         text-align: left;
+    }
+
+    .ckt-admin-hero {
+        grid-template-columns: 1fr;
     }
 
     .ckt-collection-group-head {
@@ -2786,16 +2850,14 @@ def apply_styles():
 
 
 def render_navbar(active: str, pending: int = 0):
-    from utils.admin_access import admin_nav_enabled, hydrate_admin_access
     from utils.auth import current_profile, current_username, hydrate_auth_session, is_admin, is_authenticated, sign_out_user
 
-    hydrate_admin_access()
     hydrate_auth_session()
 
     profile = current_profile()
     authenticated = is_authenticated()
     show_collection = authenticated
-    show_admin = admin_nav_enabled() or is_admin()
+    show_admin = is_admin()
 
     pages = [
         ("overview", "Overview",       "pages/1_📊_Overview.py"),

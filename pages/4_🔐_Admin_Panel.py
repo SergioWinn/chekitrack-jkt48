@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 import pandas as pd
 import streamlit as st
 
-from utils.admin_access import hydrate_admin_access
 from utils.auth import hydrate_auth_session, is_admin
 from utils.collections import count_pending_slots
 from utils.supabase_client import get_supabase
@@ -114,47 +113,38 @@ pending_rows = (
 pending_count = count_pending_slots(pending_rows)
 
 hydrate_auth_session()
-if not (hydrate_admin_access() or is_admin()):
+if not is_admin():
     st.switch_page("pages/1_📊_Overview.py")
 
 render_navbar("admin", pending_count)
-st.markdown('<div class="ct-content ct-archive">', unsafe_allow_html=True)
+st.markdown('<div class="ct-content ct-archive ckt-admin-stage">', unsafe_allow_html=True)
 
 st.markdown(
     """
-    <section class="ckt-compact-intro">
-      <div class="ckt-surface ckt-panel ckt-intro-panel">
-      <div class="ckt-kicker">Admin console</div>
-      <h1 class="ckt-member-title">Manage members, events, and waiting results.</h1>
-      <p class="ckt-body">
-        Add member cards, save event rows, and fill waiting roulette slots from one working screen.
-      </p>
+    <section class="ckt-compact-intro ckt-admin-hero">
+      <div class="ckt-surface ckt-panel ckt-intro-panel ckt-admin-hero-panel">
+        <div class="ckt-kicker">Admin console</div>
+        <h1 class="ckt-member-title">Operate the archive, not the public showcase.</h1>
+        <p class="ckt-body">Manage members, schedule archive rows, and resolve waiting roulette slots from one restricted workspace.</p>
+      </div>
+      <div class="ckt-admin-note">
+        <div class="ckt-meta">Restricted workspace</div>
+        <div class="ckt-body">This page is visible only to accounts with the <code>admin</code> role.</div>
       </div>
     </section>
     """,
     unsafe_allow_html=True,
 )
 
-if "admin_authenticated" not in st.session_state:
-    st.session_state["admin_authenticated"] = False
+st.markdown('<div class="ckt-admin-banner">Admin role active</div>', unsafe_allow_html=True)
 
-admin_secret = st.secrets["ADMIN_PASSWORD"]
-admin_password = None
-if not st.session_state["admin_authenticated"]:
-    admin_password = st.text_input("Admin password", type="password")
-    if admin_password == admin_secret:
-        st.session_state["admin_authenticated"] = True
-        st.rerun()
-
-if st.session_state["admin_authenticated"]:
-    st.success("Admin access ready")
-
+if True:
     members_data = supabase.table("members").select("id, nickname, full_name, status, generasi, avatar_url").order("nickname").execute().data or []
     presets = load_event_presets(supabase)
 
     st.markdown(
         f"""
-        <section class="ckt-mini-strip">
+        <section class="ckt-mini-strip ckt-admin-strip">
           <div class="ckt-mini-cell">
             <div class="ckt-meta">Members</div>
             <strong class="ckt-mini-value">{len(members_data)}</strong>
@@ -179,7 +169,7 @@ if st.session_state["admin_authenticated"]:
         member_options[label] = member["id"]
         member_labels[member["id"]] = label
 
-    tab_member, tab_add, tab_update = st.tabs(["👤 Members", "📅 Events", "🔄 Fill Results"])
+    tab_member, tab_add, tab_update = st.tabs(["Members", "Events", "Fill Results"])
 
     with tab_member:
         st.markdown(
@@ -504,8 +494,5 @@ if st.session_state["admin_authenticated"]:
                             st.success(f"{event['event_name']} updated. Refresh if you want to re-sort the list immediately.")
         else:
             st.info("No pending roulette events found.")
-
-elif admin_password:
-    st.error("Incorrect password")
 
 st.markdown("</div>", unsafe_allow_html=True)
