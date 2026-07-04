@@ -87,23 +87,6 @@ def render_selected_slot_card(slot):
     """
 
 
-def group_collection_entries(entries):
-    ordered_labels = ["Roulette", "Birthday", "Graduation"]
-    grouped = {label: [] for label in ordered_labels}
-    extras = {}
-
-    for entry in entries:
-        event_type = entry.get("event_type") or "Other"
-        if event_type in grouped:
-            grouped[event_type].append(entry)
-        else:
-            extras.setdefault(event_type, []).append(entry)
-
-    sections = [(label, grouped[label]) for label in ordered_labels if grouped[label]]
-    sections.extend(sorted(extras.items(), key=lambda item: item[0]))
-    return sections
-
-
 def render_collection_shelf(entries, columns_count: int = 4):
     for start in range(0, len(entries), columns_count):
         row_entries = entries[start:start + columns_count]
@@ -240,18 +223,36 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
+collection_filter_widget = getattr(st, "segmented_control", None)
+collection_filter_options = ["All", "Roulette", "Birthday", "Graduation"]
+if collection_filter_widget:
+    collection_filter = collection_filter_widget(
+        "Collection type",
+        collection_filter_options,
+        default="All",
+    )
+else:
+    collection_filter = st.selectbox("Collection type", collection_filter_options)
+
+visible_collection_entries = (
+    collection_entries
+    if collection_filter == "All"
+    else [entry for entry in collection_entries if entry.get("event_type") == collection_filter]
+)
+
 if not collection_entries:
     st.markdown(
         '<div class="ckt-empty">No collection entries yet. Use the collection desk below to add your first saved event slot.</div>',
         unsafe_allow_html=True,
     )
 else:
-    for section_label, section_entries in group_collection_entries(collection_entries):
+    if not visible_collection_entries:
         st.markdown(
-            f'<section class="ckt-month-section"><div class="ckt-month">{safe_text(section_label)}</div></section>',
+            f'<div class="ckt-empty">No saved entries match the {safe_text(collection_filter)} filter yet.</div>',
             unsafe_allow_html=True,
         )
-        render_collection_shelf(section_entries)
+    else:
+        render_collection_shelf(visible_collection_entries)
 
 st.markdown(
     """
