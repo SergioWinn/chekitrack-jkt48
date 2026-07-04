@@ -245,13 +245,13 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 .ct-navbar-aux {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 4px;
+    justify-content: space-between;
+    gap: 10px;
+    flex-wrap: wrap;
     max-width: 1180px;
-    margin: 0 auto 0;
-    padding: 3px 8px 0;
+    margin: 4px auto 8px;
+    padding: 0 4px;
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -259,7 +259,99 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 .ct-navbar-aux .ct-credit-cluster {
     gap: 8px;
-    justify-content: center;
+    justify-content: flex-start;
+}
+
+.ct-session-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: #aab0c7;
+    font-size: 0.75rem;
+    line-height: 1.3;
+}
+
+.ct-session-note.is-guest {
+    color: #9ca0b8;
+}
+
+.ct-session-user {
+    color: #eef0f8;
+    font-weight: 700;
+}
+
+.ct-session-role {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.16rem 0.52rem;
+    border-radius: 999px;
+    background: rgba(120, 224, 209, 0.08);
+    border: 1px solid rgba(120, 224, 209, 0.16);
+    color: #95ece1;
+    font-size: 0.66rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) {
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto 8px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div > div {
+    flex: 0 0 auto;
+    width: auto !important;
+    max-width: none;
+    min-width: 0;
+    padding: 0 !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) [data-testid="column"],
+div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .element-container,
+div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+.ct-authbtn button {
+    width: auto !important;
+    min-width: 132px;
+    min-height: 38px !important;
+    padding: 0 14px !important;
+    border-radius: 999px !important;
+    border: 1px solid rgba(243, 235, 221, 0.08) !important;
+    background: rgba(243, 235, 221, 0.04) !important;
+    color: #f4f6fb !important;
+    font-size: 0.8rem !important;
+    font-weight: 700 !important;
+    box-shadow: none !important;
+}
+
+.ct-authbtn button:hover {
+    background: rgba(243, 235, 221, 0.08) !important;
+    border-color: rgba(243, 235, 221, 0.12) !important;
+}
+
+.ct-authbtn-subtle button {
+    background: rgba(255, 106, 139, 0.06) !important;
+    border-color: rgba(255, 106, 139, 0.14) !important;
+    color: #ffdbe4 !important;
+}
+
+.ct-authbtn-subtle button:hover {
+    background: rgba(255, 106, 139, 0.1) !important;
 }
 
 .ct-nav-status {
@@ -330,12 +422,21 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-navbar-aux {
-        justify-content: flex-start;
+        justify-content: space-between;
         max-width: none;
         align-items: flex-start;
         gap: 6px;
-        margin: 0 0 6px;
+        margin: 2px 0 6px;
         padding: 0 2px;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) {
+        max-width: none;
+        margin: 0 0 8px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div {
+        justify-content: flex-end;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
@@ -460,8 +561,35 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
     }
 
     .ct-navbar-aux {
-        gap: 4px;
-        padding: 0 2px 4px;
+        align-items: flex-start;
+        gap: 5px;
+        margin: 2px 0 6px;
+        padding: 0 2px;
+    }
+
+    .ct-session-note {
+        flex-wrap: wrap;
+        font-size: 0.71rem;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) {
+        margin: 0 0 6px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div {
+        justify-content: flex-start;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div > div {
+        flex: 1 1 auto;
+        width: 100% !important;
+    }
+
+    .ct-authbtn button {
+        width: 100% !important;
+        min-width: 0;
+        min-height: 34px !important;
+        font-size: 0.76rem !important;
     }
 
     .ct-nav-status-label {
@@ -514,6 +642,12 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
         padding: 5px 8px !important;
         font-size: 0.78rem !important;
         margin: 0 !important;
+    }
+
+    .ct-authbtn button {
+        min-height: 32px !important;
+        padding: 0 10px !important;
+        font-size: 0.74rem !important;
     }
 }
 
@@ -811,7 +945,7 @@ select {
 }
 
 .ct-content.ct-archive {
-    padding: 10px 6px 40px;
+    padding: 6px 6px 36px;
     font-family: 'Poppins', sans-serif;
 }
 
@@ -1647,7 +1781,7 @@ select {
 }
 
 .ckt-overview-hero {
-    gap: 12px;
+    gap: 10px;
 }
 
 .ckt-overview-lead {
@@ -2329,7 +2463,9 @@ def render_navbar(active: str, pending: int = 0):
     hydrate_admin_access()
     hydrate_auth_session()
 
-    show_collection = is_authenticated()
+    profile = current_profile()
+    authenticated = is_authenticated()
+    show_collection = authenticated
     show_admin = admin_nav_enabled() or is_admin()
 
     pages = [
@@ -2394,24 +2530,36 @@ def render_navbar(active: str, pending: int = 0):
         <div class="ct-credit-cluster">
             <span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
         </div>
+        <div class="ct-session-note{' is-guest' if not authenticated else ''}">
+            {
+                f'<span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span>'
+                if authenticated
+                else 'Sign in to save your cheki collection.'
+            }
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-    profile = current_profile()
-    if is_authenticated():
-        role = profile.get("role", "collector") if profile else "collector"
-        cols = st.columns([2.4, 1.2, 1.0], gap="small")
-        cols[0].caption(f"Signed in as @{current_username() or 'collector'} ({role})")
-        if cols[1].button("Open collection", key=f"open_collection_{active}", use_container_width=True):
-            st.switch_page("pages/5_🗂️_My_Collection.py")
-        if cols[2].button("Sign out", key=f"signout_{active}", use_container_width=True):
-            sign_out_user()
-            st.rerun()
-    else:
-        cols = st.columns([2.8, 1.2], gap="small")
-        cols[0].caption("Sign in to save your cheki collection.")
-        if cols[1].button("Open collection", key=f"guest_collection_{active}", use_container_width=True):
-            st.switch_page("pages/5_🗂️_My_Collection.py")
+    if authenticated:
+        cols = st.columns([1, 1], gap="small")
+        with cols[0]:
+            st.markdown('<div class="ct-authbtn">', unsafe_allow_html=True)
+            if st.button("My collection", key=f"open_collection_{active}", use_container_width=True):
+                st.switch_page("pages/5_🗂️_My_Collection.py")
+            st.markdown('</div>', unsafe_allow_html=True)
+        with cols[1]:
+            st.markdown('<div class="ct-authbtn ct-authbtn-subtle">', unsafe_allow_html=True)
+            if st.button("Sign out", key=f"signout_{active}", use_container_width=True):
+                sign_out_user()
+                st.rerun()
+            st.markdown('</div>', unsafe_allow_html=True)
+    elif active != "collection":
+        cols = st.columns([1], gap="small")
+        with cols[0]:
+            st.markdown('<div class="ct-authbtn">', unsafe_allow_html=True)
+            if st.button("Sign in for collection", key=f"guest_collection_{active}", use_container_width=True):
+                st.switch_page("pages/5_🗂️_My_Collection.py")
+            st.markdown('</div>', unsafe_allow_html=True)
 
 
 def make_tag(event_type: str) -> str:
