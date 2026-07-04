@@ -10,7 +10,6 @@ from utils.styles import (
     render_avatar_markup,
     render_event_chip,
     render_navbar,
-    render_status_chip,
     safe_text,
 )
 from utils.supabase_client import get_supabase
@@ -103,7 +102,7 @@ def render_timeline(events):
                 f"{banner}"
                 f'<div><div class="ckt-ticket-top"><div class="ckt-ticket-copy"><h3 class="ckt-ticket-name">{safe_text(event_name)}</h3>'
                 f'<div class="ckt-small">{safe_text(format_event_date(start))} | {safe_text(format_event_time(start, end))}</div>'
-                f'</div><div class="ckt-meta-row">{render_event_chip(event_type)}{render_status_chip(is_waiting)}</div></div>'
+                f'</div><div class="ckt-meta-row">{render_event_chip(event_type)}</div></div>'
                 f"{member_markup}</div>"
                 f"</div>"
             )
