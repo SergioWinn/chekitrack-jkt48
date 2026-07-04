@@ -134,8 +134,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     color: #9ca0b8;
     font-size: 0.7rem;
     line-height: 1.4;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    letter-spacing: 0.02em;
 }
 
 .ct-credit-link {
@@ -438,8 +437,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
 .ct-nav-status-label {
     color: #86ece2;
     font: 700 0.6rem/1.2 'Poppins', sans-serif;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    letter-spacing: 0.03em;
 }
 
 .ct-nav-status-value {
@@ -1076,9 +1074,8 @@ select {
 
 .ckt-kicker,
 .ckt-meta {
-    font: 700 0.73rem/1.4 'Poppins', sans-serif;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    font: 700 0.76rem/1.4 'Poppins', sans-serif;
+    letter-spacing: 0.03em;
     color: var(--ckt-cyan);
 }
 
@@ -1093,8 +1090,8 @@ select {
 
 .ckt-body {
     color: var(--ckt-muted);
-    font-size: 0.95rem;
-    line-height: 1.58;
+    font-size: 1rem;
+    line-height: 1.62;
     max-width: 44rem;
 }
 
@@ -1285,7 +1282,7 @@ select {
 }
 
 .ckt-panel-title {
-    font: 800 1.02rem/1.08 'Poppins', sans-serif;
+    font: 800 1.08rem/1.18 'Poppins', sans-serif;
     letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 6px 0 10px;
@@ -1299,11 +1296,11 @@ select {
 }
 
 .ckt-panel-note {
-    max-width: 220px;
+    max-width: 280px;
     color: var(--ckt-muted);
-    font-size: 0.76rem;
-    line-height: 1.4;
-    text-align: right;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    text-align: left;
 }
 
 .ckt-bar-row {
@@ -2105,20 +2102,26 @@ select {
 }
 
 .ckt-guide-list li {
-    padding: 9px 10px;
+    padding: 11px 12px;
     border-radius: 16px;
     background: rgba(243, 235, 221, 0.04);
     border: 1px solid rgba(243, 235, 221, 0.08);
     color: var(--ckt-muted);
-    font-size: 0.84rem;
+    font-size: 0.88rem;
     line-height: 1.45;
 }
 
 .ckt-guide-list strong {
     display: block;
-    margin-bottom: 2px;
+    margin-bottom: 4px;
     color: var(--ckt-text);
-    font-size: 0.9rem;
+    font-size: 0.92rem;
+}
+
+.ckt-overview-note .ckt-body {
+    margin: 0;
+    max-width: none;
+    color: rgba(250, 247, 242, 0.88);
 }
 
 .ckt-guide-list span {
@@ -3011,9 +3014,9 @@ def render_navbar(active: str, pending: int = 0):
     show_admin = is_admin()
 
     pages = [
-        ("overview", "Overview",       "pages/1_📊_Overview.py"),
+        ("overview", "Home",           "pages/1_📊_Overview.py"),
         ("timeline", "Timeline",       "pages/2_⏳_Timeline.py"),
-        ("member",   "Member Corner",  "pages/3_👤_Member_Corner.py"),
+        ("member",   "Members",        "pages/3_👤_Member_Corner.py"),
     ]
     if show_collection:
         pages.append(("collection", "My Collection", "pages/5_🗂️_My_Collection.py"))
@@ -3025,12 +3028,12 @@ def render_navbar(active: str, pending: int = 0):
         status_value = f'{pending} {pending_noun} still waiting'
         status_class = "ct-nav-status-value is-waiting"
     else:
-        status_value = "All draws assigned"
+        status_value = "Nothing waiting now"
         status_class = "ct-nav-status-value"
 
     status_html = (
         '<div class="ct-nav-status">'
-        '<div class="ct-nav-status-label">Waiting now</div>'
+        '<div class="ct-nav-status-label">Open now</div>'
         f'<div class="{status_class}">{status_value}</div>'
         '</div>'
     )
@@ -3044,7 +3047,7 @@ def render_navbar(active: str, pending: int = 0):
                         <span class="ct-logo-dot"></span>
                         <span>Chekicha Timeline</span>
                     </div>
-                    <div class="ct-brand-sub">Track open draws, filled slots, and member history in one archive board.</div>
+                    <div class="ct-brand-sub">See which draws are still open, who has been assigned, and which members appear most often.</div>
                 </div>
                 <div class="ct-navbar-side">
                     {status_html}
@@ -3077,7 +3080,7 @@ def render_navbar(active: str, pending: int = 0):
                 )
             else:
                 st.markdown(
-                    '<div class="ct-auth-row"><div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank" rel="noopener noreferrer">@estrellawin19</a></span></div><div class="ct-session-note is-guest">Sign in to save your cheki collection.</div></div></div>',
+                    '<div class="ct-auth-row"><div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank" rel="noopener noreferrer">@estrellawin19</a></span></div><div class="ct-session-note is-guest">Sign in to save and organize your collection.</div></div></div>',
                     unsafe_allow_html=True,
                 )
         with cols[1]:
@@ -3089,7 +3092,7 @@ def render_navbar(active: str, pending: int = 0):
                 st.markdown('</div>', unsafe_allow_html=True)
             else:
                 st.markdown('<div class="ct-authbtn">', unsafe_allow_html=True)
-                if st.button("Sign in for collection", key=f"guest_collection_{active}", use_container_width=True):
+                if st.button("Open my collection", key=f"guest_collection_{active}", use_container_width=True):
                     st.switch_page("pages/5_🗂️_My_Collection.py")
                 st.markdown('</div>', unsafe_allow_html=True)
 

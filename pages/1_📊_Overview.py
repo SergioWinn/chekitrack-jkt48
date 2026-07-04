@@ -187,14 +187,14 @@ waiting_copy = (
 top_member = top_roulette_rows[0] if top_roulette_rows else None
 top_member_name = top_member["nickname"] if top_member else "No winner yet"
 top_member_subcopy = (
-    f"{top_member['count']} completed roulette slots"
+    f"Seen in {top_member['count']} completed roulette slot{'s' if top_member['count'] != 1 else ''}"
     if top_member
-    else "Roulette winners will appear here"
+    else "Winners will appear here after results are assigned"
 )
 archive_help = (
-    "Open roulette slots stay at the front until each slot has a winner."
+    "Start with the open draws. They stay at the top until every slot has a winner."
     if total_pending
-    else "Every stored slot already has a winner, so recent results now lead the board."
+    else "Everything is assigned right now, so you can move straight to the latest results below."
 )
 
 st.markdown(
@@ -202,34 +202,34 @@ st.markdown(
     <section class="ckt-hero ckt-overview-hero">
       <div class="ckt-status-strip ckt-surface">
         <div class="ckt-status-cell">
-          <div class="ckt-meta">Waiting now</div>
+          <div class="ckt-meta">Still open</div>
           <strong class="ckt-status-value {'is-hot' if total_pending else ''}">{safe_text(waiting_copy)}</strong>
-          <div class="ckt-status-subline">Open roulette slots stay visible first.</div>
+          <div class="ckt-status-subline">Check these first before looking at older results.</div>
         </div>
         <div class="ckt-status-cell">
-          <div class="ckt-meta">Last archive</div>
+          <div class="ckt-meta">Latest event</div>
           <strong class="ckt-status-value">{safe_text(latest_archive_copy)}</strong>
-          <div class="ckt-status-subline">Most recent stored event date.</div>
+          <div class="ckt-status-subline">The newest event currently saved in the archive.</div>
         </div>
         <div class="ckt-status-cell">
-          <div class="ckt-meta">Top member</div>
+          <div class="ckt-meta">Most seen member</div>
           <strong class="ckt-status-value">{safe_text(top_member_name)}</strong>
           <div class="ckt-status-subline">{safe_text(top_member_subcopy)}</div>
         </div>
         <div class="ckt-status-cell">
-          <div class="ckt-meta">Main format</div>
+          <div class="ckt-meta">Most common format</div>
           <strong class="ckt-status-value">{safe_text(top_event_type)}</strong>
-          <div class="ckt-status-subline">{top_event_count} archived rows currently lead.</div>
+          <div class="ckt-status-subline">{top_event_count} saved row{'s' if top_event_count != 1 else ''} use this format.</div>
         </div>
       </div>
       <div class="ckt-overview-lead">
         <div>
-          <div class="ckt-kicker">JKT48 Chekicha archive</div>
-          <h1 class="ckt-overview-title">See what still needs a winner.</h1>
-          <p class="ckt-body">Check open draws first, then scan recent results and repeat members without digging through extra panels.</p>
+          <div class="ckt-kicker">JKT48 cheki tracker</div>
+          <h1 class="ckt-overview-title">Start with the draws that still need a winner.</h1>
+          <p class="ckt-body">Use this page as your starting point: open draws are shown first, recent winners are just below, and the rest of the archive stays easy to scan.</p>
         </div>
         <div class="ckt-overview-note">
-          <div class="ckt-meta">Archive rule</div>
+          <div class="ckt-meta">Start here</div>
           <div class="ckt-body">{safe_text(archive_help)}</div>
         </div>
       </div>
@@ -239,10 +239,10 @@ st.markdown(
 )
 
 stats = [
-    ("Archived events", total_events, "Stored schedule rows", "#FF6A8B"),
-    ("Tracked members", total_members, "Active and graduated", "#78E0D1"),
-    ("Resolved calls", resolved_calls, "Winner slots already filled", "#F2B24A"),
-    ("Completion rate", f"{completion_rate}%", "Across every stored slot", "#C3BCDD"),
+    ("Saved events", total_events, "All event rows in the archive", "#FF6A8B"),
+    ("Members listed", total_members, "Active, trainee, and graduated members", "#78E0D1"),
+    ("Winners assigned", resolved_calls, "Slots that already have a member", "#F2B24A"),
+    ("Archive filled", f"{completion_rate}%", "Share of all slots that already have a winner", "#C3BCDD"),
 ]
 
 leaderboard_html = "".join(
@@ -305,21 +305,21 @@ st.markdown(
       <div class="ckt-surface ckt-panel ckt-summary-panel">
         <div class="ckt-panel-head">
           <div>
-            <div class="ckt-meta">Archive summary</div>
-            <h2 class="ckt-panel-title">The board in one glance</h2>
+            <div class="ckt-meta">Quick summary</div>
+            <h2 class="ckt-panel-title">What is in the archive right now</h2>
           </div>
-          <div class="ckt-panel-note">Open draws, stored events, member coverage, and filled slots stay in one compact rail.</div>
+          <div class="ckt-panel-note">The four numbers below show how much is saved, how much is already assigned, and how complete the archive is.</div>
         </div>
-        <p class="ckt-body">This page keeps the archive readable for fans first: what is still open, what just finished, and who appears most often.</p>
+        <p class="ckt-body">If you only need the big picture, start here. You can tell at a glance what still needs attention and how full the archive already is.</p>
         {render_stat_grid(stats)}
       </div>
       <div class="ckt-surface ckt-panel">
         <div class="ckt-panel-head">
           <div>
-            <div class="ckt-meta">Recent results</div>
-            <h2 class="ckt-panel-title">Latest filled slots</h2>
+            <div class="ckt-meta">Latest winners</div>
+            <h2 class="ckt-panel-title">Most recent assigned results</h2>
           </div>
-          <div class="ckt-panel-note">Birthday and Graduation rows stay grouped by day so repeat entries do not crowd the list.</div>
+          <div class="ckt-panel-note">This list helps you confirm what was assigned most recently without opening the full timeline.</div>
         </div>
         {feed_html}
       </div>
@@ -327,10 +327,10 @@ st.markdown(
     <section class="ckt-surface ckt-panel ckt-spotlight-panel">
       <div class="ckt-panel-head">
         <div>
-          <div class="ckt-meta">Frequent roulette members</div>
-          <h2 class="ckt-panel-title">Repeat winners in the current archive</h2>
+          <div class="ckt-meta">Most frequent roulette winners</div>
+          <h2 class="ckt-panel-title">Members that appear most often</h2>
         </div>
-        <div class="ckt-panel-note">A tighter ranking board keeps the names readable without turning the page into a wall of cards.</div>
+        <div class="ckt-panel-note">Use this to spot repeat appearances quickly when you are checking recent roulette history.</div>
       </div>
       <div class="ckt-rank-list">{leaderboard_html}</div>
     </section>
@@ -338,20 +338,20 @@ st.markdown(
       <div class="ckt-surface ckt-panel">
         <div class="ckt-panel-head">
           <div>
-            <div class="ckt-meta">Event mix</div>
-            <h2 class="ckt-panel-title">Stored event distribution</h2>
+            <div class="ckt-meta">Event types</div>
+            <h2 class="ckt-panel-title">How the archive is split by format</h2>
           </div>
-          <div class="ckt-panel-note">Top format: {safe_text(top_event_type)}</div>
+          <div class="ckt-panel-note">Most common format: {safe_text(top_event_type)}</div>
         </div>
         {bars_html}
       </div>
       <div class="ckt-surface ckt-panel ckt-guide-panel">
         <div class="ckt-panel-head">
           <div>
-            <div class="ckt-meta">Archive health</div>
-            <h2 class="ckt-panel-title">What to check next</h2>
+            <div class="ckt-meta">What to do next</div>
+            <h2 class="ckt-panel-title">Simple checks for first-time visitors</h2>
           </div>
-          <div class="ckt-panel-note">Plain-language cues for anyone opening the board for the first time.</div>
+          <div class="ckt-panel-note">These reminders explain what the numbers on this page mean and what to open next.</div>
         </div>
         <ul class="ckt-guide-list">
           <li>
@@ -359,12 +359,12 @@ st.markdown(
             <span>{safe_text(waiting_copy)}</span>
           </li>
           <li>
-            <strong>Coverage</strong>
-            {completion_rate}% of stored slots already have a winner.
+            <strong>Filled slots</strong>
+            {completion_rate}% of all saved slots already have a winner.
           </li>
           <li>
-            <strong>Archive focus</strong>
-            {safe_text(top_event_type)} currently leads with {top_event_count} stored row{'s' if top_event_count != 1 else ''}.
+            <strong>Most common format</strong>
+            {safe_text(top_event_type)} appears in {top_event_count} saved row{'s' if top_event_count != 1 else ''}.
           </li>
         </ul>
       </div>
