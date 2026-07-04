@@ -708,6 +708,54 @@ ARCHIVE_THEME_CSS = """
     --ckt-line: rgba(243, 235, 221, 0.12);
 }
 
+.stTextInput label,
+.stSelectbox label,
+.stMultiSelect label,
+.stDateInput label,
+.stTimeInput label,
+.stSegmentedControl label {
+    color: var(--ckt-muted) !important;
+}
+
+.stTextInput input,
+.stPasswordInput input,
+[data-baseweb="input"] input,
+[data-baseweb="textarea"] textarea,
+[data-baseweb="select"] > div,
+.stDateInput input,
+.stTimeInput input {
+    border-radius: 14px !important;
+    min-height: 44px;
+}
+
+.stTabs [data-baseweb="tab-list"] {
+    gap: 6px;
+    flex-wrap: wrap;
+    border-bottom: 0;
+}
+
+.stTabs [data-baseweb="tab"] {
+    border-radius: 999px;
+    min-height: 40px;
+    padding: 0 14px;
+    border: 1px solid rgba(243, 235, 221, 0.08);
+    background: rgba(243, 235, 221, 0.03) !important;
+}
+
+.stTabs [aria-selected="true"] {
+    background: rgba(120, 224, 209, 0.08) !important;
+    border-color: rgba(120, 224, 209, 0.22) !important;
+}
+
+[role="radiogroup"] {
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+[role="radiogroup"] label {
+    border-radius: 999px !important;
+}
+
 .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
     background:
         radial-gradient(circle at 10% -10%, rgba(99, 230, 216, 0.14), transparent 28rem),
@@ -825,7 +873,8 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-stat-card strong {
     display: block;
-    font: 800 1.7rem/1 'Syne', sans-serif;
+    font: 800 1.7rem/0.96 'Manrope', sans-serif;
+    font-variant-numeric: tabular-nums;
     color: var(--accent, var(--ckt-pink));
     margin: 6px 0 4px;
 }
@@ -846,7 +895,8 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-pulse-value {
     display: block;
-    font: 800 1.55rem/1 'Bricolage Grotesque', sans-serif;
+    font: 800 1.55rem/1 'Manrope', sans-serif;
+    font-variant-numeric: tabular-nums;
     letter-spacing: -0.04em;
     color: var(--ckt-text);
     margin: 8px 0 6px;
@@ -913,15 +963,16 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-rank-name {
-    font: 800 1rem/1 'Syne', sans-serif;
-    letter-spacing: -0.03em;
+    font: 800 1rem/1.05 'Manrope', sans-serif;
+    letter-spacing: -0.025em;
     color: var(--ckt-text);
     margin-bottom: 3px;
 }
 
 .ckt-rank-value {
     color: var(--ckt-text);
-    font: 800 1.15rem/1 'Syne', sans-serif;
+    font: 800 1.3rem/1 'Manrope', sans-serif;
+    font-variant-numeric: tabular-nums;
 }
 
 .ckt-grid-2 {
@@ -936,8 +987,8 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-panel-title {
-    font: 800 1.02rem/1 'Syne', sans-serif;
-    letter-spacing: -0.03em;
+    font: 800 1.02rem/1.08 'Manrope', sans-serif;
+    letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 6px 0 10px;
 }
@@ -1100,8 +1151,9 @@ ARCHIVE_THEME_CSS = """
     display: block;
     margin-top: 5px;
     color: var(--ckt-text);
-    font: 800 1.05rem/1 'Syne', sans-serif;
-    letter-spacing: -0.03em;
+    font: 800 1.02rem/1.08 'Manrope', sans-serif;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
 }
 
 .ckt-mini-value.is-hot {
@@ -1225,8 +1277,8 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-ticket-name {
-    font: 800 1.18rem/1.08 'Syne', sans-serif;
-    letter-spacing: -0.03em;
+    font: 800 1.05rem/1.12 'Manrope', sans-serif;
+    letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 0 0 5px;
     white-space: nowrap;
@@ -1449,8 +1501,8 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-dialog-section-title {
     color: var(--ckt-text);
-    font: 800 0.98rem/1 'Syne', sans-serif;
-    letter-spacing: -0.03em;
+    font: 800 0.98rem/1.1 'Manrope', sans-serif;
+    letter-spacing: -0.02em;
     margin: 2px 0 10px;
 }
 
@@ -1476,8 +1528,8 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-member-card-name {
-    font: 800 0.9rem/1.1 'Syne', sans-serif;
-    letter-spacing: -0.03em;
+    font: 800 0.92rem/1.12 'Manrope', sans-serif;
+    letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin-bottom: 3px;
 }
@@ -1628,8 +1680,9 @@ ARCHIVE_THEME_CSS = """
 .ckt-status-value {
     display: block;
     margin-top: 6px;
-    font: 800 clamp(1rem, 2vw, 1.28rem)/1 'Syne', sans-serif;
-    letter-spacing: -0.04em;
+    font: 800 clamp(1rem, 2vw, 1.2rem)/1.04 'Manrope', sans-serif;
+    letter-spacing: -0.03em;
+    font-variant-numeric: tabular-nums;
     color: var(--ckt-text);
 }
 
@@ -1694,6 +1747,38 @@ ARCHIVE_THEME_CSS = """
     display: block;
     margin-top: 2px;
     color: var(--ckt-pink);
+}
+
+@media (max-width: 980px) {
+    .ckt-grid-2 {
+        grid-template-columns: 1fr;
+    }
+
+    .ckt-overview-lead {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ckt-status-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ckt-status-cell:nth-child(2):after {
+        display: none;
+    }
+
+    .ckt-rank-list {
+        grid-template-columns: 1fr;
+    }
+
+    .ckt-panel-head {
+        flex-direction: column;
+    }
+
+    .ckt-panel-note {
+        max-width: none;
+        text-align: left;
+    }
 }
 
 @media (max-width: 860px) {
@@ -1786,12 +1871,12 @@ ARCHIVE_THEME_CSS = """
 
 @media (max-width: 640px) {
     .ct-content.ct-archive {
-        padding: 24px 0 40px;
+        padding: 18px 0 36px;
     }
 
     .ckt-status-strip {
         grid-template-columns: 1fr;
-        padding: 16px 14px;
+        padding: 14px 12px;
     }
 
     .ckt-status-cell {
@@ -1818,6 +1903,21 @@ ARCHIVE_THEME_CSS = """
 
     .ckt-overview-note {
         width: 100%;
+        padding: 11px 12px;
+    }
+
+    .ckt-mini-cell {
+        padding: 10px 11px;
+    }
+
+    .stTabs [data-baseweb="tab-list"] {
+        gap: 5px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        min-height: 38px;
+        padding: 0 12px;
+        font-size: 0.78rem;
     }
 
     .ckt-member-browser-grid,
@@ -2044,6 +2144,26 @@ ARCHIVE_THEME_CSS = """
         font-size: 0.84rem;
     }
 
+    .ckt-status-value {
+        font-size: 0.98rem;
+    }
+
+    .ckt-overview-title,
+    .ckt-member-title,
+    .ckt-filter-copy h1 {
+        font-size: clamp(1.7rem, 9vw, 2.1rem);
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        width: 100%;
+        justify-content: center;
+    }
+
+    [role="radiogroup"] {
+        display: grid !important;
+        grid-template-columns: 1fr;
+    }
+
     .ckt-small {
         font-size: 0.66rem;
     }
@@ -2065,6 +2185,28 @@ ARCHIVE_THEME_CSS = """
     .ckt-chip {
         padding: 0.28rem 0.46rem;
         font-size: 0.58rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .ckt-member-browser-grid,
+    .ckt-album-grid,
+    .ckt-mini-strip {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ckt-stat-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    .ckt-status-strip {
+        border-radius: 20px;
+    }
+
+    .ckt-panel,
+    .ckt-intro-panel {
+        padding: 13px;
+        border-radius: 20px;
     }
 }
 
