@@ -2812,7 +2812,7 @@ def render_navbar(active: str, pending: int = 0):
     """, unsafe_allow_html=True)
 
     if authenticated:
-        cols = st.columns([1, 1], gap="small")
+        cols = st.columns([4.2, 1], gap="small")
         with cols[0]:
             st.markdown(
                 f'<div class="ct-auth-row"><div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div></div>',
@@ -2825,7 +2825,7 @@ def render_navbar(active: str, pending: int = 0):
                 st.rerun()
             st.markdown('</div>', unsafe_allow_html=True)
     elif active != "collection":
-        cols = st.columns([1, 1], gap="small")
+        cols = st.columns([4.2, 1], gap="small")
         with cols[0]:
             st.markdown('<div class="ct-auth-row"><div class="ct-session-note is-guest">Sign in to save your cheki collection.</div></div>', unsafe_allow_html=True)
         with cols[1]:
