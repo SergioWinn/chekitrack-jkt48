@@ -36,12 +36,19 @@ def render_collection_card(entry):
     event_date = format_event_date(dt) if dt is not None else "Archived date"
     event_time = format_event_time(dt, end_dt) if dt is not None else "Archived time"
     slot_label = entry.get("slot_key", "A")
+    event_name = safe_text(entry.get('event_name', 'Archived event'))
+    poster = (
+        f'<div class="ckt-collection-poster"><img src="{safe_text(entry.get("event_image_url"))}" alt="{event_name} poster" loading="lazy"></div>'
+        if entry.get("event_image_url")
+        else f'<div class="ckt-collection-poster is-empty"><span>{safe_text(entry.get("event_type", "Archive"))}</span></div>'
+    )
     return f"""
     <article class="ckt-surface ckt-collection-card">
+      {poster}
       <div class="ckt-collection-card-top">
         <div>
           <div class="ckt-meta">{safe_text(entry.get('event_type', 'Roulette'))}</div>
-          <h3 class="ckt-collection-event">{safe_text(entry.get('event_name', 'Archived event'))}</h3>
+          <h3 class="ckt-collection-event" title="{event_name}">{event_name}</h3>
         </div>
         <div class="ckt-collection-qty">{int(entry.get('quantity') or 0)}x</div>
       </div>
@@ -86,7 +93,7 @@ def render_selected_slot_card(slot):
     """
 
 
-def render_collection_shelf(entries, columns_count: int = 3):
+def render_collection_shelf(entries, columns_count: int = 4):
     for start in range(0, len(entries), columns_count):
         row_entries = entries[start:start + columns_count]
         cols = st.columns(columns_count, gap="large")

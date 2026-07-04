@@ -102,7 +102,7 @@ def load_user_collection_entries(auth_client, public_client):
 
     event_rows = (
         public_client.table("chekicha")
-        .select("id, event_name, event_type, start_time")
+        .select("id, event_name, event_type, start_time, end_time, event_image_url")
         .in_("id", event_ids)
         .execute()
         .data
@@ -130,6 +130,8 @@ def load_user_collection_entries(auth_client, public_client):
                 "event_name": event.get("event_name", "Archived event"),
                 "event_type": event.get("event_type", "Roulette"),
                 "start_time": event.get("start_time"),
+                "end_time": event.get("end_time"),
+                "event_image_url": event.get("event_image_url"),
                 "member_name": member.get("nickname", "Unknown member"),
                 "member_avatar_url": member.get("avatar_url"),
                 "member_generasi": member.get("generasi"),

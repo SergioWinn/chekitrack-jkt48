@@ -1940,6 +1940,36 @@ select {
     border-radius: 22px;
     padding: 14px;
     background: rgba(243, 235, 221, 0.04);
+    overflow: hidden;
+}
+
+.ckt-collection-poster {
+    aspect-ratio: 16 / 10;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(11, 13, 22, 0.9);
+    margin-bottom: 12px;
+}
+
+.ckt-collection-poster img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    padding: 10px;
+}
+
+.ckt-collection-poster.is-empty {
+    display: grid;
+    place-items: center;
+    background: linear-gradient(160deg, rgba(120, 224, 209, 0.08), rgba(255, 106, 139, 0.08));
+}
+
+.ckt-collection-poster.is-empty span {
+    color: rgba(250, 247, 242, 0.8);
+    font: 700 0.82rem/1.2 'Poppins', sans-serif;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
 }
 
 .ckt-collection-card-top {
@@ -1949,11 +1979,19 @@ select {
     gap: 12px;
 }
 
+.ckt-collection-card-top > div:first-child {
+    min-width: 0;
+    flex: 1 1 auto;
+}
+
 .ckt-collection-event {
     font: 800 1.02rem/1.12 'Poppins', sans-serif;
     letter-spacing: -0.02em;
     color: var(--ckt-text);
     margin: 5px 0 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .ckt-collection-qty {
@@ -1961,6 +1999,11 @@ select {
     font: 800 1.35rem/1 'Poppins', sans-serif;
     letter-spacing: -0.03em;
     white-space: nowrap;
+    padding: 0.28rem 0.58rem;
+    border-radius: 999px;
+    background: rgba(255, 106, 139, 0.1);
+    border: 1px solid rgba(255, 106, 139, 0.16);
+    color: #ffe5ec;
 }
 
 .ckt-collection-member {
