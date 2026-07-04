@@ -1929,6 +1929,54 @@ select {
     color: var(--ckt-pink);
 }
 
+.ckt-collection-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.ckt-collection-card {
+    border-radius: 22px;
+    padding: 14px;
+    background: rgba(243, 235, 221, 0.04);
+}
+
+.ckt-collection-card-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.ckt-collection-event {
+    font: 800 1.02rem/1.12 'Poppins', sans-serif;
+    letter-spacing: -0.02em;
+    color: var(--ckt-text);
+    margin: 5px 0 0;
+}
+
+.ckt-collection-qty {
+    color: var(--ckt-text);
+    font: 800 1.35rem/1 'Poppins', sans-serif;
+    letter-spacing: -0.03em;
+    white-space: nowrap;
+}
+
+.ckt-collection-member {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 0;
+}
+
+.ckt-collection-member-name {
+    font-weight: 700;
+    color: var(--ckt-text);
+    font-size: 0.92rem;
+    line-height: 1.15;
+}
+
 @media (max-width: 980px) {
     .ckt-grid-2 {
         grid-template-columns: 1fr;
@@ -1984,6 +2032,10 @@ select {
 
     .ckt-mini-strip {
         grid-template-columns: 1fr;
+    }
+
+    .ckt-collection-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
     .ckt-stat-grid {
@@ -2106,6 +2158,11 @@ select {
     .ckt-pulse-grid,
     .ckt-stat-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+
+    .ckt-collection-grid {
+        grid-template-columns: 1fr !important;
+        gap: 10px;
     }
 
     .ckt-rank-list {

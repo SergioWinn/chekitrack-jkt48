@@ -30,29 +30,34 @@ from utils.styles import (
 )
 
 
-def render_collection_entry(entry):
+def render_collection_card(entry):
     dt = pd.to_datetime(entry["start_time"]) if entry.get("start_time") else None
+    end_dt = pd.to_datetime(entry["end_time"]) if entry.get("end_time") else None
     event_date = format_event_date(dt) if dt is not None else "Archived date"
+    event_time = format_event_time(dt, end_dt) if dt is not None else "Archived time"
     slot_label = entry.get("slot_key", "A")
     return f"""
-    <section class="ckt-surface ckt-panel" style="margin-bottom:10px">
-      <div class="ckt-panel-head">
+    <article class="ckt-surface ckt-collection-card">
+      <div class="ckt-collection-card-top">
         <div>
-          <div class="ckt-meta">Collection entry</div>
-          <h2 class="ckt-panel-title">{safe_text(entry.get('event_name', 'Archived event'))}</h2>
+          <div class="ckt-meta">{safe_text(entry.get('event_type', 'Roulette'))}</div>
+          <h3 class="ckt-collection-event">{safe_text(entry.get('event_name', 'Archived event'))}</h3>
         </div>
-        <div class="ckt-panel-note">{safe_text(event_date)}</div>
+        <div class="ckt-collection-qty">{int(entry.get('quantity') or 0)}x</div>
       </div>
-      <div class="ckt-meta-row" style="margin-bottom:10px">
-        {render_event_chip(entry.get('event_type', 'Roulette'))}
+      <div class="ckt-small">{safe_text(event_date)} | {safe_text(event_time)}</div>
+      <div class="ckt-meta-row" style="margin:10px 0 12px">
         <span class="ckt-chip ckt-chip-team">Slot {safe_text(slot_label)}</span>
-        <span class="ckt-chip ckt-chip-completed">Qty {int(entry.get('quantity') or 0)}</span>
+        {render_event_chip(entry.get('event_type', 'Roulette'))}
       </div>
-      <div class="ckt-member-line" style="margin-top:0">
+      <div class="ckt-collection-member">
         {render_avatar_markup(entry.get('member_avatar_url'), entry.get('member_name', 'Unknown member'))}
-        <span>{safe_text(entry.get('member_name', 'Unknown member'))}</span>
+        <div>
+          <div class="ckt-collection-member-name">{safe_text(entry.get('member_name', 'Unknown member'))}</div>
+          <div class="ckt-small">{safe_text(f"Gen {entry['member_generasi']}") if entry.get('member_generasi') else 'Generation unknown'}</div>
+        </div>
       </div>
-    </section>
+    </article>
     """
 
 
@@ -166,6 +171,15 @@ total_quantity = sum(int(entry.get("quantity") or 0) for entry in collection_ent
 unique_members = len({entry.get("member_id") for entry in collection_entries})
 unique_events = len({entry.get("event_id") for entry in collection_entries})
 
+entry_options = [
+    {
+        "id": entry["id"],
+        "label": f"{entry['event_name']} | Slot {entry.get('slot_key', 'A')} | {entry['member_name']}",
+        "entry": entry,
+    }
+    for entry in collection_entries
+]
+
 st.markdown(
     f"""
     <section class="ckt-mini-strip">
@@ -192,7 +206,7 @@ st.markdown(
     <section class="ckt-surface ckt-panel">
       <div class="ckt-kicker">Stored collection</div>
       <h2 class="ckt-panel-title">Your saved cheki</h2>
-      <p class="ckt-body">This shelf is the main view. Update quantities here first, then open the collection desk below when you want to add more.</p>
+      <p class="ckt-body">This shelf is read-only on purpose. Scan what you already own first, then use the desk below to add, update, or remove entries.</p>
     </section>
     """,
     unsafe_allow_html=True,
@@ -204,34 +218,29 @@ if not collection_entries:
         unsafe_allow_html=True,
     )
 else:
-    for entry in collection_entries:
-        st.markdown(render_collection_entry(entry), unsafe_allow_html=True)
-        control_cols = st.columns([1.1, 0.9, 0.9], gap="small")
-        updated_quantity = control_cols[0].number_input(
-            f"Quantity for {entry['event_name']} {entry['slot_key']}",
-            min_value=1,
-            value=int(entry.get("quantity") or 1),
-            step=1,
-            key=f"entry_qty_{entry['id']}",
-            label_visibility="collapsed",
-        )
-        if control_cols[1].button("Save quantity", key=f"save_entry_{entry['id']}", use_container_width=True):
-            update_collection_quantity(auth_supabase, entry["id"], int(updated_quantity))
-            st.success("Quantity saved.")
-            st.rerun()
-        if control_cols[2].button("Remove", key=f"delete_entry_{entry['id']}", use_container_width=True):
-            delete_collection_entry(auth_supabase, entry["id"])
-            st.success("Entry removed.")
-            st.rerun()
+    shelf_markup = "".join(render_collection_card(entry) for entry in collection_entries)
+    st.markdown(f'<section class="ckt-collection-grid">{shelf_markup}</section>', unsafe_allow_html=True)
 
-desk_expanded = not collection_entries
-with st.expander("Open collection desk", expanded=desk_expanded):
+st.markdown(
+    """
+    <section class="ckt-surface ckt-panel" style="margin-top:14px">
+      <div class="ckt-kicker">Collection desk</div>
+      <h2 class="ckt-panel-title">Add, update, or remove an entry</h2>
+      <p class="ckt-body">The shelf above stays clean for reading. Use the desk below when you want to change something.</p>
+    </section>
+    """,
+    unsafe_allow_html=True,
+)
+
+desk_left, desk_right = st.columns([1.02, 0.98], gap="large")
+
+with desk_left:
     st.markdown(
         """
         <section class="ckt-surface ckt-panel">
-          <div class="ckt-kicker">Collection desk</div>
-          <h2 class="ckt-panel-title">Add or correct an event result</h2>
-          <p class="ckt-body">Only resolved event slots appear here, so member assignment always follows the archive. Use this desk after you review the shelf above.</p>
+          <div class="ckt-kicker">Add from archive</div>
+          <h2 class="ckt-panel-title">Choose an event result</h2>
+          <p class="ckt-body">Only resolved event slots appear here, so member assignment always follows the archive.</p>
         </section>
         """,
         unsafe_allow_html=True,
@@ -270,17 +279,54 @@ with st.expander("Open collection desk", expanded=desk_expanded):
                 key="collection_slot_picker",
             )
 
-        form_col, preview_col = st.columns([0.95, 1.05], gap="large")
-        with form_col:
-            add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
-            if st.button("Add to collection", use_container_width=True):
-                try:
-                    action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
-                    st.success("Collection updated." if action == "updated" else "Added to collection.")
-                    st.rerun()
-                except Exception as exc:
-                    st.error(str(exc))
-        with preview_col:
-            st.markdown(render_selected_slot_card(active_slot), unsafe_allow_html=True)
+        st.markdown(render_selected_slot_card(active_slot), unsafe_allow_html=True)
+        add_quantity = st.number_input("Quantity", min_value=1, value=1, step=1, key="collection_add_quantity")
+        if st.button("Add to collection", use_container_width=True):
+            try:
+                action = add_collection_quantity(auth_supabase, active_slot, int(add_quantity))
+                st.success("Collection updated." if action == "updated" else "Added to collection.")
+                st.rerun()
+            except Exception as exc:
+                st.error(str(exc))
+
+with desk_right:
+    st.markdown(
+        """
+        <section class="ckt-surface ckt-panel">
+          <div class="ckt-kicker">Manage saved entry</div>
+          <h2 class="ckt-panel-title">Edit quantity or remove</h2>
+          <p class="ckt-body">Pick one saved row from your shelf, then update the count or remove it entirely.</p>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    if not entry_options:
+        st.markdown('<div class="ckt-empty">Your shelf is still empty, so there is nothing to edit yet.</div>', unsafe_allow_html=True)
+    else:
+        selected_entry_option = st.selectbox(
+            "Saved entry",
+            entry_options,
+            format_func=lambda item: item["label"],
+            key="collection_edit_picker",
+        )
+        selected_entry = selected_entry_option["entry"]
+        st.markdown(render_collection_card(selected_entry), unsafe_allow_html=True)
+        updated_quantity = st.number_input(
+            "New quantity",
+            min_value=1,
+            value=int(selected_entry.get("quantity") or 1),
+            step=1,
+            key=f"entry_qty_manage_{selected_entry['id']}",
+        )
+        action_cols = st.columns([1, 1], gap="small")
+        if action_cols[0].button("Save quantity", key=f"save_manage_{selected_entry['id']}", use_container_width=True):
+            update_collection_quantity(auth_supabase, selected_entry["id"], int(updated_quantity))
+            st.success("Quantity saved.")
+            st.rerun()
+        if action_cols[1].button("Remove entry", key=f"delete_manage_{selected_entry['id']}", use_container_width=True):
+            delete_collection_entry(auth_supabase, selected_entry["id"])
+            st.success("Entry removed.")
+            st.rerun()
 
 st.markdown("</div>", unsafe_allow_html=True)
