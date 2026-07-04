@@ -2274,6 +2274,11 @@ select {
     border-color: rgba(142, 240, 186, 0.12);
 }
 
+.ckt-admin-tool-head {
+    border-color: rgba(142, 240, 186, 0.14);
+    background: linear-gradient(180deg, rgba(24, 33, 42, 0.96), rgba(14, 19, 26, 0.98));
+}
+
 [data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-panel,
 [data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-surface {
     background: linear-gradient(180deg, rgba(15, 20, 28, 0.94), rgba(10, 14, 20, 0.98));

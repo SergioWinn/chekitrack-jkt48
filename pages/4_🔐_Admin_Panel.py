@@ -156,16 +156,16 @@ if True:
         f"""
         <section class="ckt-mini-strip ckt-admin-strip">
           <div class="ckt-mini-cell">
-            <div class="ckt-meta">Members</div>
-            <strong class="ckt-mini-value">{len(members_data)}</strong>
+            <div class="ckt-meta">Waiting now</div>
+            <strong class="ckt-mini-value {'is-hot' if pending_count else ''}">{pending_count}</strong>
           </div>
           <div class="ckt-mini-cell">
             <div class="ckt-meta">Event presets</div>
             <strong class="ckt-mini-value">{len(presets)}</strong>
           </div>
           <div class="ckt-mini-cell">
-            <div class="ckt-meta">Waiting now</div>
-            <strong class="ckt-mini-value {'is-hot' if pending_count else ''}">{pending_count}</strong>
+            <div class="ckt-meta">Members</div>
+            <strong class="ckt-mini-value">{len(members_data)}</strong>
           </div>
         </section>
         """,
@@ -179,7 +179,7 @@ if True:
         member_options[label] = member["id"]
         member_labels[member["id"]] = label
 
-    tab_member, tab_add, tab_update = st.tabs(["Members", "Events", "Fill Results"])
+    tab_update, tab_add, tab_member = st.tabs(["Fill Results", "Events", "Members"])
 
     with tab_member:
         st.markdown(render_admin_tool_intro("Member registry", "Manage collector roster", "Add a new member quickly or open the edit tool only when you need to change existing records."), unsafe_allow_html=True)
@@ -388,10 +388,10 @@ if True:
     with tab_update:
         st.markdown(
             """
-            <section class="ckt-surface ckt-panel">
-              <div class="ckt-kicker">Pending draws</div>
+            <section class="ckt-surface ckt-panel ckt-admin-tool-head">
+              <div class="ckt-kicker">Primary queue</div>
               <h2 class="ckt-panel-title">Update Roulette Results</h2>
-              <p class="ckt-body">Resolve waiting entries and assign Slot A or Slot B directly from each event card.</p>
+              <p class="ckt-body">Resolve waiting entries first. Slot assignment is the most time-sensitive admin task, so it stays at the front of this workspace.</p>
             </section>
             """,
             unsafe_allow_html=True,
@@ -412,9 +412,9 @@ if True:
 
         if tbd_events and members_data:
             option_labels = list(member_options.keys())
-            for start_idx in range(0, len(tbd_events), 4):
-                event_row = tbd_events[start_idx:start_idx + 4]
-                grid_cols = st.columns(4, gap="large")
+            for start_idx in range(0, len(tbd_events), 3):
+                event_row = tbd_events[start_idx:start_idx + 3]
+                grid_cols = st.columns(3, gap="medium")
                 for col, event in zip(grid_cols, event_row):
                     start_dt = pd.to_datetime(event["start_time"])
                     slot_mode = event.get("slot_mode") or 1
