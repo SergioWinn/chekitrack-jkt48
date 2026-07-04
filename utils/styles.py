@@ -2330,32 +2330,32 @@ select {
     margin: 0 0 5px;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-panel,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-surface {
+.ckt-admin-stage .ckt-panel,
+.ckt-admin-stage .ckt-surface {
     background: linear-gradient(180deg, rgba(15, 20, 28, 0.94), rgba(10, 14, 20, 0.98));
     border-color: rgba(142, 240, 186, 0.09);
     box-shadow: 0 22px 56px rgba(0, 0, 0, 0.28);
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-kicker,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .ckt-meta {
+.ckt-admin-stage .ckt-kicker,
+.ckt-admin-stage .ckt-meta {
     color: #8ef0ba;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stTextInput input,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stPasswordInput input,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) [data-baseweb="input"] input,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) [data-baseweb="textarea"] textarea,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) [data-baseweb="select"] > div,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stDateInput input,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stTimeInput input {
+.ckt-admin-stage .stTextInput input,
+.ckt-admin-stage .stPasswordInput input,
+.ckt-admin-stage [data-baseweb="input"] input,
+.ckt-admin-stage [data-baseweb="textarea"] textarea,
+.ckt-admin-stage [data-baseweb="select"] > div,
+.ckt-admin-stage .stDateInput input,
+.ckt-admin-stage .stTimeInput input {
     background: rgba(8, 11, 17, 0.94) !important;
     border-color: rgba(142, 240, 186, 0.12) !important;
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.02);
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stButton > button,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) button[kind="primaryFormSubmit"] {
+.ckt-admin-stage .stButton > button,
+.ckt-admin-stage button[kind="primaryFormSubmit"] {
     border: 1px solid rgba(142, 240, 186, 0.18) !important;
     background: linear-gradient(180deg, rgba(142, 240, 186, 0.16), rgba(142, 240, 186, 0.08)) !important;
     color: #f3fff8 !important;
@@ -2363,46 +2363,46 @@ select {
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04), 0 12px 24px rgba(10, 18, 14, 0.18) !important;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stButton > button:hover,
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) button[kind="primaryFormSubmit"]:hover {
+.ckt-admin-stage .stButton > button:hover,
+.ckt-admin-stage button[kind="primaryFormSubmit"]:hover {
     background: linear-gradient(180deg, rgba(142, 240, 186, 0.2), rgba(142, 240, 186, 0.1)) !important;
     border-color: rgba(142, 240, 186, 0.24) !important;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stCheckbox {
+.ckt-admin-stage .stCheckbox {
     padding: 4px 0;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stSuccess {
+.ckt-admin-stage .stSuccess {
     background: rgba(65, 159, 112, 0.2) !important;
     border: 1px solid rgba(142, 240, 186, 0.16) !important;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stInfo {
+.ckt-admin-stage .stInfo {
     background: rgba(115, 186, 255, 0.12) !important;
     border: 1px solid rgba(115, 186, 255, 0.14) !important;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stWarning {
+.ckt-admin-stage .stWarning {
     background: rgba(242, 178, 74, 0.12) !important;
     border: 1px solid rgba(242, 178, 74, 0.16) !important;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stError {
+.ckt-admin-stage .stError {
     background: rgba(255, 106, 139, 0.12) !important;
     border: 1px solid rgba(255, 106, 139, 0.16) !important;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stTabs [data-baseweb="tab-list"] {
+.ckt-admin-stage .stTabs [data-baseweb="tab-list"] {
     gap: 8px;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stTabs [data-baseweb="tab"] {
+.ckt-admin-stage .stTabs [data-baseweb="tab"] {
     border-color: rgba(142, 240, 186, 0.12);
     background: rgba(142, 240, 186, 0.03) !important;
 }
 
-[data-testid="stAppViewContainer"]:has(.ckt-admin-stage) .stTabs [aria-selected="true"] {
+.ckt-admin-stage .stTabs [aria-selected="true"] {
     background: rgba(142, 240, 186, 0.14) !important;
     border-color: rgba(142, 240, 186, 0.24) !important;
 }
