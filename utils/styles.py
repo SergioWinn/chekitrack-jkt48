@@ -147,6 +147,16 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     text-decoration: underline;
 }
 
+.ct-nav-credit {
+    display: inline-flex;
+    align-items: center;
+    padding: 0.5rem 0.82rem;
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(243, 235, 221, 0.06), rgba(243, 235, 221, 0.03));
+    border: 1px solid rgba(243, 235, 221, 0.1);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+}
+
 .ct-tako-btn {
     display: inline-flex;
     align-items: center;
@@ -284,6 +294,17 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
+.ct-session-stack.is-guest {
+    max-width: 32rem;
+}
+
+.ct-session-kicker {
+    color: #9ca0b8;
+    font-size: 0.72rem;
+    line-height: 1.2;
+    letter-spacing: 0.02em;
+}
+
 div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) {
     max-width: 1180px;
     width: 100%;
@@ -333,6 +354,8 @@ div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) .stButton {
 
 .ct-session-note.is-guest {
     color: #9ca0b8;
+    display: block;
+    line-height: 1.45;
 }
 
 .ct-session-user {
@@ -488,6 +511,10 @@ div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
 
     .ct-credit-cluster {
         justify-content: flex-start;
+    }
+
+    .ct-nav-credit {
+        padding: 0.44rem 0.72rem;
     }
 
     .ct-navbar-aux {
@@ -693,6 +720,10 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
 
     .ct-credit-label {
         font-size: 0.68rem;
+    }
+
+    .ct-session-kicker {
+        font-size: 0.67rem;
     }
 
     .ct-tako-btn {
@@ -3064,6 +3095,7 @@ def render_navbar(active: str, pending: int = 0):
                     <div class="ct-brand-sub">See which draws are still open, who has been assigned, and which members appear most often.</div>
                 </div>
                 <div class="ct-navbar-side">
+                    <div class="ct-nav-credit"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank" rel="noopener noreferrer">@estrellawin19</a></span></div>
                     {status_html}
                     <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank" rel="noopener noreferrer">Support via Tako</a>
                 </div>
@@ -3089,12 +3121,12 @@ def render_navbar(active: str, pending: int = 0):
         with cols[0]:
             if authenticated:
                 st.markdown(
-                    f'<div class="ct-auth-row"><div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank" rel="noopener noreferrer">@estrellawin19</a></span></div><div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div></div></div>',
+                    f'<div class="ct-auth-row"><div class="ct-session-stack"><div class="ct-session-kicker">Signed in as</div><div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div></div></div>',
                     unsafe_allow_html=True,
                 )
             else:
                 st.markdown(
-                    '<div class="ct-auth-row"><div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank" rel="noopener noreferrer">@estrellawin19</a></span></div><div class="ct-session-note is-guest">Sign in to save and organize your collection.</div></div></div>',
+                    '<div class="ct-auth-row"><div class="ct-session-stack is-guest"><div class="ct-session-kicker">Save your collection</div><div class="ct-session-note is-guest">Sign in to save and organize your collection, then come back here anytime.</div></div></div>',
                     unsafe_allow_html=True,
                 )
         with cols[1]:
