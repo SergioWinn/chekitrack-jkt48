@@ -262,6 +262,12 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     justify-content: flex-start;
 }
 
+.ct-session-stack {
+    display: grid;
+    gap: 6px;
+    justify-items: start;
+}
+
 div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) {
     max-width: 1180px;
     width: 100%;
@@ -2848,36 +2854,31 @@ def render_navbar(active: str, pending: int = 0):
                     st.switch_page(path)
                 st.markdown('</div>', unsafe_allow_html=True)
 
-    st.markdown(f"""
-    <div class="ct-navbar-aux">
-        <div class="ct-credit-cluster">
-            <span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
-        </div>
-    </div>
-    """, unsafe_allow_html=True)
-
-    if authenticated:
+    if authenticated or active != "collection":
         cols = st.columns([4.2, 1], gap="small")
         with cols[0]:
-            st.markdown(
-                f'<div class="ct-auth-row"><div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div></div>',
-                unsafe_allow_html=True,
-            )
+            if authenticated:
+                st.markdown(
+                    f'<div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span></div><div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div></div>',
+                    unsafe_allow_html=True,
+                )
+            else:
+                st.markdown(
+                    '<div class="ct-session-stack"><div class="ct-credit-cluster"><span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span></div><div class="ct-session-note is-guest">Sign in to save your cheki collection.</div></div>',
+                    unsafe_allow_html=True,
+                )
         with cols[1]:
-            st.markdown('<div class="ct-authbtn ct-authbtn-subtle">', unsafe_allow_html=True)
-            if st.button("Sign out", key=f"signout_{active}", use_container_width=True):
-                sign_out_user()
-                st.rerun()
-            st.markdown('</div>', unsafe_allow_html=True)
-    elif active != "collection":
-        cols = st.columns([4.2, 1], gap="small")
-        with cols[0]:
-            st.markdown('<div class="ct-auth-row"><div class="ct-session-note is-guest">Sign in to save your cheki collection.</div></div>', unsafe_allow_html=True)
-        with cols[1]:
-            st.markdown('<div class="ct-authbtn">', unsafe_allow_html=True)
-            if st.button("Sign in for collection", key=f"guest_collection_{active}", use_container_width=True):
-                st.switch_page("pages/5_🗂️_My_Collection.py")
-            st.markdown('</div>', unsafe_allow_html=True)
+            if authenticated:
+                st.markdown('<div class="ct-authbtn ct-authbtn-subtle">', unsafe_allow_html=True)
+                if st.button("Sign out", key=f"signout_{active}", use_container_width=True):
+                    sign_out_user()
+                    st.rerun()
+                st.markdown('</div>', unsafe_allow_html=True)
+            else:
+                st.markdown('<div class="ct-authbtn">', unsafe_allow_html=True)
+                if st.button("Sign in for collection", key=f"guest_collection_{active}", use_container_width=True):
+                    st.switch_page("pages/5_🗂️_My_Collection.py")
+                st.markdown('</div>', unsafe_allow_html=True)
 
 
 def make_tag(event_type: str) -> str:
