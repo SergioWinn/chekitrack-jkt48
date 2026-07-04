@@ -262,6 +262,44 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     justify-content: flex-start;
 }
 
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) {
+    max-width: 1180px;
+    width: 100%;
+    margin: 0 auto 10px !important;
+    padding: 0 !important;
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div > div:first-child {
+    flex: 1 1 auto;
+    max-width: none;
+    min-width: 0;
+    padding: 0 !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div > div:last-child {
+    flex: 0 0 132px;
+    max-width: 132px;
+    min-width: 132px;
+    padding: 0 !important;
+}
+
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) [data-testid="column"],
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) .element-container,
+div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) .stButton {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
 .ct-session-note {
     display: inline-flex;
     align-items: center;
@@ -278,6 +316,14 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 .ct-session-user {
     color: #eef0f8;
     font-weight: 700;
+}
+
+.ct-auth-row {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-width: 0;
 }
 
 .ct-session-role {
@@ -435,6 +481,15 @@ div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) .stButton {
         margin: 0 0 8px !important;
     }
 
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) {
+        max-width: none;
+        margin: 0 0 8px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div {
+        align-items: flex-start;
+    }
+
     div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div {
         justify-content: flex-end;
     }
@@ -574,6 +629,19 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
 
     div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) {
         margin: 0 0 6px !important;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div > div:first-child,
+    div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) > div > div:last-child {
+        flex: 1 1 auto;
+        max-width: none;
+        min-width: 0;
+        width: 100% !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) > div {
@@ -2744,11 +2812,12 @@ def render_navbar(active: str, pending: int = 0):
     """, unsafe_allow_html=True)
 
     if authenticated:
-        cols = st.columns([3.2, 1], gap="small")
-        cols[0].markdown(
-            f'<div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div>',
-            unsafe_allow_html=True,
-        )
+        cols = st.columns([1, 1], gap="small")
+        with cols[0]:
+            st.markdown(
+                f'<div class="ct-auth-row"><div class="ct-session-note"><span class="ct-session-user">@{safe_text(current_username() or "collector")}</span><span class="ct-session-role">{safe_text((profile.get("role", "collector") if profile else "collector"))}</span></div></div>',
+                unsafe_allow_html=True,
+            )
         with cols[1]:
             st.markdown('<div class="ct-authbtn ct-authbtn-subtle">', unsafe_allow_html=True)
             if st.button("Sign out", key=f"signout_{active}", use_container_width=True):
@@ -2756,8 +2825,9 @@ def render_navbar(active: str, pending: int = 0):
                 st.rerun()
             st.markdown('</div>', unsafe_allow_html=True)
     elif active != "collection":
-        cols = st.columns([3.2, 1], gap="small")
-        cols[0].markdown('<div class="ct-session-note is-guest">Sign in to save your cheki collection.</div>', unsafe_allow_html=True)
+        cols = st.columns([1, 1], gap="small")
+        with cols[0]:
+            st.markdown('<div class="ct-auth-row"><div class="ct-session-note is-guest">Sign in to save your cheki collection.</div></div>', unsafe_allow_html=True)
         with cols[1]:
             st.markdown('<div class="ct-authbtn">', unsafe_allow_html=True)
             if st.button("Sign in for collection", key=f"guest_collection_{active}", use_container_width=True):
