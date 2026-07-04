@@ -126,13 +126,14 @@ st.markdown('<div class="ct-content ct-archive">', unsafe_allow_html=True)
 
 st.markdown(
     """
-    <section class="ckt-surface ckt-panel">
-      <div class="ckt-kicker">Admin Console</div>
-      <h1 class="ckt-member-title">Schedule events and resolve roulette results.</h1>
+    <section class="ckt-compact-intro">
+      <div class="ckt-surface ckt-panel ckt-intro-panel">
+      <div class="ckt-kicker">Admin console</div>
+      <h1 class="ckt-member-title">Manage members, events, and waiting results.</h1>
       <p class="ckt-body">
-        Preset event catalog entries now come from Supabase, and each event row can store 1 slot or 2 slots
-        for historical A/B cheki cases in the same show.
+        Add member cards, save event rows, and fill waiting roulette slots from one working screen.
       </p>
+      </div>
     </section>
     """,
     unsafe_allow_html=True,
@@ -144,16 +145,36 @@ if "admin_authenticated" not in st.session_state:
 admin_secret = st.secrets["ADMIN_PASSWORD"]
 admin_password = None
 if not st.session_state["admin_authenticated"]:
-    admin_password = st.text_input("Enter admin password", type="password")
+    admin_password = st.text_input("Admin password", type="password")
     if admin_password == admin_secret:
         st.session_state["admin_authenticated"] = True
         st.rerun()
 
 if st.session_state["admin_authenticated"]:
-    st.success("Access granted")
+    st.success("Admin access ready")
 
     members_data = supabase.table("members").select("id, nickname, full_name, status, generasi, avatar_url").order("nickname").execute().data or []
     presets = load_event_presets(supabase)
+
+    st.markdown(
+        f"""
+        <section class="ckt-mini-strip">
+          <div class="ckt-mini-cell">
+            <div class="ckt-meta">Members</div>
+            <strong class="ckt-mini-value">{len(members_data)}</strong>
+          </div>
+          <div class="ckt-mini-cell">
+            <div class="ckt-meta">Event presets</div>
+            <strong class="ckt-mini-value">{len(presets)}</strong>
+          </div>
+          <div class="ckt-mini-cell">
+            <div class="ckt-meta">Waiting now</div>
+            <strong class="ckt-mini-value {'is-hot' if pending_count else ''}">{pending_count}</strong>
+          </div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
 
     member_options = {"None (Waiting for roulette)": None}
     member_labels = {}
@@ -162,7 +183,7 @@ if st.session_state["admin_authenticated"]:
         member_options[label] = member["id"]
         member_labels[member["id"]] = label
 
-    tab_member, tab_add, tab_update = st.tabs(["👤 Add Member", "📅 Add Event", "🔄 Update Roulette Results"])
+    tab_member, tab_add, tab_update = st.tabs(["👤 Members", "📅 Events", "🔄 Fill Results"])
 
     with tab_member:
         st.markdown(

@@ -212,17 +212,19 @@ member_order = {member["id"]: index for index, member in enumerate(members_data)
 
 st.markdown(
     """
-    <section class="ckt-surface ckt-panel">
-      <div class="ckt-kicker">Member Corner</div>
-      <h1 class="ckt-member-title">Select a member card</h1>
-      <p class="ckt-body">Browse by team filter or use quick search, then open a member profile without losing your place in the grid.</p>
+    <section class="ckt-compact-intro">
+      <div class="ckt-surface ckt-panel ckt-intro-panel">
+        <div class="ckt-kicker">Member corner</div>
+        <h1 class="ckt-member-title">Open a member profile without losing the grid.</h1>
+        <p class="ckt-body">Search by nickname, full name, team, or generation, then open the profile card that matches.</p>
+      </div>
     </section>
     """,
     unsafe_allow_html=True,
 )
 
 status_options = ["All", "LOVE", "DREAM", "PASSION", "TRAINEE", "GRADUATED"]
-search_query = st.text_input("Quick search", placeholder="Find by nickname, full name, team, or generation")
+search_query = st.text_input("Quick search", placeholder="Search nickname, full name, team, or generation")
 status_widget = getattr(st, "segmented_control", None)
 if status_widget:
     selected_status = status_widget("Team", status_options, default="All")
@@ -234,11 +236,37 @@ visible_members = [
     if (selected_status == "All" or (member.get("status") or "").upper() == selected_status)
     and (not search_query or member_matches_query(member, search_query))
 ]
+members_with_history = sum(1 for member in visible_members if total_cheki_map.get(member["id"], 0))
+
+st.markdown(
+    f"""
+    <section class="ckt-mini-strip">
+      <div class="ckt-mini-cell">
+        <div class="ckt-meta">Visible members</div>
+        <strong class="ckt-mini-value">{len(visible_members)}</strong>
+      </div>
+      <div class="ckt-mini-cell">
+        <div class="ckt-meta">With archive history</div>
+        <strong class="ckt-mini-value">{members_with_history}</strong>
+      </div>
+      <div class="ckt-mini-cell">
+        <div class="ckt-meta">Current team</div>
+        <strong class="ckt-mini-value">{safe_text(selected_status)}</strong>
+        <div class="ckt-small">{safe_text(search_query.strip()) if search_query.strip() else 'No search keyword'}</div>
+      </div>
+    </section>
+    """,
+    unsafe_allow_html=True,
+)
 
 if not visible_members:
     st.markdown('<div class="ckt-empty">No members match this team filter yet.</div>', unsafe_allow_html=True)
 else:
-    st.caption(f"{len(visible_members)} member cards")
+    st.markdown(
+        f'<div class="ckt-browser-meta"><div class="ckt-small">{len(visible_members)} member cards ready to open.</div>'
+        '<div class="ckt-small">Click a card to inspect recent sessions without leaving the grid.</div></div>',
+        unsafe_allow_html=True,
+    )
     browser_markup = "".join(
         render_member_browser_item(
             member,

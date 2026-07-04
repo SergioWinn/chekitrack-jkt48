@@ -77,7 +77,7 @@ def render_recent_tickets(rows):
 def render_stat_grid(stats):
     cards = "".join(
         (
-            f'<div class="ckt-surface ckt-stat-card" style="--accent:{color}">'
+            f'<div class="ckt-stat-card" style="--accent:{color}">'
             f'<div class="ckt-meta">{safe_text(label)}</div>'
             f'<strong>{value}</strong>'
             f'<div class="ckt-small">{safe_text(subcopy)}</div>'
@@ -167,11 +167,11 @@ top_roulette_rows = [
         "avatar_url": roulette_member_avatars.get(name),
         "generasi": roulette_member_generations.get(name),
     }
-    for name, count in roulette_member_counts.head(10).items()
+    for name, count in roulette_member_counts.head(8).items()
 ]
 latest_archive = max((pd.to_datetime(row["start_time"]) for row in event_rows), default=None)
 latest_archive_copy = format_event_date(latest_archive) if latest_archive is not None else "No archive dates yet"
-completed_rows = collapse_recent_calls(completed_rows, limit=5)
+recent_completed_rows = collapse_recent_calls(completed_rows, limit=5)
 
 render_navbar("overview", total_pending)
 st.markdown('<div class="ct-content ct-archive">', unsafe_allow_html=True)
@@ -182,62 +182,66 @@ waiting_copy = (
     else "No roulette draws waiting"
 )
 
+top_member = top_roulette_rows[0] if top_roulette_rows else None
+top_member_name = top_member["nickname"] if top_member else "No winner yet"
+top_member_subcopy = (
+    f"{top_member['count']} completed roulette slots"
+    if top_member
+    else "Roulette winners will appear here"
+)
+archive_help = (
+    "Open roulette slots stay at the front until each slot has a winner."
+    if total_pending
+    else "Every stored slot already has a winner, so recent results now lead the board."
+)
+
 st.markdown(
     f"""
-    <section class="ckt-hero">
-      <div class="ckt-surface ckt-panel">
-        <div class="ckt-kicker">JKT48 Chekicha archive</div>
-        <h1 class="ckt-headline">Every roulette draw, remembered.</h1>
-        <p class="ckt-body">
-          Follow waiting roulette entries, completed calls, and member history through
-          a collectible archive that feels closer to an album than a back-office dashboard.
-        </p>
-        <div class="ckt-pulse-grid">
-          <div class="ckt-pulse-card">
-            <div class="ckt-meta">Resolved calls</div>
-            <strong class="ckt-pulse-value">{resolved_calls}</strong>
-            <div class="ckt-small">Winners already archived</div>
-          </div>
-          <div class="ckt-pulse-card">
-            <div class="ckt-meta">Completion rate</div>
-            <strong class="ckt-pulse-value">{completion_rate}%</strong>
-            <div class="ckt-small">Across every stored slot</div>
-          </div>
-          <div class="ckt-pulse-card">
-            <div class="ckt-meta">Latest archive</div>
-            <strong class="ckt-pulse-value ckt-pulse-date">{safe_text(latest_archive_copy)}</strong>
-            <div class="ckt-small">Most recent stored event date</div>
-          </div>
+    <section class="ckt-hero ckt-overview-hero">
+      <div class="ckt-status-strip ckt-surface">
+        <div class="ckt-status-cell">
+          <div class="ckt-meta">Waiting now</div>
+          <strong class="ckt-status-value {'is-hot' if total_pending else ''}">{safe_text(waiting_copy)}</strong>
+          <div class="ckt-status-subline">Open roulette slots stay visible first.</div>
+        </div>
+        <div class="ckt-status-cell">
+          <div class="ckt-meta">Last archive</div>
+          <strong class="ckt-status-value">{safe_text(latest_archive_copy)}</strong>
+          <div class="ckt-status-subline">Most recent stored event date.</div>
+        </div>
+        <div class="ckt-status-cell">
+          <div class="ckt-meta">Top member</div>
+          <strong class="ckt-status-value">{safe_text(top_member_name)}</strong>
+          <div class="ckt-status-subline">{safe_text(top_member_subcopy)}</div>
+        </div>
+        <div class="ckt-status-cell">
+          <div class="ckt-meta">Main format</div>
+          <strong class="ckt-status-value">{safe_text(top_event_type)}</strong>
+          <div class="ckt-status-subline">{top_event_count} archived rows currently lead.</div>
         </div>
       </div>
-      <aside class="ckt-roulette-desk">
-        <div class="ckt-meta">Roulette Desk</div>
-        <h2 class="ckt-desk-title">Current suspense</h2>
-        <div class="ckt-ticket is-waiting">
-          <div class="ckt-meta">Waiting status</div>
-          <strong>{safe_text(waiting_copy)}</strong>
-          <div>The archive highlights unresolved draws before anything else.</div>
+      <div class="ckt-overview-lead">
+        <div>
+          <div class="ckt-kicker">JKT48 Chekicha archive</div>
+          <h1 class="ckt-overview-title">See what still needs a winner.</h1>
+          <p class="ckt-body">Check open draws first, then scan recent results and repeat members without digging through extra panels.</p>
         </div>
-        <div class="ckt-ticket">
-          <div class="ckt-meta">Archive lead</div>
-          <strong>{safe_text(top_event_type)}</strong>
-          <div>{top_event_count} entries currently shape the archive mix.</div>
+        <div class="ckt-overview-note">
+          <div class="ckt-meta">Archive rule</div>
+          <div class="ckt-body">{safe_text(archive_help)}</div>
         </div>
-        {render_recent_tickets(completed_rows[:1])}
-      </aside>
+      </div>
     </section>
     """,
     unsafe_allow_html=True,
 )
 
 stats = [
-    ("Events archived", total_events, "Stored schedule rows", "#F35B93"),
-    ("Members tracked", total_members, "Active and graduated", "#63E6D8"),
-    ("Waiting roulette", total_pending, "Winner not announced", "#F6B44B"),
-    ("Resolved pulls", resolved_calls, "Finished winner slots", "#B8B4D9"),
+    ("Archived events", total_events, "Stored schedule rows", "#FF6A8B"),
+    ("Tracked members", total_members, "Active and graduated", "#78E0D1"),
+    ("Resolved calls", resolved_calls, "Winner slots already filled", "#F2B24A"),
+    ("Completion rate", f"{completion_rate}%", "Across every stored slot", "#C3BCDD"),
 ]
-
-st.markdown(render_stat_grid(stats), unsafe_allow_html=True)
 
 leaderboard_html = "".join(
     f'''
@@ -246,7 +250,7 @@ leaderboard_html = "".join(
       {render_avatar_markup(row.get("avatar_url"), row["nickname"], class_name="ckt-rank-avatar")}
       <div class="ckt-rank-copy">
         <div class="ckt-rank-name">{safe_text(row["nickname"])}</div>
-        <div class="ckt-small">{safe_text(f"Gen {row['generasi']}") if row.get("generasi") else "Generation unknown"}</div>
+          <div class="ckt-small">{safe_text(f"Gen {row['generasi']}") if row.get("generasi") else "Generation unknown"}</div>
       </div>
       <div class="ckt-rank-value">{row["count"]}</div>
     </div>
@@ -256,7 +260,7 @@ leaderboard_html = "".join(
 if not leaderboard_html:
     leaderboard_html = '<div class="ckt-empty">No completed roulette winners yet.</div>'
 
-type_colors = {"Roulette": "#F35B93", "Birthday": "#F6B44B", "Graduation": "#B8B4D9"}
+type_colors = {"Roulette": "#FF6A8B", "Birthday": "#F2B24A", "Graduation": "#C3BCDD"}
 bars_html = ""
 for event_type, count in type_counts.items():
     pct = round(count / total_events * 100) if total_events else 0
@@ -272,7 +276,7 @@ if not bars_html:
     bars_html = '<div class="ckt-empty">Event distribution will appear once archive rows are saved.</div>'
 
 feed_html = ""
-for row in completed_rows:
+for row in recent_completed_rows:
     nickname = row.get("nickname", "Unknown member")
     dt = pd.to_datetime(row["start_time"])
     avatar = render_avatar_markup(row.get("avatar_url"), nickname)
@@ -295,36 +299,72 @@ if not feed_html:
 
 st.markdown(
     f"""
-    <section class="ckt-surface ckt-panel ckt-spotlight-panel">
-      <div class="ckt-panel-head">
-        <div>
-          <div class="ckt-meta">Roulette spotlight</div>
-          <h2 class="ckt-panel-title">Top 10 roulette members</h2>
-        </div>
-        <div class="ckt-panel-note">Most frequent completed roulette winners in the current archive.</div>
-      </div>
-      <div class="ckt-rank-list">{leaderboard_html}</div>
-    </section>
     <section class="ckt-grid-2 ckt-overview-grid">
+      <div class="ckt-surface ckt-panel ckt-summary-panel">
+        <div class="ckt-panel-head">
+          <div>
+            <div class="ckt-meta">Archive summary</div>
+            <h2 class="ckt-panel-title">The board in one glance</h2>
+          </div>
+          <div class="ckt-panel-note">Open draws, stored events, member coverage, and filled slots stay in one compact rail.</div>
+        </div>
+        <p class="ckt-body">This page keeps the archive readable for fans first: what is still open, what just finished, and who appears most often.</p>
+        {render_stat_grid(stats)}
+      </div>
       <div class="ckt-surface ckt-panel">
         <div class="ckt-panel-head">
           <div>
-            <div class="ckt-meta">Archive mix</div>
-            <h2 class="ckt-panel-title">Event type distribution</h2>
+            <div class="ckt-meta">Recent results</div>
+            <h2 class="ckt-panel-title">Latest filled slots</h2>
+          </div>
+          <div class="ckt-panel-note">Birthday and Graduation rows stay grouped by day so repeat entries do not crowd the list.</div>
+        </div>
+        {feed_html}
+      </div>
+    </section>
+    <section class="ckt-surface ckt-panel ckt-spotlight-panel">
+      <div class="ckt-panel-head">
+        <div>
+          <div class="ckt-meta">Frequent roulette members</div>
+          <h2 class="ckt-panel-title">Repeat winners in the current archive</h2>
+        </div>
+        <div class="ckt-panel-note">A tighter ranking board keeps the names readable without turning the page into a wall of cards.</div>
+      </div>
+      <div class="ckt-rank-list">{leaderboard_html}</div>
+    </section>
+    <section class="ckt-grid-2 ckt-overview-foot">
+      <div class="ckt-surface ckt-panel">
+        <div class="ckt-panel-head">
+          <div>
+            <div class="ckt-meta">Event mix</div>
+            <h2 class="ckt-panel-title">Stored event distribution</h2>
           </div>
           <div class="ckt-panel-note">Top format: {safe_text(top_event_type)}</div>
         </div>
         {bars_html}
       </div>
-      <div class="ckt-surface ckt-panel">
+      <div class="ckt-surface ckt-panel ckt-guide-panel">
         <div class="ckt-panel-head">
           <div>
-            <div class="ckt-meta">Latest pulls</div>
-            <h2 class="ckt-panel-title">Recent completed calls</h2>
+            <div class="ckt-meta">Archive health</div>
+            <h2 class="ckt-panel-title">What to check next</h2>
           </div>
-          <div class="ckt-panel-note">Same-day Birthday and Graduation sessions are grouped.</div>
+          <div class="ckt-panel-note">Plain-language cues for anyone opening the board for the first time.</div>
         </div>
-        {feed_html}
+        <ul class="ckt-guide-list">
+          <li>
+            <strong>Open draws</strong>
+            <span>{safe_text(waiting_copy)}</span>
+          </li>
+          <li>
+            <strong>Coverage</strong>
+            {completion_rate}% of stored slots already have a winner.
+          </li>
+          <li>
+            <strong>Archive focus</strong>
+            {safe_text(top_event_type)} currently leads with {top_event_count} stored row{'s' if top_event_count != 1 else ''}.
+          </li>
+        </ul>
       </div>
     </section>
     """,

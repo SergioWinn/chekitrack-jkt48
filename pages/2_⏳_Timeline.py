@@ -143,11 +143,11 @@ raw = (
 
 st.markdown(
     """
-    <section class="ckt-filter-row">
-      <div class="ckt-filter-copy">
-        <div class="ckt-kicker">Ticket Archive</div>
-        <h1 class="ckt-member-title">Chronology of every draw and reveal.</h1>
-        <p class="ckt-body">Waiting for roulette entries stay highlighted until every slot in the event row has a winner.</p>
+    <section class="ckt-compact-intro">
+      <div class="ckt-surface ckt-panel ckt-intro-panel">
+        <div class="ckt-kicker">Ticket archive</div>
+        <h1 class="ckt-member-title">Follow every draw in date order.</h1>
+        <p class="ckt-body">Use the filter to narrow the board, then scan waiting slots before filled ones slide into history.</p>
       </div>
     </section>
     """,
@@ -162,6 +162,30 @@ else:
     filter_type = st.selectbox("Event type", options)
 
 filtered = raw if filter_type == "All" else [row for row in raw if row.get("event_type") == filter_type]
+filtered_count = len(filtered)
+filter_note = "All event types" if filter_type == "All" else f"Only {filter_type}"
+
+st.markdown(
+    f"""
+    <section class="ckt-mini-strip">
+        <div class="ckt-mini-cell">
+          <div class="ckt-meta">Visible events</div>
+          <strong class="ckt-mini-value">{filtered_count}</strong>
+        </div>
+        <div class="ckt-mini-cell">
+          <div class="ckt-meta">Waiting now</div>
+          <strong class="ckt-mini-value {'is-hot' if pending_count else ''}">{pending_count}</strong>
+        </div>
+        <div class="ckt-mini-cell">
+          <div class="ckt-meta">Current filter</div>
+          <strong class="ckt-mini-value">{safe_text(filter_type)}</strong>
+          <div class="ckt-small">{safe_text(filter_note)}</div>
+        </div>
+    </section>
+    """,
+    unsafe_allow_html=True,
+)
+
 timeline_sections = []
 for month_label, month_rows in group_timeline_by_month(filtered).items():
     timeline_sections.append(

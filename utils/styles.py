@@ -57,40 +57,47 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     flex-direction: column;
     align-items: stretch;
     gap: 8px;
-    padding: 12px 18px 10px;
-    border: 1px solid rgba(248, 242, 231, 0.09);
-    border-radius: 22px;
+    padding: 11px 16px;
+    border: 1px solid rgba(248, 242, 231, 0.08);
+    border-radius: 20px;
     background:
-        radial-gradient(circle at top right, rgba(168, 139, 250, 0.14), transparent 28%),
-        radial-gradient(circle at left center, rgba(96, 165, 250, 0.08), transparent 22%),
-        linear-gradient(180deg, rgba(17, 17, 24, 0.98), rgba(15, 16, 24, 0.96));
-    box-shadow: 0 16px 36px rgba(0, 0, 0, 0.2);
+        radial-gradient(circle at top right, rgba(255, 106, 139, 0.12), transparent 24%),
+        radial-gradient(circle at left center, rgba(120, 224, 209, 0.08), transparent 20%),
+        linear-gradient(180deg, rgba(20, 24, 42, 0.98), rgba(16, 20, 34, 0.97));
+    box-shadow: 0 14px 32px rgba(0, 0, 0, 0.18);
 }
 
 .ct-navbar-mainline {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 6px;
+    justify-content: space-between;
+    gap: 14px;
 }
 
 .ct-brand-block {
     display: flex;
     flex-direction: column;
-    gap: 4px;
-    align-items: center;
-    text-align: center;
+    gap: 2px;
+    align-items: flex-start;
+    text-align: left;
     min-width: 0;
 }
 
+.ct-navbar-side {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
 .ct-logo {
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 800;
     color: #fff;
     display: inline-flex;
     align-items: center;
-    gap: 10px;
+    gap: 9px;
     white-space: nowrap;
     flex-shrink: 0;
     letter-spacing: -0.03em;
@@ -98,9 +105,9 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 
 .ct-brand-sub {
     color: #a7abc1;
-    font-size: 0.74rem;
+    font-size: 0.71rem;
     margin-top: 0;
-    max-width: 28rem;
+    max-width: 30rem;
 }
 
 .ct-logo-dot {
@@ -115,7 +122,7 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
 .ct-credit-cluster {
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
     gap: 10px;
     flex-wrap: wrap;
 }
@@ -141,54 +148,33 @@ section[data-testid="stMain"] > div:first-child { padding-top: 0 !important; }
     align-items: center;
     gap: 6px;
     text-decoration: none;
-    padding: 0.46rem 0.78rem;
+    padding: 0.42rem 0.76rem;
     border-radius: 999px;
-    background: rgba(255, 66, 77, 0.08);
+    background: rgba(255, 106, 139, 0.08);
     color: #fff;
-    font-size: 0.74rem;
+    font-size: 0.71rem;
     font-weight: 800;
-    border: 1px solid rgba(255, 66, 77, 0.16);
+    border: 1px solid rgba(255, 106, 139, 0.16);
 }
 
 .ct-tako-btn:hover {
-    background: rgba(255, 66, 77, 0.16);
+    background: rgba(255, 106, 139, 0.16);
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
     position: sticky;
-    top: 10px;
+    top: 8px;
     z-index: 1000;
     max-width: 1180px;
     width: 100%;
-    margin: 6px auto 4px !important;
-    padding: 10px 18px !important;
+    margin: 6px auto 2px !important;
+    padding: 6px !important;
     border: 1px solid rgba(248, 242, 231, 0.08);
-    border-radius: 24px;
-    background: linear-gradient(180deg, rgba(20, 21, 31, 0.94), rgba(15, 16, 24, 0.92));
+    border-radius: 18px;
+    background: linear-gradient(180deg, rgba(20, 24, 42, 0.92), rgba(16, 20, 34, 0.9));
     backdrop-filter: blur(14px);
-    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.14);
     overflow: visible;
-}
-
-div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):before,
-div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    width: 26px;
-    height: 26px;
-    border-radius: 50%;
-    background: #12192a;
-    border: 1px solid rgba(248, 242, 231, 0.06);
-    transform: translateY(-50%);
-}
-
-div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):before {
-    left: -13px;
-}
-
-div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):after {
-    right: -13px;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
@@ -203,15 +189,15 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
     min-width: 0;
     flex: 1 1 0;
     max-width: none;
-    padding: 0 8px;
+    padding: 0 4px;
 }
 
 div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child):after {
     content: "";
     position: absolute;
-    top: 14px;
+    top: 10px;
     right: 0;
-    bottom: 14px;
+    bottom: 10px;
     width: 1px;
     background: linear-gradient(180deg, transparent, rgba(248, 242, 231, 0.12), transparent);
 }
@@ -220,12 +206,12 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 .ct-navbtn button {
     background: transparent !important;
     border: 1px solid transparent !important;
-    border-radius: 14px !important;
+    border-radius: 12px !important;
     color: #969bb5 !important;
-    font-size: 0.9rem !important;
+    font-size: 0.86rem !important;
     font-weight: 750 !important;
-    padding: 0 14px !important;
-    height: 50px !important;
+    padding: 0 12px !important;
+    height: 44px !important;
     cursor: pointer !important;
     transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.15s, box-shadow 0.15s !important;
     box-shadow: none !important;
@@ -233,6 +219,12 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     width: 100% !important;
     letter-spacing: -0.01em !important;
 }
+
+.ct-navbtn button:focus-visible {
+    outline: 2px solid rgba(120, 224, 209, 0.8) !important;
+    outline-offset: 1px !important;
+}
+
 .ct-navbtn button:hover {
     color: #ffffff !important;
     background: rgba(255, 255, 255, 0.03) !important;
@@ -242,13 +234,13 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 }
 .ct-navbtn-active button {
     color: #ffffff !important;
-    border-color: rgba(99, 230, 216, 0.18) !important;
+    border-color: rgba(120, 224, 209, 0.18) !important;
     background:
-        radial-gradient(circle at top left, rgba(243, 91, 147, 0.12), transparent 42%),
-        linear-gradient(180deg, rgba(99, 230, 216, 0.12), rgba(99, 230, 216, 0.05)) !important;
+        radial-gradient(circle at top left, rgba(255, 106, 139, 0.12), transparent 42%),
+        linear-gradient(180deg, rgba(120, 224, 209, 0.12), rgba(120, 224, 209, 0.05)) !important;
     box-shadow:
         inset 0 1px 0 rgba(255, 255, 255, 0.05),
-        0 10px 18px rgba(8, 14, 20, 0.18) !important;
+        0 8px 14px rgba(8, 14, 20, 0.16) !important;
 }
 
 .ct-navbar-aux {
@@ -256,49 +248,40 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 8px;
+    gap: 4px;
     max-width: 1180px;
     margin: 0 auto 0;
-    padding: 2px 8px 0;
+    padding: 3px 8px 0;
     border: 0;
     border-radius: 0;
     background: transparent;
 }
 
 .ct-navbar-aux .ct-credit-cluster {
-    position: relative;
-    gap: 12px;
+    gap: 8px;
     justify-content: center;
-    padding-bottom: 6px;
-}
-
-.ct-navbar-aux .ct-credit-cluster:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    bottom: -4px;
-    width: 72px;
-    height: 1px;
-    transform: translateX(-50%);
-    background: linear-gradient(90deg, transparent, rgba(248, 242, 231, 0.18), transparent);
 }
 
 .ct-nav-status {
-    display: grid;
-    justify-items: center;
-    gap: 2px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 10px;
+    border-radius: 999px;
+    background: rgba(243, 235, 221, 0.06);
+    border: 1px solid rgba(243, 235, 221, 0.1);
 }
 
 .ct-nav-status-label {
     color: #7ee5dc;
-    font: 700 0.62rem/1.2 'IBM Plex Mono', monospace;
-    letter-spacing: 0.14em;
+    font: 700 0.58rem/1.2 'IBM Plex Mono', monospace;
+    letter-spacing: 0.12em;
     text-transform: uppercase;
 }
 
 .ct-nav-status-value {
     color: #e7e8f3;
-    font-size: 0.84rem;
+    font-size: 0.78rem;
     font-weight: 700;
     letter-spacing: -0.02em;
 }
@@ -324,7 +307,6 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 @media (max-width: 900px) {
     .ct-navbar-mainline {
         flex-wrap: wrap;
-        flex-direction: row;
         align-items: flex-start;
         justify-content: space-between;
     }
@@ -332,6 +314,11 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     .ct-brand-block {
         align-items: flex-start;
         text-align: left;
+    }
+
+    .ct-navbar-side {
+        width: 100%;
+        justify-content: space-between;
     }
 
     .ct-brand-sub {
@@ -346,20 +333,18 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
         justify-content: flex-start;
         max-width: none;
         align-items: flex-start;
-        gap: 8px;
-        margin: 0 0 8px;
+        gap: 6px;
+        margin: 0 0 6px;
         padding: 0 2px;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
         max-width: none;
-        margin: 8px 0 14px !important;
+        margin: 6px 0 10px !important;
         padding: 5px !important;
         border-radius: 18px;
     }
 
-    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):before,
-    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn):after,
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child):after {
         display: none;
     }
@@ -390,11 +375,16 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 @media (max-width: 640px) {
     .ct-navbar {
         gap: 8px;
-        padding: 10px 12px 9px;
+        padding: 10px 12px 10px;
         border-radius: 18px;
     }
 
     .ct-navbar-mainline {
+        gap: 8px;
+    }
+
+    .ct-navbar-side {
+        justify-content: flex-start;
         gap: 8px;
     }
 
@@ -445,13 +435,8 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-navbar-aux {
-        gap: 5px;
+        gap: 4px;
         padding: 0 2px 4px;
-    }
-
-    .ct-navbar-aux .ct-credit-cluster:after {
-        left: 0;
-        transform: none;
     }
 
     .ct-nav-status-label {
@@ -459,7 +444,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-nav-status-value {
-        font-size: 0.72rem;
+        font-size: 0.7rem;
     }
 
     .ct-credit-label {
@@ -706,21 +691,21 @@ DARK_THEME_CSS = DARK_CSS
 
 ARCHIVE_THEME_CSS = """
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=IBM+Plex+Mono:wght@500;600&family=Manrope:wght@400;500;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&family=Manrope:wght@400;500;700;800&family=Syne:wght@600;700;800&display=swap');
 
 :root {
-    --ckt-stage: #0b1020;
-    --ckt-stage-2: #11172a;
-    --ckt-ink: #161a2c;
-    --ckt-paper: #f8f2e7;
-    --ckt-paper-2: #efe4d1;
-    --ckt-pink: #f35b93;
-    --ckt-cyan: #63e6d8;
-    --ckt-amber: #f6b44b;
-    --ckt-lilac: #b8b4d9;
-    --ckt-text: #f9f6f0;
-    --ckt-muted: rgba(249, 246, 240, 0.66);
-    --ckt-line: rgba(248, 242, 231, 0.14);
+    --ckt-stage: #14182a;
+    --ckt-stage-2: #20263d;
+    --ckt-ink: #1b2034;
+    --ckt-paper: #f3ebdd;
+    --ckt-paper-2: #eadfcd;
+    --ckt-pink: #ff6a8b;
+    --ckt-cyan: #78e0d1;
+    --ckt-amber: #f2b24a;
+    --ckt-lilac: #c3bcdd;
+    --ckt-text: #faf7f2;
+    --ckt-muted: rgba(250, 247, 242, 0.66);
+    --ckt-line: rgba(243, 235, 221, 0.12);
 }
 
 .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] {
@@ -732,16 +717,15 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ct-content.ct-archive {
-    padding: 18px 6px 48px;
+    padding: 10px 6px 40px;
     font-family: 'Manrope', sans-serif;
 }
 
 .ckt-hero {
     display: grid;
-    grid-template-columns: minmax(0, 1.18fr) minmax(260px, 0.82fr);
-    gap: 18px;
+    gap: 14px;
     align-items: start;
-    margin-bottom: 18px;
+    margin-bottom: 14px;
 }
 
 .ckt-kicker,
@@ -753,18 +737,18 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-headline {
-    font-family: 'Bricolage Grotesque', sans-serif;
+    font-family: 'Syne', sans-serif;
     font-size: clamp(2.4rem, 5vw, 4.7rem);
     line-height: 0.9;
     letter-spacing: -0.06em;
     color: var(--ckt-text);
-    margin: 10px 0 14px;
+    margin: 4px 0 10px;
 }
 
 .ckt-body {
     color: var(--ckt-muted);
-    font-size: 0.98rem;
-    line-height: 1.65;
+    font-size: 0.95rem;
+    line-height: 1.58;
     max-width: 44rem;
 }
 
@@ -777,9 +761,8 @@ ARCHIVE_THEME_CSS = """
 .ckt-roulette-desk {
     background: linear-gradient(160deg, var(--ckt-paper), var(--ckt-paper-2));
     color: #151220;
-    border-radius: 30px 30px 30px 10px;
+    border-radius: 26px;
     padding: 14px;
-    transform: rotate(-0.8deg);
     position: relative;
     min-height: 100%;
 }
@@ -794,9 +777,9 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-desk-title {
-    font: 800 1.55rem/0.95 'Bricolage Grotesque', sans-serif;
+    font: 800 1.55rem/0.95 'Syne', sans-serif;
     letter-spacing: -0.05em;
-        margin: 0 0 4px;
+    margin: 0 0 4px;
 }
 
 .ckt-ticket {
@@ -829,20 +812,22 @@ ARCHIVE_THEME_CSS = """
 .ckt-stat-grid {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 14px;
-    margin-bottom: 18px;
+    gap: 10px;
+    margin-top: 12px;
 }
 
 .ckt-stat-card {
-    border-radius: 24px;
-    padding: 16px 18px;
+    border-radius: 20px;
+    padding: 14px 15px;
+    background: rgba(243, 235, 221, 0.04);
+    border: 1px solid rgba(243, 235, 221, 0.08);
 }
 
 .ckt-stat-card strong {
     display: block;
-    font: 800 2rem/1 'Bricolage Grotesque', sans-serif;
+    font: 800 1.7rem/1 'Syne', sans-serif;
     color: var(--accent, var(--ckt-pink));
-    margin: 8px 0 6px;
+    margin: 6px 0 4px;
 }
 
 .ckt-pulse-grid {
@@ -879,29 +864,29 @@ ARCHIVE_THEME_CSS = """
 .ckt-rank-list {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
+    gap: 8px;
 }
 
 .ckt-rank-item {
     display: grid;
-    grid-template-columns: 54px 48px minmax(0, 1fr) auto;
-    gap: 14px;
+    grid-template-columns: 42px 40px minmax(0, 1fr) auto;
+    gap: 10px;
     align-items: center;
-    padding: 12px 14px;
-    border-radius: 18px;
-    background: rgba(248, 242, 231, 0.04);
-    border: 1px solid rgba(248, 242, 231, 0.08);
+    padding: 10px 12px;
+    border-radius: 16px;
+    background: rgba(243, 235, 221, 0.04);
+    border: 1px solid rgba(243, 235, 221, 0.08);
 }
 
 .ckt-rank-position {
     display: grid;
     place-items: center;
-    width: 54px;
-    height: 54px;
-    border-radius: 16px;
-    background: rgba(243, 91, 147, 0.12);
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: rgba(255, 106, 139, 0.12);
     color: var(--ckt-pink);
-    font: 800 1rem/1 'IBM Plex Mono', monospace;
+    font: 800 0.88rem/1 'IBM Plex Mono', monospace;
 }
 
 .ckt-rank-copy {
@@ -910,9 +895,9 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-rank-avatar {
     display: inline-flex;
-    width: 48px;
-    height: 48px;
-    border-radius: 16px;
+    width: 40px;
+    height: 40px;
+    border-radius: 14px;
     overflow: hidden;
     align-items: center;
     justify-content: center;
@@ -928,33 +913,33 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-rank-name {
-    font: 800 1.12rem/1 'Bricolage Grotesque', sans-serif;
+    font: 800 1rem/1 'Syne', sans-serif;
     letter-spacing: -0.03em;
     color: var(--ckt-text);
-    margin-bottom: 5px;
+    margin-bottom: 3px;
 }
 
 .ckt-rank-value {
     color: var(--ckt-text);
-    font: 800 1.4rem/1 'Bricolage Grotesque', sans-serif;
+    font: 800 1.15rem/1 'Syne', sans-serif;
 }
 
 .ckt-grid-2 {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(260px, 0.8fr);
-    gap: 16px;
+    grid-template-columns: minmax(0, 1.18fr) minmax(280px, 0.82fr);
+    gap: 12px;
 }
 
 .ckt-panel {
-    border-radius: 26px;
-    padding: 18px;
+    border-radius: 24px;
+    padding: 16px;
 }
 
 .ckt-panel-title {
-    font: 800 1.1rem/1 'Bricolage Grotesque', sans-serif;
+    font: 800 1.02rem/1 'Syne', sans-serif;
     letter-spacing: -0.03em;
     color: var(--ckt-text);
-    margin: 10px 0 12px;
+    margin: 6px 0 10px;
 }
 
 .ckt-panel-head {
@@ -967,8 +952,8 @@ ARCHIVE_THEME_CSS = """
 .ckt-panel-note {
     max-width: 220px;
     color: var(--ckt-muted);
-    font-size: 0.78rem;
-    line-height: 1.45;
+    font-size: 0.76rem;
+    line-height: 1.4;
     text-align: right;
 }
 
@@ -1002,8 +987,8 @@ ARCHIVE_THEME_CSS = """
     display: flex;
     align-items: center;
     gap: 10px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(248, 242, 231, 0.08);
+    padding: 9px 0;
+    border-bottom: 1px solid rgba(243, 235, 221, 0.08);
 }
 
 .ckt-activity-item:last-child {
@@ -1079,12 +1064,65 @@ ARCHIVE_THEME_CSS = """
     align-items: center;
     justify-content: space-between;
     gap: 12px;
-    margin-bottom: 14px;
+    margin-bottom: 10px;
+}
+
+.ckt-compact-intro {
+    display: grid;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.ckt-intro-panel {
+    border-radius: 22px;
+    padding: 14px 16px;
+}
+
+.ckt-intro-panel .ckt-body {
+    margin: 0;
+}
+
+.ckt-mini-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.ckt-mini-cell {
+    min-width: 0;
+    padding: 11px 12px;
+    border-radius: 18px;
+    background: rgba(243, 235, 221, 0.04);
+    border: 1px solid rgba(243, 235, 221, 0.08);
+}
+
+.ckt-mini-value {
+    display: block;
+    margin-top: 5px;
+    color: var(--ckt-text);
+    font: 800 1.05rem/1 'Syne', sans-serif;
+    letter-spacing: -0.03em;
+}
+
+.ckt-mini-value.is-hot {
+    color: var(--ckt-pink);
+}
+
+.ckt-browser-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin: 4px 0 10px;
+}
+
+.ckt-browser-meta .ckt-small {
+    font-size: 0.76rem;
 }
 
 .ckt-filter-copy h1,
 .ckt-member-title {
-    font: 800 clamp(2rem, 5vw, 3.7rem)/0.93 'Bricolage Grotesque', sans-serif;
+    font: 800 clamp(2rem, 5vw, 3.7rem)/0.93 'Syne', sans-serif;
     letter-spacing: -0.06em;
     margin: 6px 0 12px;
     color: var(--ckt-text);
@@ -1097,7 +1135,7 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-month-section {
-    margin-bottom: 18px;
+    margin-bottom: 14px;
 }
 
 .ckt-timeline-columns {
@@ -1121,11 +1159,11 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-ticket-card {
     display: grid;
-    grid-template-columns: 72px 168px minmax(0, 1fr);
-    gap: 14px;
+    grid-template-columns: 64px 152px minmax(0, 1fr);
+    gap: 12px;
     align-items: stretch;
-    border-radius: 28px;
-    padding: 12px;
+    border-radius: 24px;
+    padding: 11px;
 }
 
 .ckt-ticket-card.is-waiting {
@@ -1141,7 +1179,7 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-date-rail strong {
     display: block;
-    font: 800 2rem/1 'Bricolage Grotesque', sans-serif;
+    font: 800 2rem/1 'Syne', sans-serif;
     color: var(--ckt-paper);
 }
 
@@ -1154,8 +1192,8 @@ ARCHIVE_THEME_CSS = """
 .ckt-banner {
     aspect-ratio: 4 / 3;
     width: 100%;
-    min-height: 126px;
-    border-radius: 20px;
+    min-height: 112px;
+    border-radius: 18px;
     background: #0e1020;
     overflow: hidden;
     display: flex;
@@ -1187,7 +1225,7 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-ticket-name {
-    font: 800 1.18rem/1.08 'Bricolage Grotesque', sans-serif;
+    font: 800 1.18rem/1.08 'Syne', sans-serif;
     letter-spacing: -0.03em;
     color: var(--ckt-text);
     margin: 0 0 5px;
@@ -1240,10 +1278,10 @@ ARCHIVE_THEME_CSS = """
     display: flex;
     align-items: flex-start;
     flex-wrap: nowrap;
-    gap: 18px;
-    border-radius: 32px;
-    padding: 18px;
-    margin: 12px 0 16px;
+    gap: 16px;
+    border-radius: 28px;
+    padding: 16px;
+    margin: 10px 0 14px;
 }
 
 .ckt-photocard-frame {
@@ -1264,7 +1302,7 @@ ARCHIVE_THEME_CSS = """
     justify-content: center;
     background: linear-gradient(160deg, var(--ckt-paper), var(--ckt-paper-2));
     color: #151220;
-    font: 800 2.6rem/1 'Bricolage Grotesque', sans-serif;
+    font: 800 2.6rem/1 'Syne', sans-serif;
     padding: 12px;
 }
 
@@ -1305,10 +1343,10 @@ ARCHIVE_THEME_CSS = """
     text-align: left;
     background: rgba(22, 26, 44, 0.72);
     border: 1px solid var(--ckt-line);
-    border-radius: 20px;
-    padding: 12px;
+    border-radius: 18px;
+    padding: 10px;
     color: var(--ckt-text);
-    box-shadow: 0 18px 40px rgba(0, 0, 0, 0.18);
+    box-shadow: 0 16px 34px rgba(0, 0, 0, 0.16);
     transition: border-color 0.15s ease, transform 0.15s ease;
 }
 
@@ -1333,8 +1371,8 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-member-browser-grid {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 18px;
+    grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+    gap: 12px;
 }
 
 .ckt-member-browser-item {
@@ -1411,7 +1449,7 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-dialog-section-title {
     color: var(--ckt-text);
-    font: 800 0.98rem/1 'Bricolage Grotesque', sans-serif;
+    font: 800 0.98rem/1 'Syne', sans-serif;
     letter-spacing: -0.03em;
     margin: 2px 0 10px;
 }
@@ -1419,15 +1457,15 @@ ARCHIVE_THEME_CSS = """
 .ckt-member-card-ava {
     width: 100%;
     aspect-ratio: 1;
-    border-radius: 16px;
+    border-radius: 14px;
     overflow: hidden;
     background: #fff8ef;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #151220;
-    font: 800 1.6rem/1 'Bricolage Grotesque', sans-serif;
-    margin-bottom: 10px;
+    font: 800 1.6rem/1 'Syne', sans-serif;
+    margin-bottom: 8px;
 }
 
 .ckt-member-card-ava img {
@@ -1438,7 +1476,7 @@ ARCHIVE_THEME_CSS = """
 }
 
 .ckt-member-card-name {
-    font: 800 0.95rem/1.1 'Bricolage Grotesque', sans-serif;
+    font: 800 0.9rem/1.1 'Syne', sans-serif;
     letter-spacing: -0.03em;
     color: var(--ckt-text);
     margin-bottom: 3px;
@@ -1446,7 +1484,7 @@ ARCHIVE_THEME_CSS = """
 
 .ckt-member-card-sub {
     color: var(--ckt-muted);
-    font-size: 0.76rem;
+    font-size: 0.72rem;
 }
 
 .ckt-meta-row {
@@ -1510,11 +1548,176 @@ ARCHIVE_THEME_CSS = """
     color: var(--ckt-muted);
 }
 
+.ckt-overview-hero {
+    gap: 12px;
+}
+
+.ckt-overview-lead {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+}
+
+.ckt-overview-title {
+    font: 800 clamp(2rem, 4vw, 3.2rem)/0.92 'Syne', sans-serif;
+    letter-spacing: -0.06em;
+    margin: 4px 0 8px;
+    color: var(--ckt-text);
+    max-width: 11ch;
+}
+
+.ckt-overview-note {
+    max-width: 20rem;
+    padding: 12px 14px;
+    border-radius: 18px;
+    background: rgba(243, 235, 221, 0.04);
+    border: 1px solid rgba(243, 235, 221, 0.08);
+}
+
+.ckt-status-strip {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+    padding: 18px 16px;
+    border-radius: 24px;
+    overflow: hidden;
+    background:
+        linear-gradient(180deg, rgba(243, 235, 221, 0.08), rgba(243, 235, 221, 0.03)),
+        linear-gradient(140deg, rgba(24, 28, 48, 0.96), rgba(18, 22, 37, 0.98));
+}
+
+.ckt-status-strip:before,
+.ckt-status-strip:after {
+    content: "";
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    height: 10px;
+    background: radial-gradient(circle, rgba(243, 235, 221, 0.95) 0 4px, transparent 4.6px) repeat-x;
+    background-size: 18px 10px;
+    opacity: 0.22;
+    pointer-events: none;
+}
+
+.ckt-status-strip:before {
+    top: -5px;
+}
+
+.ckt-status-strip:after {
+    bottom: -5px;
+}
+
+.ckt-status-cell {
+    position: relative;
+    min-width: 0;
+    padding: 2px 10px 2px 0;
+}
+
+.ckt-status-cell:not(:last-child):after {
+    content: "";
+    position: absolute;
+    top: 4px;
+    right: 0;
+    bottom: 4px;
+    width: 1px;
+    background: linear-gradient(180deg, transparent, rgba(243, 235, 221, 0.16), transparent);
+}
+
+.ckt-status-value {
+    display: block;
+    margin-top: 6px;
+    font: 800 clamp(1rem, 2vw, 1.28rem)/1 'Syne', sans-serif;
+    letter-spacing: -0.04em;
+    color: var(--ckt-text);
+}
+
+.ckt-status-value.is-hot {
+    color: var(--ckt-pink);
+}
+
+.ckt-status-subline {
+    margin-top: 5px;
+    color: var(--ckt-muted);
+    font-size: 0.74rem;
+    line-height: 1.4;
+}
+
+.ckt-summary-panel .ckt-body {
+    margin: 0;
+}
+
+.ckt-overview-grid {
+    margin-bottom: 14px;
+}
+
+.ckt-overview-grid .ckt-panel {
+    min-width: 0;
+}
+
+.ckt-overview-foot {
+    align-items: start;
+}
+
+.ckt-guide-panel {
+    display: grid;
+    gap: 10px;
+}
+
+.ckt-guide-list {
+    display: grid;
+    gap: 8px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.ckt-guide-list li {
+    padding: 9px 10px;
+    border-radius: 16px;
+    background: rgba(243, 235, 221, 0.04);
+    border: 1px solid rgba(243, 235, 221, 0.08);
+    color: var(--ckt-muted);
+    font-size: 0.84rem;
+    line-height: 1.45;
+}
+
+.ckt-guide-list strong {
+    display: block;
+    margin-bottom: 2px;
+    color: var(--ckt-text);
+    font-size: 0.9rem;
+}
+
+.ckt-guide-list span {
+    display: block;
+    margin-top: 2px;
+    color: var(--ckt-pink);
+}
+
 @media (max-width: 860px) {
     .ckt-hero,
     .ckt-grid-2,
     .ckt-preset-summary,
     .ckt-ticket-card {
+        grid-template-columns: 1fr;
+    }
+
+    .ckt-status-strip {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .ckt-status-cell:nth-child(2):after {
+        display: none;
+    }
+
+    .ckt-overview-lead {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .ckt-mini-strip {
         grid-template-columns: 1fr;
     }
 
@@ -1544,7 +1747,7 @@ ARCHIVE_THEME_CSS = """
 
 @media (max-width: 1100px) {
     .ckt-member-browser-grid {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         gap: 14px;
     }
 }
@@ -1586,6 +1789,37 @@ ARCHIVE_THEME_CSS = """
         padding: 24px 0 40px;
     }
 
+    .ckt-status-strip {
+        grid-template-columns: 1fr;
+        padding: 16px 14px;
+    }
+
+    .ckt-status-cell {
+        padding: 0 0 10px;
+    }
+
+    .ckt-status-cell:not(:last-child):after {
+        top: auto;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: auto;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, rgba(243, 235, 221, 0.16), transparent);
+    }
+
+    .ckt-status-cell:nth-child(2):after {
+        display: block;
+    }
+
+    .ckt-overview-title {
+        max-width: none;
+    }
+
+    .ckt-overview-note {
+        width: 100%;
+    }
+
     .ckt-member-browser-grid,
     .ckt-member-pair,
     .ckt-album-grid,
@@ -1601,6 +1835,12 @@ ARCHIVE_THEME_CSS = """
     .ckt-member-browser-grid,
     .ckt-album-grid {
         gap: 9px;
+    }
+
+    .ckt-browser-meta {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
     }
 
     .ckt-timeline {
@@ -1899,7 +2139,7 @@ def render_navbar(active: str, pending: int = 0):
 
     status_html = (
         '<div class="ct-nav-status">'
-        '<div class="ct-nav-status-label">Archive status</div>'
+        '<div class="ct-nav-status-label">Waiting now</div>'
         f'<div class="{status_class}">{status_value}</div>'
         '</div>'
     )
@@ -1913,7 +2153,11 @@ def render_navbar(active: str, pending: int = 0):
                         <span class="ct-logo-dot"></span>
                         <span>Chekicha Timeline</span>
                     </div>
-                    <div class="ct-brand-sub">Every roulette draw, remembered.</div>
+                    <div class="ct-brand-sub">Track open draws, filled slots, and member history in one archive board.</div>
+                </div>
+                <div class="ct-navbar-side">
+                    {status_html}
+                    <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank">Support via Tako</a>
                 </div>
             </div>
         </div>
@@ -1935,10 +2179,8 @@ def render_navbar(active: str, pending: int = 0):
     st.markdown(f"""
     <div class="ct-navbar-aux">
         <div class="ct-credit-cluster">
-            <span class="ct-credit-label">Developed by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
-            <a class="ct-tako-btn" href="https://tako.id/Sportagame19Win" target="_blank">Support via Tako</a>
+            <span class="ct-credit-label">Built by <a class="ct-credit-link" href="https://x.com/estrellawin19" target="_blank">@estrellawin19</a></span>
         </div>
-        {status_html}
     </div>
     """, unsafe_allow_html=True)
 
