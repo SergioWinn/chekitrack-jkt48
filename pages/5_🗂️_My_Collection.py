@@ -86,6 +86,15 @@ def render_selected_slot_card(slot):
     """
 
 
+def render_collection_shelf(entries, columns_count: int = 3):
+    for start in range(0, len(entries), columns_count):
+        row_entries = entries[start:start + columns_count]
+        cols = st.columns(columns_count, gap="large")
+        for col, entry in zip(cols, row_entries):
+            with col:
+                st.markdown(render_collection_card(entry), unsafe_allow_html=True)
+
+
 st.set_page_config(
     page_title="My Collection · Chekicha Timeline",
     page_icon="🗂️",
@@ -218,8 +227,7 @@ if not collection_entries:
         unsafe_allow_html=True,
     )
 else:
-    shelf_markup = "".join(render_collection_card(entry) for entry in collection_entries)
-    st.markdown(f'<section class="ckt-collection-grid">{shelf_markup}</section>', unsafe_allow_html=True)
+    render_collection_shelf(collection_entries)
 
 st.markdown(
     """
