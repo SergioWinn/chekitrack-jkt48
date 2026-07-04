@@ -284,18 +284,22 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
 .ct-session-stack {
     display: grid;
-    gap: 8px;
+    gap: 6px;
     justify-items: start;
     width: 100%;
-    padding: 12px 14px;
-    border-radius: 18px;
+    padding: 10px 12px;
+    border-radius: 16px;
     border: 1px solid rgba(243, 235, 221, 0.08);
     background: linear-gradient(180deg, rgba(243, 235, 221, 0.05), rgba(243, 235, 221, 0.02));
     box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 .ct-session-stack.is-guest {
-    max-width: 32rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: auto;
+    max-width: 38rem;
 }
 
 .ct-session-kicker {
@@ -308,7 +312,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) {
     max-width: 1180px;
     width: 100%;
-    margin: 0 auto 10px !important;
+    margin: 0 auto 6px !important;
     padding: 0 !important;
     background: transparent !important;
     border: 0 !important;
@@ -354,8 +358,8 @@ div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) .stButton {
 
 .ct-session-note.is-guest {
     color: #9ca0b8;
-    display: block;
-    line-height: 1.45;
+    display: inline;
+    line-height: 1.35;
 }
 
 .ct-session-user {
@@ -386,7 +390,7 @@ div[data-testid="stHorizontalBlock"]:has(.ct-auth-row) .stButton {
 div[data-testid="stHorizontalBlock"]:has(.ct-authbtn) {
     max-width: 1180px;
     width: 100%;
-    margin: 0 auto 8px !important;
+    margin: 0 auto 6px !important;
     padding: 0 !important;
     background: transparent !important;
     border: 0 !important;
@@ -3126,7 +3130,7 @@ def render_navbar(active: str, pending: int = 0):
                 )
             else:
                 st.markdown(
-                    '<div class="ct-auth-row"><div class="ct-session-stack is-guest"><div class="ct-session-kicker">Save your collection</div><div class="ct-session-note is-guest">Sign in to save and organize your collection, then come back here anytime.</div></div></div>',
+                    '<div class="ct-auth-row"><div class="ct-session-stack is-guest"><div class="ct-session-kicker">Save your collection</div><div class="ct-session-note is-guest">Sign in to save your collection.</div></div></div>',
                     unsafe_allow_html=True,
                 )
         with cols[1]:
