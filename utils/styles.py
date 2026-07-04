@@ -1722,6 +1722,51 @@ select {
     margin-bottom: 8px;
 }
 
+[data-testid="stForm"] {
+    border: 1px solid rgba(243, 235, 221, 0.08);
+    border-radius: 22px;
+    padding: 16px 18px 10px !important;
+    background: rgba(243, 235, 221, 0.035);
+    margin-top: 8px;
+}
+
+[data-testid="stForm"] button[kind="primaryFormSubmit"],
+[data-testid="stForm"] button[type="submit"] {
+    min-height: 42px;
+    border-radius: 16px !important;
+}
+
+.ckt-auth-sidecard,
+.ckt-auth-formhead {
+    min-height: 100%;
+}
+
+.ckt-auth-points {
+    display: grid;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+.ckt-auth-point {
+    padding: 10px 11px;
+    border-radius: 16px;
+    background: rgba(243, 235, 221, 0.035);
+    border: 1px solid rgba(243, 235, 221, 0.08);
+}
+
+.ckt-auth-point strong {
+    display: block;
+    color: var(--ckt-text);
+    font-size: 0.9rem;
+    margin-bottom: 2px;
+}
+
+.ckt-auth-point span {
+    color: var(--ckt-muted);
+    font-size: 0.8rem;
+    line-height: 1.45;
+}
+
 .ckt-member-browser-item {
     position: relative;
 }

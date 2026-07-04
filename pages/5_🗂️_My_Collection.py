@@ -146,35 +146,66 @@ st.markdown(
 )
 
 if not is_authenticated():
-    signin_tab, signup_tab = st.tabs(["Sign in", "Create account"])
+    auth_mode_widget = getattr(st, "segmented_control", None)
+    auth_modes = ["Sign in", "Create account"]
+    auth_cols = st.columns([0.92, 1.08], gap="large")
 
-    with signin_tab:
-        with st.form("collection_signin"):
-            signin_username = st.text_input("Username", key="collection_signin_username")
-            signin_password = st.text_input("Password", type="password", key="collection_signin_password")
-            signin_submit = st.form_submit_button("Sign in", use_container_width=True)
-        if signin_submit:
-            ok, message = sign_in_with_username(signin_username, signin_password)
-            if ok:
-                st.success(message)
-                st.rerun()
-            st.error(message)
+    with auth_cols[0]:
+        st.markdown(
+            """
+            <section class="ckt-surface ckt-panel ckt-auth-sidecard">
+              <div class="ckt-kicker">Why sign in</div>
+              <h2 class="ckt-panel-title">Keep your cheki shelf personal.</h2>
+              <p class="ckt-body">Save how many cheki you own, revisit the event it came from, and keep your member counts in one private shelf.</p>
+              <div class="ckt-auth-points">
+                <div class="ckt-auth-point"><strong>Track totals</strong><span>Count cheki per event result without mixing them into the public archive.</span></div>
+                <div class="ckt-auth-point"><strong>Find members faster</strong><span>Jump from your own shelf back to the same member and event context.</span></div>
+                <div class="ckt-auth-point"><strong>Stay lightweight</strong><span>Use only a username and password for this collector-facing flow.</span></div>
+              </div>
+            </section>
+            """,
+            unsafe_allow_html=True,
+        )
 
-    with signup_tab:
-        with st.form("collection_signup"):
-            signup_username = st.text_input("Username", key="collection_signup_username")
-            signup_password = st.text_input("Password", type="password", key="collection_signup_password")
-            signup_confirm = st.text_input("Confirm password", type="password", key="collection_signup_confirm")
-            signup_submit = st.form_submit_button("Create account", use_container_width=True)
-        if signup_submit:
-            if signup_password != signup_confirm:
-                st.error("Passwords do not match.")
-            else:
-                ok, message = sign_up_with_username(signup_username, signup_password)
+    with auth_cols[1]:
+        auth_mode = auth_mode_widget("Access mode", auth_modes, default="Sign in") if auth_mode_widget else st.radio("Access mode", auth_modes, horizontal=True)
+        st.markdown(
+            f"""
+            <section class="ckt-surface ckt-panel ckt-auth-formhead">
+              <div class="ckt-kicker">Collector access</div>
+              <h2 class="ckt-panel-title">{safe_text(auth_mode)}</h2>
+              <p class="ckt-body">{safe_text('Use your username and password to reopen your personal shelf.' if auth_mode == 'Sign in' else 'Create a collector account first, then start saving event results to your shelf.')}</p>
+            </section>
+            """,
+            unsafe_allow_html=True,
+        )
+
+        if auth_mode == "Sign in":
+            with st.form("collection_signin"):
+                signin_username = st.text_input("Username", key="collection_signin_username")
+                signin_password = st.text_input("Password", type="password", key="collection_signin_password")
+                signin_submit = st.form_submit_button("Sign in", use_container_width=True)
+            if signin_submit:
+                ok, message = sign_in_with_username(signin_username, signin_password)
                 if ok:
                     st.success(message)
                     st.rerun()
                 st.error(message)
+        else:
+            with st.form("collection_signup"):
+                signup_username = st.text_input("Username", key="collection_signup_username")
+                signup_password = st.text_input("Password", type="password", key="collection_signup_password")
+                signup_confirm = st.text_input("Confirm password", type="password", key="collection_signup_confirm")
+                signup_submit = st.form_submit_button("Create account", use_container_width=True)
+            if signup_submit:
+                if signup_password != signup_confirm:
+                    st.error("Passwords do not match.")
+                else:
+                    ok, message = sign_up_with_username(signup_username, signup_password)
+                    if ok:
+                        st.success(message)
+                        st.rerun()
+                    st.error(message)
 
     st.markdown(
         '<div class="ckt-empty">Use a simple username and password. No email is shown to the public, but Supabase email confirmation should be disabled for this login flow.</div>',
