@@ -400,20 +400,21 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
         top: 8px;
-        padding: 3px !important;
+        padding: 1px !important;
         border-radius: 16px;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
         display: flex !important;
         flex-direction: column;
-        gap: 2px !important;
+        gap: 0 !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
         flex: 1 1 100%;
         width: 100% !important;
         min-width: 0;
+        padding: 0 !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) [data-testid="column"] {
@@ -425,13 +426,18 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
         margin: 0 !important;
     }
 
+    div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) .stButton {
+        margin: 0 !important;
+    }
+
     .ct-navbtn button {
-        min-height: 38px !important;
+        min-height: 34px !important;
         height: auto !important;
-        padding: 7px 9px !important;
+        padding: 6px 8px !important;
         font-size: 0.82rem !important;
         white-space: normal !important;
         line-height: 1.15 !important;
+        margin: 0 !important;
     }
 
     .ct-navbar-aux {
@@ -463,11 +469,11 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) {
-        padding: 2px !important;
+        padding: 1px !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div {
-        gap: 2px !important;
+        gap: 0 !important;
     }
 
     div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div {
@@ -475,8 +481,8 @@ div[data-testid="stHorizontalBlock"]:has(.ct-navbtn) > div > div:not(:last-child
     }
 
     .ct-navbtn button {
-        min-height: 36px !important;
-        padding: 6px 8px !important;
+        min-height: 33px !important;
+        padding: 5px 8px !important;
         font-size: 0.78rem !important;
     }
 }
@@ -2170,8 +2176,21 @@ select {
     }
 
     [role="radiogroup"] {
-        display: grid !important;
-        grid-template-columns: 1fr;
+        display: flex !important;
+        flex-wrap: wrap !important;
+        gap: 6px !important;
+        align-items: stretch;
+    }
+
+    [role="radiogroup"] label {
+        flex: 0 1 auto !important;
+        min-width: fit-content;
+    }
+
+    [role="radiogroup"] > label,
+    [role="radiogroup"] > div {
+        width: auto !important;
+        margin: 0 !important;
     }
 
     .ckt-small {
