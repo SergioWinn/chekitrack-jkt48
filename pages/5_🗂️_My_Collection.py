@@ -88,12 +88,20 @@ def render_selected_slot_card(slot):
 
 
 def group_collection_entries(entries):
-    grouped = {}
+    ordered_labels = ["Roulette", "Birthday", "Graduation"]
+    grouped = {label: [] for label in ordered_labels}
+    extras = {}
+
     for entry in entries:
-        dt = pd.to_datetime(entry["start_time"]) if entry.get("start_time") else None
-        month_label = f"{dt:%B %Y}" if dt is not None else "Archived entries"
-        grouped.setdefault(month_label, []).append(entry)
-    return list(grouped.items())
+        event_type = entry.get("event_type") or "Other"
+        if event_type in grouped:
+            grouped[event_type].append(entry)
+        else:
+            extras.setdefault(event_type, []).append(entry)
+
+    sections = [(label, grouped[label]) for label in ordered_labels if grouped[label]]
+    sections.extend(sorted(extras.items(), key=lambda item: item[0]))
+    return sections
 
 
 def render_collection_shelf(entries, columns_count: int = 4):
