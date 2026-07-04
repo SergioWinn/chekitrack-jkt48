@@ -1933,19 +1933,11 @@ select {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
     gap: 12px;
-    margin-top: 12px;
-}
-
-.ckt-collection-group-head {
-    display: flex;
-    align-items: baseline;
-    justify-content: space-between;
-    gap: 12px;
-    margin: 14px 0 10px;
+    margin-top: 8px;
 }
 
 .ckt-collection-row-spacer {
-    height: 10px;
+    height: 6px;
 }
 
 .ckt-collection-card {

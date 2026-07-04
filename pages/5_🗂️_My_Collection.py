@@ -88,19 +88,12 @@ def render_selected_slot_card(slot):
 
 
 def group_collection_entries(entries):
-    order = ["Roulette", "Birthday", "Graduation"]
-    grouped = {key: [] for key in order}
-    extras = {}
+    grouped = {}
     for entry in entries:
-        event_type = entry.get("event_type") or "Other"
-        if event_type in grouped:
-            grouped[event_type].append(entry)
-        else:
-            extras.setdefault(event_type, []).append(entry)
-
-    sections = [(label, grouped[label]) for label in order if grouped[label]]
-    sections.extend(sorted(extras.items(), key=lambda item: item[0]))
-    return sections
+        dt = pd.to_datetime(entry["start_time"]) if entry.get("start_time") else None
+        month_label = f"{dt:%B %Y}" if dt is not None else "Archived entries"
+        grouped.setdefault(month_label, []).append(entry)
+    return list(grouped.items())
 
 
 def render_collection_shelf(entries, columns_count: int = 4):
@@ -247,7 +240,7 @@ if not collection_entries:
 else:
     for section_label, section_entries in group_collection_entries(collection_entries):
         st.markdown(
-            f'<div class="ckt-collection-group-head"><div class="ckt-meta">{safe_text(section_label)}</div><div class="ckt-small">{len(section_entries)} saved slot{"s" if len(section_entries) != 1 else ""}</div></div>',
+            f'<section class="ckt-month-section"><div class="ckt-month">{safe_text(section_label)}</div></section>',
             unsafe_allow_html=True,
         )
         render_collection_shelf(section_entries)
