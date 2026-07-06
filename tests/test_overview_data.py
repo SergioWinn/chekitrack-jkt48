@@ -1,4 +1,4 @@
-import unittest
+﻿import unittest
 
 from utils.overview_data import build_overview_snapshot
 
@@ -72,8 +72,9 @@ class OverviewDataTests(unittest.TestCase):
         self.assertEqual(snapshot["pending_slots"], 1)
 
         leaderboard = snapshot["leaderboard"]
-        self.assertEqual([row["nickname"] for row in leaderboard[:2]], ["Bella", "Alice"])
-        self.assertEqual([row["count"] for row in leaderboard[:2]], [2, 2])
+        self.assertEqual([row["nickname"] for row in leaderboard], ["Bella", "Alice"])
+        self.assertEqual([row["count"] for row in leaderboard], [2, 2])
+        self.assertEqual([row["rank"] for row in leaderboard], [1, 1])
 
         recent = snapshot["recent_assignments"]
         self.assertEqual([row["nickname"] for row in recent], ["Bella", "Alice", "Alice", "Bella"])
@@ -101,6 +102,38 @@ class OverviewDataTests(unittest.TestCase):
 
         self.assertEqual(len(snapshot["recent_assignments"]), 2)
         self.assertEqual({row["slot_key"] for row in snapshot["recent_assignments"]}, {"A", "B"})
+        self.assertEqual(snapshot["leaderboard"], [])
+
+    def test_build_overview_snapshot_hides_single_appearance_members_from_ranking(self):
+        rows = [
+            {
+                "id": "event-7",
+                "event_name": "Saka Agari",
+                "event_type": "Roulette",
+                "start_time": "2026-06-12T20:00:00",
+                "slot_mode": 2,
+                "member_id_a": "member-a",
+                "member_id_b": "member-b",
+                "member_a": {"nickname": "Alice", "avatar_url": None, "generasi": None},
+                "member_b": {"nickname": "Bella", "avatar_url": None, "generasi": None},
+            },
+            {
+                "id": "event-8",
+                "event_name": "Tadaima Renaichuu",
+                "event_type": "Roulette",
+                "start_time": "2026-06-13T20:00:00",
+                "slot_mode": 1,
+                "member_id_a": "member-c",
+                "member_id_b": None,
+                "member_a": {"nickname": "Celine", "avatar_url": None, "generasi": None},
+                "member_b": None,
+            },
+        ]
+
+        snapshot = build_overview_snapshot(rows)
+
+        self.assertEqual(snapshot["assigned_show_event_slots"], 3)
+        self.assertEqual(snapshot["leaderboard"], [])
 
 
 if __name__ == "__main__":

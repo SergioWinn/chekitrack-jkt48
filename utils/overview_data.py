@@ -95,9 +95,18 @@ def build_overview_snapshot(event_rows, recent_limit: int = 6):
             entry["nickname"] = item["nickname"]
 
     leaderboard = sorted(
-        leaderboard_map.values(),
+        (item for item in leaderboard_map.values() if item["count"] >= 2),
         key=lambda item: (-item["count"], -item["last_seen"].timestamp(), item["nickname"]),
     )
+
+    last_count = None
+    last_rank = 0
+    for index, item in enumerate(leaderboard, start=1):
+        if item["count"] != last_count:
+            last_rank = index
+            last_count = item["count"]
+        item["rank"] = last_rank
+
     recent_assignments = sorted(assignments, key=lambda item: item["start_dt"], reverse=True)[:recent_limit]
 
     return {
@@ -110,4 +119,3 @@ def build_overview_snapshot(event_rows, recent_limit: int = 6):
         "leaderboard": leaderboard,
         "recent_assignments": recent_assignments,
     }
-

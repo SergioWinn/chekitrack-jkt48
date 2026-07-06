@@ -62,7 +62,7 @@ top_member_name = top_member["nickname"] if top_member else "No ranking yet"
 top_member_subcopy = (
     f"{top_member['count']} show/event slot{'s' if top_member['count'] != 1 else ''} so far"
     if top_member
-    else "Ranking starts after the first show/event member is assigned"
+    else "Ranking starts after someone appears in at least two show/event slots"
 )
 
 st.markdown(
@@ -141,7 +141,7 @@ stats = [
 leaderboard_html = "".join(
     f'''
     <div class="ckt-rank-item">
-      <div class="ckt-rank-position">#{index}</div>
+      <div class="ckt-rank-position">#{row["rank"]}</div>
       {render_avatar_markup(row.get("avatar_url"), row["nickname"], class_name="ckt-rank-avatar")}
       <div class="ckt-rank-copy">
         <div class="ckt-rank-name">{safe_text(row["nickname"])}</div>
@@ -153,7 +153,7 @@ leaderboard_html = "".join(
     for index, row in enumerate(snapshot["leaderboard"], start=1)
 )
 if not leaderboard_html:
-    leaderboard_html = '<div class="ckt-empty">No show/event member assignments yet.</div>'
+    leaderboard_html = '<div class="ckt-empty">No members with 2+ show/event appearances yet.</div>'
 
 feed_html = ""
 for row in snapshot["recent_assignments"]:
@@ -183,7 +183,7 @@ st.markdown(
             <div class="ckt-meta">Show / event ranking</div>
             <h2 class="ckt-panel-title">Members who appear most often</h2>
           </div>
-          <div class="ckt-panel-note">Sorted by total appearances, then by the latest show/event assignment when counts are tied.</div>
+          <div class="ckt-panel-note">Only members with 2+ appearances are shown. Ties keep the same rank number and are ordered by the latest show/event assignment.</div>
         </div>
         <div class="ckt-rank-list-scroll">{leaderboard_html}</div>
       </div>
@@ -223,4 +223,5 @@ st.markdown(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
+
 
