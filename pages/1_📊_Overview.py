@@ -190,8 +190,8 @@ st.markdown(
       <div class="ckt-surface ckt-panel">
         <div class="ckt-panel-head">
           <div>
-            <div class="ckt-meta">Recent 5</div>
-            <h2 class="ckt-panel-title">Latest assigned show/event members</h2>
+            <div class="ckt-meta">Recent 6</div>
+            <h2 class="ckt-panel-title">Latest six assigned show/event members</h2>
           </div>
           <div class="ckt-panel-note">Both slots from the same event can appear if both were filled.</div>
         </div>
@@ -223,3 +223,4 @@ st.markdown(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
+

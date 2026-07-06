@@ -1,4 +1,4 @@
-import pandas as pd
+﻿import pandas as pd
 
 
 SPECIAL_EVENT_TYPES = {"Birthday", "Graduation"}
@@ -14,7 +14,7 @@ def is_show_event(event_type: str | None) -> bool:
     return event_type not in SPECIAL_EVENT_TYPES
 
 
-def build_overview_snapshot(event_rows, recent_limit: int = 5):
+def build_overview_snapshot(event_rows, recent_limit: int = 6):
     show_event_sessions = 0
     birthday_sessions = 0
     graduation_sessions = 0
@@ -110,3 +110,4 @@ def build_overview_snapshot(event_rows, recent_limit: int = 5):
         "leaderboard": leaderboard,
         "recent_assignments": recent_assignments,
     }
+
