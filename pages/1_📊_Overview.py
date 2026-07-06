@@ -141,7 +141,7 @@ stats = [
 leaderboard_html = "".join(
     f'''
     <div class="ckt-rank-item">
-      <div class="ckt-rank-position">#{row["rank"]}</div>
+      <div class="ckt-rank-position">#{row.get("rank", index)}</div>
       {render_avatar_markup(row.get("avatar_url"), row["nickname"], class_name="ckt-rank-avatar")}
       <div class="ckt-rank-copy">
         <div class="ckt-rank-name">{safe_text(row["nickname"])}</div>
@@ -223,5 +223,6 @@ st.markdown(
 )
 
 st.markdown("</div>", unsafe_allow_html=True)
+
 
 
