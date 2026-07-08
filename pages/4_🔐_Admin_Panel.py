@@ -1,4 +1,3 @@
-from calendar import monthrange
 from datetime import datetime, time, timedelta
 
 import pandas as pd
@@ -35,7 +34,7 @@ def get_event_duration_minutes(event_type: str) -> int:
 
 STATUS_OPTIONS = ["LOVE", "DREAM", "PASSION", "TRAINEE", "GRADUATED"]
 GENERATION_OPTIONS = [3] + list(range(6, 15))
-TIME_STEP_MINUTES = 1
+TIME_STEP_MINUTES = 15
 
 
 def duplicate_member_labels(members, nickname: str, full_name: str, exclude_id=None):
@@ -114,62 +113,23 @@ def resolve_preset(presets, event_name: str, fallback_event=None):
 
 
 def set_event_picker_state(prefix: str, start_dt: datetime):
-    st.session_state[f"{prefix}_year"] = start_dt.year
-    st.session_state[f"{prefix}_month"] = start_dt.month
-    st.session_state[f"{prefix}_day"] = start_dt.day
+    st.session_state[f"{prefix}_date"] = start_dt.date()
     st.session_state[f"{prefix}_hour"] = start_dt.hour
     st.session_state[f"{prefix}_minute"] = start_dt.minute
 
 
 def render_event_datetime_fields(prefix: str, default_start: datetime):
-    year_options = list(range(default_start.year - 1, default_start.year + 4))
-    month_options = list(range(1, 13))
     minute_options = list(range(0, 60, TIME_STEP_MINUTES))
 
-    current_year = st.session_state.get(f"{prefix}_year", default_start.year)
-    if current_year not in year_options:
-        year_options.append(current_year)
-        year_options.sort()
-    current_month = st.session_state.get(f"{prefix}_month", default_start.month)
-    current_month = current_month if current_month in month_options else default_start.month
-    day_options = list(range(1, monthrange(current_year, current_month)[1] + 1))
-    current_day = st.session_state.get(f"{prefix}_day", default_start.day)
-    if current_day not in day_options:
-        current_day = day_options[-1]
-        st.session_state[f"{prefix}_day"] = current_day
+    current_date = st.session_state.get(f"{prefix}_date", default_start.date())
     current_hour = st.session_state.get(f"{prefix}_hour", default_start.hour)
     current_hour = current_hour if current_hour in range(24) else default_start.hour
     current_minute = st.session_state.get(f"{prefix}_minute", default_start.minute)
-    current_minute = current_minute if current_minute in minute_options else default_start.minute
+    if current_minute not in minute_options:
+        minute_options = sorted({*minute_options, current_minute})
 
-    date_col_year, date_col_month, date_col_day = st.columns([0.9, 1, 0.8])
-    event_year = date_col_year.selectbox(
-        "Year",
-        year_options,
-        index=year_options.index(current_year),
-        key=f"{prefix}_year",
-    )
-    event_month = date_col_month.selectbox(
-        "Month",
-        month_options,
-        index=month_options.index(current_month),
-        format_func=lambda value: datetime(2000, value, 1).strftime("%B"),
-        key=f"{prefix}_month",
-    )
-    refreshed_day_options = list(range(1, monthrange(event_year, event_month)[1] + 1))
-    selected_day = st.session_state.get(f"{prefix}_day", current_day)
-    if selected_day not in refreshed_day_options:
-        selected_day = refreshed_day_options[-1]
-        st.session_state[f"{prefix}_day"] = selected_day
-    event_day = date_col_day.selectbox(
-        "Day",
-        refreshed_day_options,
-        index=refreshed_day_options.index(selected_day),
-        format_func=lambda value: f"{value:02d}",
-        key=f"{prefix}_day",
-    )
-
-    time_col_hour, time_col_minute = st.columns(2)
+    event_date = st.date_input("Event date", value=current_date, key=f"{prefix}_date")
+    time_col_hour, time_col_minute = st.columns([1, 1])
     event_hour = time_col_hour.selectbox(
         "Hour",
         list(range(24)),
@@ -185,7 +145,6 @@ def render_event_datetime_fields(prefix: str, default_start: datetime):
         key=f"{prefix}_minute",
     )
 
-    event_date = datetime(event_year, event_month, event_day).date()
     start_time = time(event_hour, event_minute)
     st.caption(f"Scheduled for {event_date.strftime('%d %b %Y')} at {start_time.strftime('%H:%M')}")
     return event_date, start_time
