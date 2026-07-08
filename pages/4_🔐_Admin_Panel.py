@@ -1,4 +1,5 @@
-from datetime import datetime, timedelta
+from calendar import monthrange
+from datetime import datetime, time, timedelta
 
 import pandas as pd
 import streamlit as st
@@ -34,6 +35,7 @@ def get_event_duration_minutes(event_type: str) -> int:
 
 STATUS_OPTIONS = ["LOVE", "DREAM", "PASSION", "TRAINEE", "GRADUATED"]
 GENERATION_OPTIONS = [3] + list(range(6, 15))
+TIME_STEP_MINUTES = 1
 
 
 def duplicate_member_labels(members, nickname: str, full_name: str, exclude_id=None):
@@ -62,6 +64,162 @@ def member_usage_count(supabase_client, member_id) -> int:
         or []
     )
     return len(rows)
+
+
+def event_collection_usage_count(supabase_client, event_id) -> int | None:
+    try:
+        rows = (
+            supabase_client.table("user_collection_entries")
+            .select("id")
+            .eq("event_id", event_id)
+            .execute()
+            .data
+            or []
+        )
+        return len(rows)
+    except Exception:
+        return None
+
+
+def get_default_event_start() -> datetime:
+    current = datetime.now().replace(second=0, microsecond=0)
+    remainder = current.minute % TIME_STEP_MINUTES
+    if remainder:
+        current += timedelta(minutes=TIME_STEP_MINUTES - remainder)
+    return current
+
+
+def load_event_rows(supabase_client):
+    return (
+        supabase_client.table("chekicha")
+        .select("id, event_name, event_type, start_time, end_time, event_image_url, slot_mode, member_id_a, member_id_b")
+        .order("start_time", desc=True)
+        .execute()
+        .data
+        or []
+    )
+
+
+def resolve_preset(presets, event_name: str, fallback_event=None):
+    for preset in presets:
+        if preset["event_name"] == event_name:
+            return preset
+    if fallback_event:
+        return {
+            "event_name": fallback_event.get("event_name") or event_name,
+            "event_type": fallback_event.get("event_type") or "Other",
+            "event_image_url": fallback_event.get("event_image_url") or "",
+        }
+    return None
+
+
+def set_event_picker_state(prefix: str, start_dt: datetime):
+    st.session_state[f"{prefix}_year"] = start_dt.year
+    st.session_state[f"{prefix}_month"] = start_dt.month
+    st.session_state[f"{prefix}_day"] = start_dt.day
+    st.session_state[f"{prefix}_hour"] = start_dt.hour
+    st.session_state[f"{prefix}_minute"] = start_dt.minute
+
+
+def render_event_datetime_fields(prefix: str, default_start: datetime):
+    year_options = list(range(default_start.year - 1, default_start.year + 4))
+    month_options = list(range(1, 13))
+    minute_options = list(range(0, 60, TIME_STEP_MINUTES))
+
+    current_year = st.session_state.get(f"{prefix}_year", default_start.year)
+    if current_year not in year_options:
+        year_options.append(current_year)
+        year_options.sort()
+    current_month = st.session_state.get(f"{prefix}_month", default_start.month)
+    current_month = current_month if current_month in month_options else default_start.month
+    day_options = list(range(1, monthrange(current_year, current_month)[1] + 1))
+    current_day = st.session_state.get(f"{prefix}_day", default_start.day)
+    if current_day not in day_options:
+        current_day = day_options[-1]
+        st.session_state[f"{prefix}_day"] = current_day
+    current_hour = st.session_state.get(f"{prefix}_hour", default_start.hour)
+    current_hour = current_hour if current_hour in range(24) else default_start.hour
+    current_minute = st.session_state.get(f"{prefix}_minute", default_start.minute)
+    current_minute = current_minute if current_minute in minute_options else default_start.minute
+
+    date_col_year, date_col_month, date_col_day = st.columns([0.9, 1, 0.8])
+    event_year = date_col_year.selectbox(
+        "Year",
+        year_options,
+        index=year_options.index(current_year),
+        key=f"{prefix}_year",
+    )
+    event_month = date_col_month.selectbox(
+        "Month",
+        month_options,
+        index=month_options.index(current_month),
+        format_func=lambda value: datetime(2000, value, 1).strftime("%B"),
+        key=f"{prefix}_month",
+    )
+    refreshed_day_options = list(range(1, monthrange(event_year, event_month)[1] + 1))
+    selected_day = st.session_state.get(f"{prefix}_day", current_day)
+    if selected_day not in refreshed_day_options:
+        selected_day = refreshed_day_options[-1]
+        st.session_state[f"{prefix}_day"] = selected_day
+    event_day = date_col_day.selectbox(
+        "Day",
+        refreshed_day_options,
+        index=refreshed_day_options.index(selected_day),
+        format_func=lambda value: f"{value:02d}",
+        key=f"{prefix}_day",
+    )
+
+    time_col_hour, time_col_minute = st.columns(2)
+    event_hour = time_col_hour.selectbox(
+        "Hour",
+        list(range(24)),
+        index=current_hour,
+        format_func=lambda value: f"{value:02d}",
+        key=f"{prefix}_hour",
+    )
+    event_minute = time_col_minute.selectbox(
+        "Minute",
+        minute_options,
+        index=minute_options.index(current_minute),
+        format_func=lambda value: f"{value:02d}",
+        key=f"{prefix}_minute",
+    )
+
+    event_date = datetime(event_year, event_month, event_day).date()
+    start_time = time(event_hour, event_minute)
+    st.caption(f"Scheduled for {event_date.strftime('%d %b %Y')} at {start_time.strftime('%H:%M')}")
+    return event_date, start_time
+
+
+def build_event_payload(event_date, start_time, preset, slot_mode: int, member_id_a=None, member_id_b=None):
+    event_type = preset["event_type"]
+    is_single_member = single_member_event(event_type)
+    duration_minutes = get_event_duration_minutes(event_type)
+    start_dt_obj = datetime.combine(event_date, start_time)
+    end_dt_obj = start_dt_obj + timedelta(minutes=duration_minutes)
+    return {
+        "start_time": start_dt_obj.isoformat(),
+        "end_time": end_dt_obj.isoformat(),
+        "event_name": preset["event_name"],
+        "event_type": event_type,
+        "event_image_url": (preset.get("event_image_url") or None),
+        "slot_mode": 1 if is_single_member else slot_mode,
+        "member_id_a": member_id_a,
+        "member_id_b": None if is_single_member or slot_mode != 2 else member_id_b,
+    }, is_single_member, duration_minutes
+
+
+def sync_edit_event_state(selected_event):
+    selected_id = selected_event["id"]
+    if st.session_state.get("admin_edit_event_loaded_id") == selected_id:
+        return
+    st.session_state["admin_edit_event_loaded_id"] = selected_id
+    st.session_state["admin_edit_event_name"] = selected_event.get("event_name") or ""
+    st.session_state["admin_edit_event_slot_label"] = "2 slots" if (selected_event.get("slot_mode") or 1) == 2 else "1 slot"
+    st.session_state["admin_edit_event_member_a"] = selected_event.get("member_id_a")
+    st.session_state["admin_edit_event_member_b"] = selected_event.get("member_id_b")
+    start_dt = pd.to_datetime(selected_event["start_time"]).to_pydatetime().replace(second=0, microsecond=0)
+    set_event_picker_state("admin_edit_event", start_dt)
 
 
 def render_member_preview(title: str, nickname: str, full_name: str, status: str, generation: int, avatar_url: str):
@@ -159,6 +317,7 @@ st.markdown('<div class="ckt-admin-banner">Admin role active</div>', unsafe_allo
 if True:
     members_data = supabase.table("members").select("id, nickname, full_name, status, generasi, avatar_url").order("nickname").execute().data or []
     presets = load_event_presets(supabase)
+    all_events = load_event_rows(supabase)
 
     st.markdown(
         f"""
@@ -186,6 +345,7 @@ if True:
         label = f"{member['nickname']} ({member['full_name']})"
         member_options[label] = member["id"]
         member_labels[member["id"]] = label
+    member_value_options = list(member_options.values())
 
     tab_update, tab_add, tab_member = st.tabs(["Fill Results", "Events", "Members"])
 
@@ -291,107 +451,240 @@ if True:
                                 st.rerun()
 
     with tab_add:
-        st.markdown(render_admin_tool_intro("New schedule", "Create an archive row", "Open the compact event tool only when you need to schedule a new archived session."), unsafe_allow_html=True)
+        st.markdown(render_admin_tool_intro("Schedule desk", "Create or edit archive rows", "Use the event tools below to schedule a new row or correct an existing one."), unsafe_allow_html=True)
 
         if not presets:
             st.warning(
                 "No active rows were found in `event_presets`. Add the table and preset rows in Supabase first."
             )
         else:
-            with st.popover("Create event row", use_container_width=True):
-                preset_names = [preset["event_name"] for preset in presets]
-                col_date, col_start, col_event = st.columns([1, 1, 1.45])
-                event_date = col_date.date_input("Event date")
-                start_time = col_start.time_input("Start time")
-                selected_name = col_event.selectbox("Event / Setlist", preset_names)
-                selected_preset = next(preset for preset in presets if preset["event_name"] == selected_name)
-                event_type = selected_preset["event_type"]
-                event_image_url = selected_preset.get("event_image_url") or ""
-                is_single_member = single_member_event(event_type)
-                duration_minutes = get_event_duration_minutes(event_type)
+            event_tool_cols = st.columns([1, 1], gap="small")
 
-                st.markdown(
-                    f"""
-                    <section class="ckt-surface ckt-panel ckt-preset-summary">
-                      <div class="ckt-preset-copy">
-                        <div class="ckt-kicker">Event details</div>
-                        <h2 class="ckt-panel-title">{safe_text(selected_name)}</h2>
-                        <div class="ckt-meta-row">
-                          <span class="ckt-chip ckt-chip-team">Type {safe_text(event_type)}</span>
-                        </div>
-                      </div>
-                      <div>
-                        {
-                            f'<div class="ckt-preset-thumb"><img src="{safe_text(event_image_url)}" alt="{safe_text(selected_name)} banner" loading="lazy"></div>'
-                            if event_image_url
-                            else '<div class="ckt-empty">This preset exists, but its `event_image_url` is still empty in `event_presets`.</div>'
-                        }
-                      </div>
-                    </section>
-                    """,
-                    unsafe_allow_html=True,
-                )
+            with event_tool_cols[0]:
+                with st.popover("Create event row", use_container_width=True):
+                    preset_names = [preset["event_name"] for preset in presets]
+                    default_start = get_default_event_start()
+                    event_date, start_time = render_event_datetime_fields("admin_event", default_start)
+                    selected_name = st.selectbox("Event / Setlist", preset_names, key="admin_event_name")
+                    selected_preset = resolve_preset(presets, selected_name)
+                    event_type = selected_preset["event_type"]
+                    event_image_url = selected_preset.get("event_image_url") or ""
+                    is_single_member = single_member_event(event_type)
 
-                slot_label = "1 slot"
-                if is_single_member:
-                    st.info("Birthday and Graduation events use a single member assignment. Slot A/B is not used for this event type.")
-                else:
-                    slot_widget = getattr(st, "segmented_control", None)
-                    if slot_widget:
-                        slot_label = slot_widget(
-                            "Slot count",
-                            ["1 slot", "2 slots"],
-                            default="1 slot",
-                            help="Use 2 slots for historical A/B cheki entries in a single event row.",
-                        )
+                    st.markdown(
+                        f"""
+                        <section class="ckt-surface ckt-panel ckt-preset-summary">
+                          <div class="ckt-preset-copy">
+                            <div class="ckt-kicker">Event details</div>
+                            <h2 class="ckt-panel-title">{safe_text(selected_name)}</h2>
+                            <div class="ckt-meta-row">
+                              <span class="ckt-chip ckt-chip-team">Type {safe_text(event_type)}</span>
+                            </div>
+                          </div>
+                          <div>
+                            {
+                                f'<div class="ckt-preset-thumb"><img src="{safe_text(event_image_url)}" alt="{safe_text(selected_name)} banner" loading="lazy"></div>'
+                                if event_image_url
+                                else '<div class="ckt-empty">This preset exists, but its `event_image_url` is still empty in `event_presets`.</div>'
+                            }
+                          </div>
+                        </section>
+                        """,
+                        unsafe_allow_html=True,
+                    )
+
+                    slot_label = "1 slot"
+                    if is_single_member:
+                        st.info("Birthday and Graduation events use a single member assignment. Slot A/B is not used for this event type.")
                     else:
-                        slot_label = st.selectbox(
-                            "Slot count",
-                            ["1 slot", "2 slots"],
-                            help="Use 2 slots for historical A/B cheki entries in a single event row.",
-                        )
-                slot_mode = 2 if slot_label == "2 slots" else 1
+                        slot_widget = getattr(st, "segmented_control", None)
+                        if slot_widget:
+                            slot_label = slot_widget(
+                                "Slot count",
+                                ["1 slot", "2 slots"],
+                                default="1 slot",
+                                help="Use 2 slots for historical A/B cheki entries in a single event row.",
+                                key="admin_event_slot_label",
+                            )
+                        else:
+                            slot_label = st.selectbox(
+                                "Slot count",
+                                ["1 slot", "2 slots"],
+                                help="Use 2 slots for historical A/B cheki entries in a single event row.",
+                                key="admin_event_slot_label",
+                            )
+                    slot_mode = 2 if slot_label == "2 slots" else 1
 
-                member_a_label = "Assign member" if is_single_member else "Assign Slot A"
-                member_a_help = (
-                    "Leave empty if the event member has not been assigned yet."
-                    if is_single_member else "Leave empty if Slot A is still waiting for roulette."
-                )
-                selected_member_a = st.selectbox(
-                    member_a_label,
-                    list(member_options.keys()),
-                    help=member_a_help,
-                )
-                selected_member_b = None
-                if not is_single_member and slot_mode == 2:
-                    selected_member_b = st.selectbox(
-                        "Assign Slot B",
+                    member_a_label = "Assign member" if is_single_member else "Assign Slot A"
+                    member_a_help = (
+                        "Leave empty if the event member has not been assigned yet."
+                        if is_single_member else "Leave empty if Slot A is still waiting for roulette."
+                    )
+                    selected_member_a = st.selectbox(
+                        member_a_label,
                         list(member_options.keys()),
-                        help="Leave empty if Slot B is still waiting for roulette.",
+                        help=member_a_help,
+                        key="admin_event_member_a_label",
                     )
+                    selected_member_b = None
+                    if not is_single_member and slot_mode == 2:
+                        selected_member_b = st.selectbox(
+                            "Assign Slot B",
+                            list(member_options.keys()),
+                            help="Leave empty if Slot B is still waiting for roulette.",
+                            key="admin_event_member_b_label",
+                        )
 
-                if st.button("Save event", key="admin_save_event", use_container_width=True):
-                    start_dt_obj = datetime.combine(event_date, start_time)
-                    end_dt_obj = start_dt_obj + timedelta(minutes=duration_minutes)
-                    start_dt = start_dt_obj.isoformat()
-                    end_dt = end_dt_obj.isoformat()
+                    if st.button("Save event", key="admin_save_event", use_container_width=True):
+                        payload, is_single_member_payload, duration_minutes = build_event_payload(
+                            event_date,
+                            start_time,
+                            selected_preset,
+                            slot_mode,
+                            member_options[selected_member_a],
+                            member_options[selected_member_b] if selected_member_b else None,
+                        )
+                        supabase.table("chekicha").insert(payload).execute()
+                        st.success(
+                            f"{selected_name} saved with {'single member assignment' if is_single_member_payload else slot_label.lower()}. "
+                            f"Duration set automatically to {duration_minutes} minutes."
+                        )
+                        st.rerun()
 
-                    payload = {
-                        "start_time": start_dt,
-                        "end_time": end_dt,
-                        "event_name": selected_name,
-                        "event_type": event_type,
-                        "event_image_url": event_image_url or None,
-                        "slot_mode": slot_mode,
-                        "member_id_a": member_options[selected_member_a],
-                        "member_id_b": member_options[selected_member_b] if not is_single_member and slot_mode == 2 and selected_member_b else None,
-                    }
+            with event_tool_cols[1]:
+                with st.popover("Edit event row", use_container_width=True):
+                    if not all_events:
+                        st.markdown('<div class="ckt-empty">No saved event rows yet.</div>', unsafe_allow_html=True)
+                    else:
+                        event_manage_options = {}
+                        for event in all_events:
+                            start_dt = pd.to_datetime(event["start_time"])
+                            label = f"{event['event_name']} | {format_event_date(start_dt)} | {format_event_time(start_dt)}"
+                            event_manage_options[label] = event
+                        selected_event_label = st.selectbox(
+                            "Saved event row",
+                            list(event_manage_options.keys()),
+                            key="admin_edit_event_label",
+                        )
+                        selected_event = event_manage_options[selected_event_label]
+                        sync_edit_event_state(selected_event)
 
-                    supabase.table("chekicha").insert(payload).execute()
-                    st.success(
-                        f"{selected_name} saved with {'single member assignment' if is_single_member else slot_label.lower()}. "
-                        f"Duration set automatically to {duration_minutes} minutes."
-                    )
+                        event_start_dt = pd.to_datetime(selected_event["start_time"]).to_pydatetime().replace(second=0, microsecond=0)
+                        edit_preset_names = [preset["event_name"] for preset in presets]
+                        if selected_event["event_name"] not in edit_preset_names:
+                            edit_preset_names = [selected_event["event_name"], *edit_preset_names]
+
+                        edit_event_date, edit_start_time = render_event_datetime_fields("admin_edit_event", event_start_dt)
+                        edit_event_name = st.selectbox(
+                            "Event / Setlist",
+                            edit_preset_names,
+                            key="admin_edit_event_name",
+                        )
+                        edit_preset = resolve_preset(presets, edit_event_name, fallback_event=selected_event)
+                        edit_event_type = edit_preset["event_type"]
+                        edit_event_image_url = edit_preset.get("event_image_url") or ""
+                        edit_is_single_member = single_member_event(edit_event_type)
+
+                        st.markdown(
+                            f"""
+                            <section class="ckt-surface ckt-panel ckt-preset-summary">
+                              <div class="ckt-preset-copy">
+                                <div class="ckt-kicker">Editing row</div>
+                                <h2 class="ckt-panel-title">{safe_text(edit_event_name)}</h2>
+                                <div class="ckt-meta-row">
+                                  <span class="ckt-chip ckt-chip-team">Type {safe_text(edit_event_type)}</span>
+                                </div>
+                              </div>
+                              <div>
+                                {
+                                    f'<div class="ckt-preset-thumb"><img src="{safe_text(edit_event_image_url)}" alt="{safe_text(edit_event_name)} banner" loading="lazy"></div>'
+                                    if edit_event_image_url
+                                    else '<div class="ckt-empty">This row does not have a preview image yet.</div>'
+                                }
+                              </div>
+                            </section>
+                            """,
+                            unsafe_allow_html=True,
+                        )
+
+                        edit_slot_label = "1 slot"
+                        if edit_is_single_member:
+                            st.info("Birthday and Graduation events use a single member assignment. Slot A/B is not used for this event type.")
+                        else:
+                            slot_widget = getattr(st, "segmented_control", None)
+                            if slot_widget:
+                                edit_slot_label = slot_widget(
+                                    "Slot count",
+                                    ["1 slot", "2 slots"],
+                                    default=st.session_state.get("admin_edit_event_slot_label", "1 slot"),
+                                    help="Use 2 slots for historical A/B cheki entries in a single event row.",
+                                    key="admin_edit_event_slot_label",
+                                )
+                            else:
+                                edit_slot_label = st.selectbox(
+                                    "Slot count",
+                                    ["1 slot", "2 slots"],
+                                    index=0 if st.session_state.get("admin_edit_event_slot_label", "1 slot") == "1 slot" else 1,
+                                    help="Use 2 slots for historical A/B cheki entries in a single event row.",
+                                    key="admin_edit_event_slot_label",
+                                )
+                        edit_slot_mode = 2 if edit_slot_label == "2 slots" else 1
+
+                        edit_member_a = st.selectbox(
+                            "Assign member" if edit_is_single_member else "Assign Slot A",
+                            member_value_options,
+                            format_func=lambda value: member_labels.get(value, "None (Waiting for roulette)"),
+                            key="admin_edit_event_member_a",
+                        )
+                        edit_member_b = None
+                        if not edit_is_single_member and edit_slot_mode == 2:
+                            edit_member_b = st.selectbox(
+                                "Assign Slot B",
+                                member_value_options,
+                                format_func=lambda value: member_labels.get(value, "None (Waiting for roulette)"),
+                                key="admin_edit_event_member_b",
+                            )
+
+                        linked_collection_entries = event_collection_usage_count(supabase, selected_event["id"])
+                        if linked_collection_entries:
+                            st.warning(
+                                f"This event is currently referenced by {linked_collection_entries} collection entr{'y' if linked_collection_entries == 1 else 'ies'}, so deletion is blocked."
+                            )
+
+                        edit_action_cols = st.columns(2)
+                        if edit_action_cols[0].button("Update event", key="admin_update_event", use_container_width=True):
+                            payload, edit_is_single_member_payload, duration_minutes = build_event_payload(
+                                edit_event_date,
+                                edit_start_time,
+                                edit_preset,
+                                edit_slot_mode,
+                                edit_member_a,
+                                edit_member_b,
+                            )
+                            supabase.table("chekicha").update(payload).eq("id", selected_event["id"]).execute()
+                            st.success(
+                                f"{edit_event_name} updated with {'single member assignment' if edit_is_single_member_payload else edit_slot_label.lower()}. "
+                                f"Duration set automatically to {duration_minutes} minutes."
+                            )
+                            st.rerun()
+
+                        confirm_delete_event = edit_action_cols[1].checkbox(
+                            "Confirm delete",
+                            key=f"confirm_delete_event_{selected_event['id']}",
+                        )
+                        if edit_action_cols[1].button("Delete event", key="admin_delete_event", use_container_width=True):
+                            if not confirm_delete_event:
+                                st.error("Confirm delete first.")
+                            elif linked_collection_entries:
+                                st.error("This event cannot be deleted because it is already saved in user collections.")
+                            else:
+                                try:
+                                    supabase.table("chekicha").delete().eq("id", selected_event["id"]).execute()
+                                except Exception as exc:
+                                    st.error(f"Delete failed: {exc}")
+                                else:
+                                    st.success(f"{selected_event.get('event_name', 'Event')} deleted.")
+                                    st.rerun()
 
     with tab_update:
         st.markdown(
@@ -405,16 +698,8 @@ if True:
             unsafe_allow_html=True,
         )
 
-        tbd_events = (
-            supabase.table("chekicha")
-            .select("id, event_name, event_type, start_time, event_image_url, slot_mode, member_id_a, member_id_b")
-            .order("start_time", desc=False)
-            .execute()
-            .data
-            or []
-        )
         tbd_events = [
-            event for event in tbd_events
+            event for event in reversed(all_events)
             if (not event.get("member_id_a")) or ((event.get("slot_mode") or 1) == 2 and not event.get("member_id_b"))
         ]
 
